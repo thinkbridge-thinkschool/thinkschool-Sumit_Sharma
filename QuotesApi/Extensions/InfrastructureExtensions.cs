@@ -11,9 +11,12 @@ public static class InfrastructureExtensions
         IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlite(
+                configuration.GetConnectionString(
+                    "DefaultConnection")));
 
         services.AddScoped<IQuoteRepository, QuoteRepository>();
+        services.AddScoped<ICollectionRepository, CollectionRepository>();
 
         return services;
     }
