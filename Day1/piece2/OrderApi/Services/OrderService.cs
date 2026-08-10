@@ -1,18 +1,22 @@
 using OrderApi.Models;
 using OrderApi.Repositories;
+using OrderApi.Strategies;
 
 namespace OrderApi.Services;
 
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository repository;
-    private readonly ILogger<OrderService> logger;
+    private readonly IOrderPricingStrategy pricingStrategy;
+    private readonly ILogger logger;
 
     public OrderService(
         IOrderRepository repository,
+        IOrderPricingStrategy pricingStrategy,
         ILogger<OrderService> logger)
     {
         this.repository = repository;
+        this.pricingStrategy = pricingStrategy;
         this.logger = logger;
     }
 
@@ -21,27 +25,22 @@ public class OrderService : IOrderService
         CancellationToken cancellationToken)
     {
         if (order.Items.Count == 0)
-            throw new ArgumentException("Order must contain at least one item.");
+            throw new ArgumentException(
+                "Order must contain at least one item.");
 
         if (order.Items.Any(item => item.Quantity <= 0))
-            throw new ArgumentException("Item quantity must be greater than zero.");
+            throw new ArgumentException(
+                "Item quantity must be greater than zero.");
 
         if (string.IsNullOrWhiteSpace(order.Customer.Name))
-            throw new ArgumentException("Customer name is required.");
+            throw new ArgumentException(
+                "Customer name is required.");
 
         if (string.IsNullOrWhiteSpace(order.Customer.Email))
-            throw new ArgumentException("Customer email is required.");
+            throw new ArgumentException(
+                "Customer email is required.");
 
-        decimal total = order.Items.Sum(
-            item => item.Price * item.Quantity);
-
-        if (total > 1000)
-            total *= 0.9m;
-
-        if (order.Items.Count > 10)
-            total += 50;
-
-        order.Total = total;
+        order.Total = pricingStrategy.CalculateTotal(order);
         order.Status = "Created";
 
         logger.LogInformation(
