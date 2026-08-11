@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QuotesApi.Auth;
 using QuotesApi.Data;
 using QuotesApi.Repositories;
 using QuotesApi.Time;
@@ -17,6 +18,8 @@ public static class InfrastructureExtensions
                     "DefaultConnection")));
 
         services.AddScoped<IQuoteRepository, QuoteRepository>();
+
+        services.AddScoped<IAuthService, AuthService>();
 
         services.AddScoped<ICollectionRepository, CollectionRepository>();
 

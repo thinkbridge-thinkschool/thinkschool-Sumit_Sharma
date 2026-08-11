@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Quote> Quotes => Set<Quote>();
 
+    public DbSet<User> Users => Set<User>();
+
     public DbSet<Collection> Collections => Set<Collection>();
 
     protected override void OnModelCreating(

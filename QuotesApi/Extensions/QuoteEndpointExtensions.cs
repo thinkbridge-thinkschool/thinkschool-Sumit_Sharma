@@ -67,7 +67,8 @@ public static class QuoteEndpointExtensions
                         ["quote"] = new[] { ex.Message }
                     });
             }
-        });
+        })
+        .RequireAuthorization();
 
         app.MapDelete("/api/quotes/{id:int}", async (
             int id,
@@ -81,7 +82,8 @@ public static class QuoteEndpointExtensions
             return deleted
                 ? Results.NoContent()
                 : Results.NotFound();
-        });
+        })
+        .RequireAuthorization();
     }
 }
 
