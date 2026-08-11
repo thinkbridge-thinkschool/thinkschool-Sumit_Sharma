@@ -75,12 +75,12 @@ public class QuoteRepository : IQuoteRepository
             return false;
         }
 
-        db.Quotes.Remove(quote);
+             quote.MarkDeleted();
 
-        await db.SaveChangesAsync(cancellationToken);
+             await db.SaveChangesAsync(cancellationToken);
 
-        logger.LogInformation(
-            "Deleted quote {QuoteId}",
+            logger.LogInformation(
+            "Soft-deleted quote {QuoteId}",
             id);
 
         return true;

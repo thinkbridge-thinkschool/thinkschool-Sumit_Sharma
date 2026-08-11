@@ -15,7 +15,9 @@ public static class QuoteEndpointExtensions
             CancellationToken cancellationToken) =>
         {
             page = page is null or < 1 ? 1 : page.Value;
-            size = size is null or < 1 ? 10 : Math.Min(size.Value, 100);
+            size = size is null or < 1
+                ? 10
+                : Math.Min(size.Value, 100);
 
             return Results.Ok(
                 await repository.GetAllAsync(
@@ -29,7 +31,9 @@ public static class QuoteEndpointExtensions
             IQuoteRepository repository,
             CancellationToken cancellationToken) =>
         {
-            var quote = await repository.GetByIdAsync(id, cancellationToken);
+            var quote = await repository.GetByIdAsync(
+                id,
+                cancellationToken);
 
             return quote is null
                 ? Results.NotFound()
@@ -37,27 +41,32 @@ public static class QuoteEndpointExtensions
         });
 
         app.MapPost("/api/quotes", async (
-            Quote quote,
+            QuoteRequest request,
             IQuoteRepository repository,
             CancellationToken cancellationToken) =>
         {
-            if (string.IsNullOrWhiteSpace(quote.Author) ||
-                string.IsNullOrWhiteSpace(quote.Text))
+            try
+            {
+                var quote = Quote.Create(
+                    request.Author,
+                    request.Text);
+
+                var created = await repository.AddAsync(
+                    quote,
+                    cancellationToken);
+
+                return Results.Created(
+                    $"/api/quotes/{created.Id}",
+                    created);
+            }
+            catch (ArgumentException ex)
             {
                 return Results.ValidationProblem(
                     new Dictionary<string, string[]>
                     {
-                        ["quote"] = new[] { "Author and text are required." }
+                        ["quote"] = new[] { ex.Message }
                     });
             }
-
-            var created = await repository.AddAsync(
-                quote,
-                cancellationToken);
-
-            return Results.Created(
-                $"/api/quotes/{created.Id}",
-                created);
         });
 
         app.MapDelete("/api/quotes/{id:int}", async (
@@ -75,3 +84,7 @@ public static class QuoteEndpointExtensions
         });
     }
 }
+
+public sealed record QuoteRequest(
+    string Author,
+    string Text);
