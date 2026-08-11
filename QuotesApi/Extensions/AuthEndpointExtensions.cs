@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using QuotesApi.Auth;
 
 namespace QuotesApi.Extensions;
@@ -13,24 +12,57 @@ public static class AuthEndpointExtensions
             IAuthService authService,
             CancellationToken cancellationToken) =>
         {
-            var token = await authService.LoginAsync(
+            var result = await authService.LoginAsync(
                 request.Email,
                 request.Password,
                 cancellationToken);
 
-            if (token is null)
-            {
-                return Results.Unauthorized();
-            }
+            return result is null
+                ? Results.Unauthorized()
+                : Results.Ok(new
+                {
+                    access_token = result.AccessToken,
+                    refresh_token = result.RefreshToken,
+                    expires_in = result.ExpiresIn
+                });
+        });
 
-            return Results.Ok(new
-            {
-                accessToken = token
-            });
+        app.MapPost("/api/auth/refresh", async (
+            RefreshRequest request,
+            IAuthService authService,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await authService.RefreshAsync(
+                request.RefreshToken,
+                cancellationToken);
+
+            return result is null
+                ? Results.Unauthorized()
+                : Results.Ok(new
+                {
+                    access_token = result.AccessToken,
+                    refresh_token = result.RefreshToken,
+                    expires_in = result.ExpiresIn
+                });
+        });
+
+        app.MapPost("/api/auth/logout", async (
+            RefreshRequest request,
+            IAuthService authService,
+            CancellationToken cancellationToken) =>
+        {
+            await authService.LogoutAsync(
+                request.RefreshToken,
+                cancellationToken);
+
+            return Results.NoContent();
         });
     }
 }
 
-public record LoginRequest(
+public sealed record LoginRequest(
     string Email,
     string Password);
+
+public sealed record RefreshRequest(
+    string RefreshToken);
