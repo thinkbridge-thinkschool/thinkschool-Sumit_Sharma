@@ -1,3 +1,5 @@
+using QuotesApi.Time;
+
 namespace QuotesApi.Models;
 
 public class Collection
@@ -10,7 +12,8 @@ public class Collection
 
     public int OwnerId { get; private set; }
 
-    public IReadOnlyCollection<CollectionItem> Items => items.AsReadOnly();
+    public IReadOnlyCollection<CollectionItem> Items =>
+        items.AsReadOnly();
 
     private Collection()
     {
@@ -30,7 +33,9 @@ public class Collection
         OwnerId = ownerId;
     }
 
-    public void AddItem(int quoteId)
+    public void AddItem(
+        int quoteId,
+        IClock clock)
     {
         if (items.Count >= 50)
             throw new InvalidOperationException(
@@ -43,7 +48,7 @@ public class Collection
         items.Add(
             new CollectionItem(
                 quoteId,
-                DateTimeOffset.UtcNow));
+                clock.UtcNow));
     }
 
     public void RemoveItem(int quoteId)

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using QuotesApi.Data;
 using QuotesApi.Repositories;
+using QuotesApi.Time;
 
 namespace QuotesApi.Extensions;
 
@@ -16,7 +17,10 @@ public static class InfrastructureExtensions
                     "DefaultConnection")));
 
         services.AddScoped<IQuoteRepository, QuoteRepository>();
+
         services.AddScoped<ICollectionRepository, CollectionRepository>();
+
+        services.AddSingleton<IClock, SystemClock>();
 
         return services;
     }

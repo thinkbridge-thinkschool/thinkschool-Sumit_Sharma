@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuotesApi.Models;
 using QuotesApi.Repositories;
+using QuotesApi.Time;
 
 namespace QuotesApi.Extensions;
 
@@ -44,6 +45,7 @@ public static class CollectionEndpointExtensions
                 int quoteId,
                 ICollectionRepository collectionRepository,
                 IQuoteRepository quoteRepository,
+                IClock clock,
                 CancellationToken cancellationToken) =>
             {
                 var collection =
@@ -64,7 +66,9 @@ public static class CollectionEndpointExtensions
 
                 try
                 {
-                    collection.AddItem(quoteId);
+                    collection.AddItem(
+                        quoteId,
+                        clock);
 
                     await collectionRepository.UpdateAsync(
                         collection,
