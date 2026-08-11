@@ -44,3 +44,8 @@ app.MapQuoteEndpoints();
 app.MapCollectionEndpoints();
 
 app.Run();
+
+// Exposes Program to integration tests.
+public partial class Program
+{
+}
