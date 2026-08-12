@@ -83,7 +83,7 @@ public static class QuoteEndpointExtensions
                 ? Results.NoContent()
                 : Results.NotFound();
         })
-        .RequireAuthorization();
+        .RequireAuthorization("CanEditQuotes");
     }
 }
 

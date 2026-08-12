@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      Jwt__Key: ${{ secrets.JWT_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore QuotesApi.Tests
+        run: dotnet restore QuotesApi.Tests/QuotesApi.Tests.csproj
+
+      - name: Restore Tests.Domain
+        run: dotnet restore Tests.Domain/Tests.Domain.csproj
+
+      - name: Build QuotesApi.Tests
+        run: dotnet build QuotesApi.Tests/QuotesApi.Tests.csproj --no-restore --configuration Release
+
+      - name: Build Tests.Domain
+        run: dotnet build Tests.Domain/Tests.Domain.csproj --no-restore --configuration Release
+
+      - name: Test QuotesApi.Tests
+        run: dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
+
+      - name: Test Tests.Domain
+        run: dotnet test Tests.Domain/Tests.Domain.csproj --no-build --configuration Release

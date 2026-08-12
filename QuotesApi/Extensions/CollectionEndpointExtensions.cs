@@ -37,7 +37,8 @@ public static class CollectionEndpointExtensions
                     title: "Collection validation failed",
                     detail: ex.Message);
             }
-        });
+        })
+        .RequireAuthorization();
 
         app.MapPost(
             "/api/collections/{id:int}/quotes/{quoteId:int}",
@@ -47,6 +48,8 @@ public static class CollectionEndpointExtensions
                 ICollectionRepository collectionRepository,
                 IQuoteRepository quoteRepository,
                 IClock clock,
+                IAuthorizationService authorizationService,
+                HttpContext httpContext,
                 CancellationToken cancellationToken) =>
             {
                 var collection =
@@ -56,6 +59,15 @@ public static class CollectionEndpointExtensions
 
                 if (collection is null)
                     return Results.NotFound();
+
+                var authorizationResult =
+                    await authorizationService.AuthorizeAsync(
+                        httpContext.User,
+                        collection,
+                        "CanDeleteOwnCollection");
+
+                if (!authorizationResult.Succeeded)
+                    return Results.Forbid();
 
                 var quote =
                     await quoteRepository.GetByIdAsync(
@@ -91,7 +103,8 @@ public static class CollectionEndpointExtensions
                         title: "Collection invariant violated",
                         detail: ex.Message);
                 }
-            });
+            })
+            .RequireAuthorization();
 
         app.MapDelete(
             "/api/collections/{id:int}/quotes/{quoteId:int}",
@@ -99,6 +112,8 @@ public static class CollectionEndpointExtensions
                 int id,
                 int quoteId,
                 ICollectionRepository repository,
+                IAuthorizationService authorizationService,
+                HttpContext httpContext,
                 CancellationToken cancellationToken) =>
             {
                 var collection =
@@ -108,6 +123,15 @@ public static class CollectionEndpointExtensions
 
                 if (collection is null)
                     return Results.NotFound();
+
+                var authorizationResult =
+                    await authorizationService.AuthorizeAsync(
+                        httpContext.User,
+                        collection,
+                        "CanDeleteOwnCollection");
+
+                if (!authorizationResult.Succeeded)
+                    return Results.Forbid();
 
                 try
                 {
@@ -126,7 +150,8 @@ public static class CollectionEndpointExtensions
                         title: "Collection invariant violated",
                         detail: ex.Message);
                 }
-            });
+            })
+            .RequireAuthorization();
 
         app.MapGet(
             "/api/collections/{id:int}",
