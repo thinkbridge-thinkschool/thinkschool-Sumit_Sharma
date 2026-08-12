@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using QuotesApi.Auth;
 using QuotesApi.Data;
@@ -22,6 +23,8 @@ public static class InfrastructureExtensions
         services.AddScoped<IAuthService, AuthService>();
 
         services.AddScoped<ICollectionRepository, CollectionRepository>();
+
+        services.AddScoped<IAuthorizationHandler, CollectionOwnerAuthorizationHandler>();
 
         services.AddSingleton<IClock, SystemClock>();
 

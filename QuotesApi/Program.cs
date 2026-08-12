@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -113,7 +114,14 @@ builder.Services
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanEditQuotes", policy =>
+        policy.RequireClaim("scope", "quotes.write"));
+
+    options.AddPolicy("CanDeleteOwnCollection", policy =>
+        policy.Requirements.Add(new CollectionOwnerRequirement()));
+});
 
 builder.Services.AddProblemDetails();
 

@@ -68,7 +68,7 @@ public static class QuoteEndpointExtensions
                     });
             }
         })
-        .RequireAuthorization();
+        .RequireAuthorization("CanEditQuotes");
 
         app.MapDelete("/api/quotes/{id:int}", async (
             int id,

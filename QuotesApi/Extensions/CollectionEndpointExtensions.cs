@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuotesApi.Models;
 using QuotesApi.Repositories;
@@ -149,8 +150,27 @@ public static class CollectionEndpointExtensions
             async (
                 int id,
                 ICollectionRepository repository,
+                IAuthorizationService authorizationService,
+                HttpContext httpContext,
                 CancellationToken cancellationToken) =>
             {
+                var collection =
+                    await repository.GetByIdAsync(
+                        id,
+                        cancellationToken);
+
+                if (collection is null)
+                    return Results.NotFound();
+
+                var authorizationResult =
+                    await authorizationService.AuthorizeAsync(
+                        httpContext.User,
+                        collection,
+                        "CanDeleteOwnCollection");
+
+                if (!authorizationResult.Succeeded)
+                    return Results.Forbid();
+
                 var deleted =
                     await repository.DeleteAsync(
                         id,
@@ -159,7 +179,8 @@ public static class CollectionEndpointExtensions
                 return deleted
                     ? Results.NoContent()
                     : Results.NotFound();
-            });
+            })
+            .RequireAuthorization();
     }
 
     public sealed record CollectionRequest(
