@@ -7,13 +7,15 @@ using QuotesApi.Data;
 
 namespace Quotes.Tests.Integration.Endpoints;
 
+[Collection(IntegrationTestCollection.Name)]
 public sealed class CollectionEndpointsTests : IDisposable
 {
-    private readonly QuotesApiFactory factory = new();
+    private readonly QuotesApiFactory factory;
     private readonly HttpClient client;
 
-    public CollectionEndpointsTests()
+    public CollectionEndpointsTests(MsSqlContainerFixture sqlFixture)
     {
+        factory = new QuotesApiFactory(sqlFixture.ConnectionString);
         client = factory.CreateClient();
     }
 

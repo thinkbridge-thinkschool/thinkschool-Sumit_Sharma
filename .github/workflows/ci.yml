@@ -45,6 +45,9 @@ jobs:
       - name: Build Tests.Domain
         run: dotnet build Tests.Domain/Tests.Domain.csproj --no-restore --configuration Release
 
+      - name: Pull SQL Server image for Testcontainers
+        run: docker pull mcr.microsoft.com/mssql/server:2022-latest
+
       - name: Test QuotesApi.Tests
         run: dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
 
