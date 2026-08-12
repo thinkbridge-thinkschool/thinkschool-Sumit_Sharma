@@ -24,17 +24,35 @@ jobs:
       - name: Restore QuotesApi.Tests
         run: dotnet restore QuotesApi.Tests/QuotesApi.Tests.csproj
 
+      - name: Restore Quotes.Tests.Unit
+        run: dotnet restore Quotes.Tests.Unit/Quotes.Tests.Unit.csproj
+
+      - name: Restore Quotes.Tests.Integration
+        run: dotnet restore Quotes.Tests.Integration/Quotes.Tests.Integration.csproj
+
       - name: Restore Tests.Domain
         run: dotnet restore Tests.Domain/Tests.Domain.csproj
 
       - name: Build QuotesApi.Tests
         run: dotnet build QuotesApi.Tests/QuotesApi.Tests.csproj --no-restore --configuration Release
 
+      - name: Build Quotes.Tests.Unit
+        run: dotnet build Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-restore --configuration Release
+
+      - name: Build Quotes.Tests.Integration
+        run: dotnet build Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-restore --configuration Release
+
       - name: Build Tests.Domain
         run: dotnet build Tests.Domain/Tests.Domain.csproj --no-restore --configuration Release
 
       - name: Test QuotesApi.Tests
         run: dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
+
+      - name: Test Quotes.Tests.Unit
+        run: dotnet test Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-build --configuration Release
+
+      - name: Test Quotes.Tests.Integration
+        run: dotnet test Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-build --configuration Release
 
       - name: Test Tests.Domain
         run: dotnet test Tests.Domain/Tests.Domain.csproj --no-build --configuration Release
