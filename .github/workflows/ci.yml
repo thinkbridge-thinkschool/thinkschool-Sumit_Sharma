@@ -25,56 +25,56 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore QuotesApi.Tests
-        run: dotnet restore QuotesApi.Tests/QuotesApi.Tests.csproj
+        run: dotnet restore Day-4/QuotesApi.Tests/QuotesApi.Tests.csproj
 
       - name: Restore Quotes.Tests.Unit
-        run: dotnet restore Quotes.Tests.Unit/Quotes.Tests.Unit.csproj
+        run: dotnet restore Day-4/Quotes.Tests.Unit/Quotes.Tests.Unit.csproj
 
       - name: Restore Quotes.Tests.Integration
-        run: dotnet restore Quotes.Tests.Integration/Quotes.Tests.Integration.csproj
+        run: dotnet restore Day-4/Quotes.Tests.Integration/Quotes.Tests.Integration.csproj
 
       - name: Restore Tests.Domain
-        run: dotnet restore Tests.Domain/Tests.Domain.csproj
+        run: dotnet restore Day-4/Tests.Domain/Tests.Domain.csproj
 
       - name: Build QuotesApi.Tests
-        run: dotnet build QuotesApi.Tests/QuotesApi.Tests.csproj --no-restore --configuration Release
+        run: dotnet build Day-4/QuotesApi.Tests/QuotesApi.Tests.csproj --no-restore --configuration Release
 
       - name: Build Quotes.Tests.Unit
-        run: dotnet build Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-restore --configuration Release
+        run: dotnet build Day-4/Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-restore --configuration Release
 
       - name: Build Quotes.Tests.Integration
-        run: dotnet build Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-restore --configuration Release
+        run: dotnet build Day-4/Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-restore --configuration Release
 
       - name: Build Tests.Domain
-        run: dotnet build Tests.Domain/Tests.Domain.csproj --no-restore --configuration Release
+        run: dotnet build Day-4/Tests.Domain/Tests.Domain.csproj --no-restore --configuration Release
 
       - name: Pull SQL Server image for Testcontainers
         run: docker pull mcr.microsoft.com/mssql/server:2022-latest
 
       - name: Test QuotesApi.Tests
         run: >
-          dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
+          dotnet test Day-4/QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
           --logger "trx;LogFileName=QuotesApi.Tests.trx"
           --results-directory ./TestResults/QuotesApi.Tests
           --collect:"XPlat Code Coverage"
 
       - name: Test Quotes.Tests.Unit
         run: >
-          dotnet test Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-build --configuration Release
+          dotnet test Day-4/Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-build --configuration Release
           --logger "trx;LogFileName=Quotes.Tests.Unit.trx"
           --results-directory ./TestResults/Quotes.Tests.Unit
           --collect:"XPlat Code Coverage"
 
       - name: Test Quotes.Tests.Integration
         run: >
-          dotnet test Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-build --configuration Release
+          dotnet test Day-4/Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-build --configuration Release
           --logger "trx;LogFileName=Quotes.Tests.Integration.trx"
           --results-directory ./TestResults/Quotes.Tests.Integration
           --collect:"XPlat Code Coverage"
 
       - name: Test Tests.Domain
         run: >
-          dotnet test Tests.Domain/Tests.Domain.csproj --no-build --configuration Release
+          dotnet test Day-4/Tests.Domain/Tests.Domain.csproj --no-build --configuration Release
           --logger "trx;LogFileName=Tests.Domain.trx"
           --results-directory ./TestResults/Tests.Domain
           --collect:"XPlat Code Coverage"
