@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Auth;
 using QuotesApi.Data;
 using QuotesApi.Extensions;
+using Serilog;
 
 const string InternalJwtScheme = "InternalJwt";
 const string EntraJwtScheme = "EntraJwt";
@@ -14,6 +15,12 @@ const string NoCredentialsScheme = "NoCredentials";
 const string PolicySchemeName = "PolicyScheme";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) =>
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext());
 
 var jwtOptions = JwtAuthenticationOptionsFactory.Create(
     builder.Configuration);
@@ -103,6 +110,9 @@ builder.Services.AddInfrastructure(
     builder.Configuration);
 
 var app = builder.Build();
+
+app.UseTraceIdEnrichment();
+app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
 
