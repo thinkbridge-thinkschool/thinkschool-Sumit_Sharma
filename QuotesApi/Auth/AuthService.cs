@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Data;
 using QuotesApi.Models;
+using QuotesApi.Telemetry;
 
 namespace QuotesApi.Auth;
 
@@ -54,6 +56,9 @@ public class AuthService : IAuthService
         string refreshToken,
         CancellationToken cancellationToken)
     {
+        using var activity = QuotesApiActivitySource.Instance.StartActivity(
+            "auth.refresh_token");
+
         var tokenHash = HashToken(refreshToken);
 
         var storedToken = await db.RefreshTokens
@@ -62,12 +67,20 @@ public class AuthService : IAuthService
                 cancellationToken);
 
         if (storedToken is null)
+        {
+            activity?.SetTag("auth.refresh_result", "unknown_token");
+
             return null;
+        }
+
+        activity?.SetTag("user.id", storedToken.UserId);
 
         if (storedToken.RevokedAt is not null)
         {
             if (storedToken.ReplacedByToken is not null)
             {
+                activity?.SetTag("auth.refresh_result", "reuse_detected");
+
                 logger.LogWarning(
                     "Refresh token reuse detected for user {UserId}",
                     storedToken.UserId);
@@ -76,12 +89,20 @@ public class AuthService : IAuthService
                     storedToken,
                     cancellationToken);
             }
+            else
+            {
+                activity?.SetTag("auth.refresh_result", "already_revoked");
+            }
 
             return null;
         }
 
         if (storedToken.ExpiresAt <= DateTime.UtcNow)
+        {
+            activity?.SetTag("auth.refresh_result", "expired");
+
             return null;
+        }
 
         var user = await db.Users
             .FirstOrDefaultAsync(
@@ -89,7 +110,11 @@ public class AuthService : IAuthService
                 cancellationToken);
 
         if (user is null)
+        {
+            activity?.SetTag("auth.refresh_result", "user_not_found");
+
             return null;
+        }
 
         var newRefreshToken = GenerateRefreshToken();
         var newRefreshHash = HashToken(newRefreshToken);
@@ -107,6 +132,8 @@ public class AuthService : IAuthService
         await db.SaveChangesAsync(cancellationToken);
 
         var accessToken = CreateAccessToken(user);
+
+        activity?.SetTag("auth.refresh_result", "rotated");
 
         return new TokenPair(
             accessToken,

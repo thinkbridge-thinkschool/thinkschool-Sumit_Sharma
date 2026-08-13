@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using NSubstitute;
 using QuotesApi.Auth;
 using QuotesApi.Data;
 using QuotesApi.Models;
+using QuotesApi.Telemetry;
 
 namespace Quotes.Tests.Unit;
 
@@ -166,6 +168,53 @@ public class AuthServiceRefreshTests
     }
 
     [Fact]
+    public async Task RefreshAsync_WithValidToken_RecordsCustomActivityWithUserIdAndRotatedResult()
+    {
+        var recordedActivities = new List<Activity>();
+        using var listener = CreateQuotesApiActivityListener(recordedActivities);
+        ActivitySource.AddActivityListener(listener);
+
+        var arranged = await ArrangeLoggedInUserAsync();
+        using var database = arranged.Database;
+
+        var result = await arranged.Sut.RefreshAsync(
+            arranged.Login.RefreshToken,
+            CancellationToken.None);
+
+        result.Should().NotBeNull();
+        var activity = recordedActivities.Should()
+            .ContainSingle(activity => activity.OperationName == "auth.refresh_token")
+            .Subject;
+        activity.GetTagItem("auth.refresh_result").Should().Be("rotated");
+        activity.GetTagItem("user.id").Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task RefreshAsync_WithReusedToken_RecordsCustomActivityWithReuseDetectedResult()
+    {
+        var recordedActivities = new List<Activity>();
+        using var listener = CreateQuotesApiActivityListener(recordedActivities);
+        ActivitySource.AddActivityListener(listener);
+
+        var arranged = await ArrangeLoggedInUserAsync();
+        using var database = arranged.Database;
+        await arranged.Sut.RefreshAsync(
+            arranged.Login.RefreshToken,
+            CancellationToken.None);
+        recordedActivities.Clear();
+
+        var reuseResult = await arranged.Sut.RefreshAsync(
+            arranged.Login.RefreshToken,
+            CancellationToken.None);
+
+        reuseResult.Should().BeNull();
+        var activity = recordedActivities.Should()
+            .ContainSingle(activity => activity.OperationName == "auth.refresh_token")
+            .Subject;
+        activity.GetTagItem("auth.refresh_result").Should().Be("reuse_detected");
+    }
+
+    [Fact]
     public async Task RefreshAsync_WithUnknownToken_ReturnsNull()
     {
         using var database = new TestDatabase();
@@ -262,6 +311,18 @@ public class AuthServiceRefreshTests
             throw new InvalidOperationException("Login failed during test arrangement.");
 
         return new ArrangedAuthService(database, sut, login);
+    }
+
+    private static ActivityListener CreateQuotesApiActivityListener(
+        List<Activity> recordedActivities)
+    {
+        return new ActivityListener
+        {
+            ShouldListenTo = source => source.Name == QuotesApiActivitySource.Name,
+            Sample = (ref ActivityCreationOptions<ActivityContext> options) =>
+                ActivitySamplingResult.AllData,
+            ActivityStopped = activity => recordedActivities.Add(activity)
+        };
     }
 
     private static AuthService CreateAuthService(

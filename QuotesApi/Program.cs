@@ -109,6 +109,9 @@ builder.Services.AddExceptionHandler(options =>
 builder.Services.AddInfrastructure(
     builder.Configuration);
 
+builder.Services.AddTelemetry(
+    builder.Configuration);
+
 var app = builder.Build();
 
 app.UseTraceIdEnrichment();
