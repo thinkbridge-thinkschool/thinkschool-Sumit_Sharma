@@ -42,6 +42,37 @@ public class CollectionTests
         action.Should().Throw<ArgumentException>();
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void NonPositiveOwnerId_ShouldThrow(int ownerId)
+    {
+        var action = () => new Collection("My Quotes", ownerId);
+
+        action.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void Rename_WithValidName_UpdatesName()
+    {
+        var collection = CreateCollection();
+
+        collection.Rename("Updated Quotes");
+
+        collection.Name.Should().Be("Updated Quotes");
+    }
+
+    [Fact]
+    public void Rename_WithInvalidName_ShouldThrow()
+    {
+        var collection = CreateCollection();
+
+        var action = () => collection.Rename("ab");
+
+        action.Should().Throw<ArgumentException>();
+        collection.Name.Should().Be("My Quotes");
+    }
+
     [Fact]
     public void Adding51stItem_ShouldThrow()
     {

@@ -59,6 +59,16 @@ public sealed class AuthEndpointsTests : IDisposable
     }
 
     [Fact]
+    public async Task Login_WithUnknownEmail_Returns401()
+    {
+        var response = await client.PostAsJsonAsync(
+            "/api/auth/login",
+            new { email = $"unknown-{Guid.NewGuid()}@example.com", password = "Whatever1!" });
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Refresh_WithReusedToken_Returns401AndRevokesChainInDatabase()
     {
         var (email, password) = await SeedUserAsync();

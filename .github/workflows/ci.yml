@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  COVERAGE_THRESHOLD: 70
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -49,13 +52,83 @@ jobs:
         run: docker pull mcr.microsoft.com/mssql/server:2022-latest
 
       - name: Test QuotesApi.Tests
-        run: dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
+        run: >
+          dotnet test QuotesApi.Tests/QuotesApi.Tests.csproj --no-build --configuration Release
+          --logger "trx;LogFileName=QuotesApi.Tests.trx"
+          --results-directory ./TestResults/QuotesApi.Tests
+          --collect:"XPlat Code Coverage"
 
       - name: Test Quotes.Tests.Unit
-        run: dotnet test Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-build --configuration Release
+        run: >
+          dotnet test Quotes.Tests.Unit/Quotes.Tests.Unit.csproj --no-build --configuration Release
+          --logger "trx;LogFileName=Quotes.Tests.Unit.trx"
+          --results-directory ./TestResults/Quotes.Tests.Unit
+          --collect:"XPlat Code Coverage"
 
       - name: Test Quotes.Tests.Integration
-        run: dotnet test Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-build --configuration Release
+        run: >
+          dotnet test Quotes.Tests.Integration/Quotes.Tests.Integration.csproj --no-build --configuration Release
+          --logger "trx;LogFileName=Quotes.Tests.Integration.trx"
+          --results-directory ./TestResults/Quotes.Tests.Integration
+          --collect:"XPlat Code Coverage"
 
       - name: Test Tests.Domain
-        run: dotnet test Tests.Domain/Tests.Domain.csproj --no-build --configuration Release
+        run: >
+          dotnet test Tests.Domain/Tests.Domain.csproj --no-build --configuration Release
+          --logger "trx;LogFileName=Tests.Domain.trx"
+          --results-directory ./TestResults/Tests.Domain
+          --collect:"XPlat Code Coverage"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/**/*.trx
+          retention-days: 30
+
+      - name: Upload raw coverage files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-raw
+          path: TestResults/**/coverage.cobertura.xml
+          retention-days: 30
+
+      - name: Install ReportGenerator
+        if: always()
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
+
+      # QuotesApi.Migrations.* is EF Core scaffolded code; excluded from the
+      # coverage gate since testing generated migration code adds no signal.
+      - name: Merge coverage reports
+        if: always()
+        run: >
+          reportgenerator
+          -reports:"TestResults/**/coverage.cobertura.xml"
+          -targetdir:"CoverageReport"
+          -reporttypes:"Cobertura;TextSummary;Html"
+          -classfilters:"-QuotesApi.Migrations.*"
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: CoverageReport
+          retention-days: 30
+
+      - name: Enforce minimum code coverage
+        run: |
+          COVERAGE=$(grep "Line coverage:" CoverageReport/Summary.txt | grep -oE '[0-9]+(\.[0-9]+)?' | head -1)
+          echo "Total line coverage: ${COVERAGE}%"
+          echo "Required minimum: ${COVERAGE_THRESHOLD}%"
+          awk -v cov="$COVERAGE" -v min="$COVERAGE_THRESHOLD" 'BEGIN {
+            if (cov + 0 < min + 0) {
+              print "Code coverage " cov "% is below the required " min "% threshold."
+              exit 1
+            }
+            print "Code coverage " cov "% meets the required " min "% threshold."
+          }'

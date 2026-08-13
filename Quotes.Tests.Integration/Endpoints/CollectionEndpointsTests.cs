@@ -106,6 +106,99 @@ public sealed class CollectionEndpointsTests : IDisposable
     }
 
     [Fact]
+    public async Task AddQuoteToCollection_WhenQuoteMissing_Returns404()
+    {
+        var collectionId = await CreateCollectionAsync(ownerId: 204);
+
+        Authorize(userId: 204);
+
+        var response = await client.PostAsync(
+            $"/api/collections/{collectionId}/quotes/999999",
+            content: null);
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task AddQuoteToCollection_WhenQuoteAlreadyInCollection_ReturnsProblem400()
+    {
+        var collectionId = await CreateCollectionAsync(ownerId: 205);
+        var quoteId = await CreateQuoteAsync();
+
+        Authorize(userId: 205);
+        var firstAdd = await client.PostAsync(
+            $"/api/collections/{collectionId}/quotes/{quoteId}",
+            content: null);
+        Assert.Equal(HttpStatusCode.OK, firstAdd.StatusCode);
+
+        var response = await client.PostAsync(
+            $"/api/collections/{collectionId}/quotes/{quoteId}",
+            content: null);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task RemoveQuoteFromCollection_WhenCollectionMissing_Returns404()
+    {
+        Authorize(userId: 206);
+
+        var response = await client.DeleteAsync(
+            "/api/collections/999999/quotes/1");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task RemoveQuoteFromCollection_WhenQuoteNotInCollection_ReturnsProblem400()
+    {
+        var collectionId = await CreateCollectionAsync(ownerId: 207);
+        var quoteId = await CreateQuoteAsync();
+
+        Authorize(userId: 207);
+
+        var response = await client.DeleteAsync(
+            $"/api/collections/{collectionId}/quotes/{quoteId}");
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetCollection_WhenExists_ReturnsCollection()
+    {
+        var collectionId = await CreateCollectionAsync(ownerId: 208);
+
+        var response = await client.GetAsync($"/api/collections/{collectionId}");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var collection = await response.Content
+            .ReadFromJsonAsync<CollectionDto>(TestJson.Options);
+
+        Assert.NotNull(collection);
+        Assert.Equal(collectionId, collection!.Id);
+        Assert.Equal(208, collection.OwnerId);
+    }
+
+    [Fact]
+    public async Task GetCollection_WhenMissing_Returns404()
+    {
+        var response = await client.GetAsync("/api/collections/999999");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteCollection_WhenMissing_Returns404()
+    {
+        Authorize(userId: 302);
+
+        var response = await client.DeleteAsync("/api/collections/999999");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task DeleteCollection_AsOwner_Returns204AndRemovesFromDatabase()
     {
         var collectionId = await CreateCollectionAsync(ownerId: 301);

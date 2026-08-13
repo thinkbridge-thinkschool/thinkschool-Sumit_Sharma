@@ -111,6 +111,16 @@ public sealed class QuoteEndpointsTests : IDisposable
     }
 
     [Fact]
+    public async Task DeleteQuote_WhenMissing_Returns404()
+    {
+        Authorize(userId: 1, scope: "quotes.write");
+
+        var response = await client.DeleteAsync("/api/quotes/999999");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task GetQuotes_ReturnsPagedResults()
     {
         Authorize(userId: 1, scope: "quotes.write");
