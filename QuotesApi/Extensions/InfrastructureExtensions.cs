@@ -18,6 +18,9 @@ public static class InfrastructureExtensions
                 configuration.GetConnectionString(
                     "DefaultConnection")));
 
+        services.Configure<JwtOptions>(
+            configuration.GetSection("Jwt"));
+
         services.AddScoped<IQuoteRepository, QuoteRepository>();
 
         services.AddScoped<IAuthService, AuthService>();

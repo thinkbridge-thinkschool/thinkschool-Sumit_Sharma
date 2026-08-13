@@ -2,8 +2,8 @@ using System.Diagnostics;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using QuotesApi.Auth;
 using QuotesApi.Data;
@@ -329,16 +329,15 @@ public class AuthServiceRefreshTests
         AppDbContext db,
         ILogger<AuthService> logger)
     {
-        var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["Jwt:Key"] = "unit-test-signing-key-with-sufficient-length-000000",
-                ["Jwt:Issuer"] = "QuotesApi.Tests",
-                ["Jwt:Audience"] = "QuotesApi.Tests.Clients"
-            })
-            .Build();
+        var jwtOptions = Substitute.For<IOptionsSnapshot<JwtOptions>>();
+        jwtOptions.Value.Returns(new JwtOptions
+        {
+            Key = "unit-test-signing-key-with-sufficient-length-000000",
+            Issuer = "QuotesApi.Tests",
+            Audience = "QuotesApi.Tests.Clients"
+        });
 
-        return new AuthService(db, configuration, logger);
+        return new AuthService(db, jwtOptions, logger);
     }
 
     private sealed record ArrangedAuthService(

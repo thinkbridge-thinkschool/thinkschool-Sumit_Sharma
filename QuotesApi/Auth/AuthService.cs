@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Data;
 using QuotesApi.Models;
@@ -14,16 +15,16 @@ namespace QuotesApi.Auth;
 public class AuthService : IAuthService
 {
     private readonly AppDbContext db;
-    private readonly IConfiguration configuration;
+    private readonly IOptionsSnapshot<JwtOptions> jwtOptions;
     private readonly ILogger<AuthService> logger;
 
     public AuthService(
         AppDbContext db,
-        IConfiguration configuration,
+        IOptionsSnapshot<JwtOptions> jwtOptions,
         ILogger<AuthService> logger)
     {
         this.db = db;
-        this.configuration = configuration;
+        this.jwtOptions = jwtOptions;
         this.logger = logger;
     }
 
@@ -186,15 +187,17 @@ public class AuthService : IAuthService
 
     private string CreateAccessToken(User user)
     {
-        var key = configuration["Jwt:Key"]
+        var options = jwtOptions.Value;
+
+        var key = options.Key
             ?? throw new InvalidOperationException(
                 "JWT key is not configured.");
 
-        var issuer = configuration["Jwt:Issuer"]
+        var issuer = options.Issuer
             ?? throw new InvalidOperationException(
                 "JWT issuer is not configured.");
 
-        var audience = configuration["Jwt:Audience"]
+        var audience = options.Audience
             ?? throw new InvalidOperationException(
                 "JWT audience is not configured.");
 

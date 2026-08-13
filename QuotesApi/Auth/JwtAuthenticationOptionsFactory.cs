@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace QuotesApi.Auth;
 
@@ -13,9 +14,12 @@ public sealed record JwtAuthenticationOptions(
 public static class JwtAuthenticationOptionsFactory
 {
     public static JwtAuthenticationOptions Create(
+        IOptions<JwtOptions> jwtOptions,
         IConfiguration configuration)
     {
-        var key = configuration["Jwt:Key"]
+        var options = jwtOptions.Value;
+
+        var key = options.Key
             ?? throw new InvalidOperationException(
                 "JWT key is not configured.");
 
@@ -25,11 +29,11 @@ public static class JwtAuthenticationOptionsFactory
                 "JWT key must be at least 256 bits.");
         }
 
-        var issuer = configuration["Jwt:Issuer"]
+        var issuer = options.Issuer
             ?? throw new InvalidOperationException(
                 "JWT issuer is not configured.");
 
-        var audience = configuration["Jwt:Audience"]
+        var audience = options.Audience
             ?? throw new InvalidOperationException(
                 "JWT audience is not configured.");
 

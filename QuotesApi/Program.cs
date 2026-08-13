@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Auth;
 using QuotesApi.Data;
@@ -23,6 +24,9 @@ builder.Host.UseSerilog((context, services, configuration) =>
         .Enrich.FromLogContext());
 
 var jwtOptions = JwtAuthenticationOptionsFactory.Create(
+    Options.Create(
+        builder.Configuration.GetSection("Jwt").Get<JwtOptions>()
+            ?? new JwtOptions()),
     builder.Configuration);
 
 builder.Services

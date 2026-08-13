@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using QuotesApi.Auth;
 
 namespace Quotes.Tests.Unit;
@@ -12,7 +13,7 @@ public class JwtAuthenticationOptionsFactoryTests
         var config = FullConfig();
         var configuration = BuildConfiguration(config);
 
-        var result = JwtAuthenticationOptionsFactory.Create(configuration);
+        var result = Invoke(configuration);
 
         result.Key.Should().Be(config["Jwt:Key"]);
         result.Issuer.Should().Be(config["Jwt:Issuer"]);
@@ -28,7 +29,7 @@ public class JwtAuthenticationOptionsFactoryTests
         config.Remove("Jwt:Key");
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*JWT key is not configured*");
@@ -41,7 +42,7 @@ public class JwtAuthenticationOptionsFactoryTests
         config["Jwt:Key"] = "too-short-key";
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*JWT key must be at least 256 bits*");
@@ -54,7 +55,7 @@ public class JwtAuthenticationOptionsFactoryTests
         config.Remove("Jwt:Issuer");
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*JWT issuer is not configured*");
@@ -67,7 +68,7 @@ public class JwtAuthenticationOptionsFactoryTests
         config.Remove("Jwt:Audience");
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*JWT audience is not configured*");
@@ -80,7 +81,7 @@ public class JwtAuthenticationOptionsFactoryTests
         config.Remove("Entra:Authority");
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*Entra authority is not configured*");
@@ -93,10 +94,22 @@ public class JwtAuthenticationOptionsFactoryTests
         config.Remove("Entra:Audience");
         var configuration = BuildConfiguration(config);
 
-        var act = () => JwtAuthenticationOptionsFactory.Create(configuration);
+        var act = () => Invoke(configuration);
 
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("*Entra audience is not configured*");
+    }
+
+    private static JwtAuthenticationOptions Invoke(
+        IConfiguration configuration)
+    {
+        var jwtOptions = Options.Create(
+            configuration.GetSection("Jwt").Get<JwtOptions>()
+                ?? new JwtOptions());
+
+        return JwtAuthenticationOptionsFactory.Create(
+            jwtOptions,
+            configuration);
     }
 
     private static Dictionary<string, string?> FullConfig() => new()
