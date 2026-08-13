@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -16,31 +15,8 @@ const string PolicySchemeName = "PolicyScheme";
 
 var builder = WebApplication.CreateBuilder(args);
 
-var jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException(
-        "JWT key is not configured.");
-
-if (Encoding.UTF8.GetByteCount(jwtKey) < 32)
-{
-    throw new InvalidOperationException(
-        "JWT key must be at least 256 bits.");
-}
-
-var jwtIssuer = builder.Configuration["Jwt:Issuer"]
-    ?? throw new InvalidOperationException(
-        "JWT issuer is not configured.");
-
-var jwtAudience = builder.Configuration["Jwt:Audience"]
-    ?? throw new InvalidOperationException(
-        "JWT audience is not configured.");
-
-var entraAuthority = builder.Configuration["Entra:Authority"]
-    ?? throw new InvalidOperationException(
-        "Entra authority is not configured.");
-
-var entraAudience = builder.Configuration["Entra:Audience"]
-    ?? throw new InvalidOperationException(
-        "Entra audience is not configured.");
+var jwtOptions = JwtAuthenticationOptionsFactory.Create(
+    builder.Configuration);
 
 builder.Services
     .AddAuthentication(PolicySchemeName)
@@ -54,19 +30,19 @@ builder.Services
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
 
-                ValidIssuer = jwtIssuer,
+                ValidIssuer = jwtOptions.Issuer,
 
-                ValidAudience = jwtAudience,
+                ValidAudience = jwtOptions.Audience,
 
                 IssuerSigningKey =
                     new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtKey))
+                        Encoding.UTF8.GetBytes(jwtOptions.Key))
             };
     })
     .AddJwtBearer(EntraJwtScheme, options =>
     {
-        options.Authority = entraAuthority;
-        options.Audience = entraAudience;
+        options.Authority = jwtOptions.EntraAuthority;
+        options.Audience = jwtOptions.EntraAudience;
 
         options.TokenValidationParameters =
             new TokenValidationParameters
@@ -75,7 +51,7 @@ builder.Services
                 ValidateAudience = true,
                 ValidateLifetime = true,
 
-                ValidIssuer = entraAuthority
+                ValidIssuer = jwtOptions.EntraAuthority
             };
     })
     .AddScheme<AuthenticationSchemeOptions, NoCredentialsAuthenticationHandler>(
@@ -85,33 +61,13 @@ builder.Services
     .AddPolicyScheme(PolicySchemeName, PolicySchemeName, options =>
     {
         options.ForwardDefaultSelector = context =>
-        {
-            var header = context.Request.Headers.Authorization
-                .ToString();
-
-            if (!header.StartsWith(
-                    "Bearer ",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                return NoCredentialsScheme;
-            }
-
-            var token = header["Bearer ".Length..].Trim();
-            var jwtHandler = new JwtSecurityTokenHandler();
-
-            if (!jwtHandler.CanReadToken(token))
-                return NoCredentialsScheme;
-
-            var issuer = jwtHandler.ReadJwtToken(token).Issuer;
-
-            if (issuer == jwtIssuer)
-                return InternalJwtScheme;
-
-            if (issuer == entraAuthority)
-                return EntraJwtScheme;
-
-            return NoCredentialsScheme;
-        };
+            JwtSchemeSelector.SelectScheme(
+                context.Request.Headers.Authorization.ToString(),
+                jwtOptions.Issuer,
+                jwtOptions.EntraAuthority,
+                InternalJwtScheme,
+                EntraJwtScheme,
+                NoCredentialsScheme);
     });
 
 builder.Services.AddAuthorization(options =>

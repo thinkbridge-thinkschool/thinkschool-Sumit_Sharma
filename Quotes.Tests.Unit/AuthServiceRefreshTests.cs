@@ -13,6 +13,42 @@ namespace Quotes.Tests.Unit;
 public class AuthServiceRefreshTests
 {
     [Fact]
+    public async Task LoginAsync_WithUnknownEmail_ReturnsNull()
+    {
+        using var database = new TestDatabase();
+        var sut = CreateAuthService(database.Db, Substitute.For<ILogger<AuthService>>());
+
+        var result = await sut.LoginAsync(
+            "nobody@example.com",
+            "Whatever1!",
+            CancellationToken.None);
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task LoginAsync_WithWrongPassword_ReturnsNull()
+    {
+        using var database = new TestDatabase();
+        var sut = CreateAuthService(database.Db, Substitute.For<ILogger<AuthService>>());
+
+        var user = new User
+        {
+            Email = "user@example.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("P@ssw0rd!")
+        };
+        database.Db.Users.Add(user);
+        await database.Db.SaveChangesAsync();
+
+        var result = await sut.LoginAsync(
+            user.Email,
+            "WrongPassword!",
+            CancellationToken.None);
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
     public async Task RefreshAsync_WithValidToken_ReturnsNewTokenPair()
     {
         var arranged = await ArrangeLoggedInUserAsync();
