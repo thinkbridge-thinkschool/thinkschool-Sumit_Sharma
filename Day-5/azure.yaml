@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+# Day 5 - Task 4: azd project definition for QuotesApi.
+# No Dockerfile is used - the QuotesApi.csproj already carries the .NET SDK
+# container publishing properties (ContainerImageName / ContainerImageTag /
+# ContainerBaseImage) added in Task 2, and azd's `containerapp` host uses
+# `dotnet publish` to build the image directly from those properties.
+name: quotesapi
+services:
+  quotesapi:
+    project: ./QuotesApi
+    host: containerapp
+    language: dotnet
