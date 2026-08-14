@@ -113,6 +113,9 @@ builder.Services.AddExceptionHandler(options =>
 builder.Services.AddInfrastructure(
     builder.Configuration);
 
+builder.Services.AddExternalQuoteClient(
+    builder.Configuration);
+
 builder.Services.AddTelemetry(
     builder.Configuration);
 
@@ -141,6 +144,7 @@ app.MapHealthChecks("/health");
 app.MapAuthEndpoints();
 app.MapQuoteEndpoints();
 app.MapCollectionEndpoints();
+app.MapExternalQuoteEndpoints();
 
 app.Run();
 
