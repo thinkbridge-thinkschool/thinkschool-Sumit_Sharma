@@ -1,0 +1,36 @@
+// Day 5 - Task 5: Application Insights latency query for QuotesApi
+//
+// STATUS: NOT EXECUTED. There is no Azure subscription available in this
+// environment (same constraint recorded for Task 3 in
+// azure-container-apps.sh). No Application Insights resource has been
+// provisioned and no telemetry has ever been ingested, so this query has
+// never run against real data. Do not treat any numbers as real - none
+// exist. No screenshots or KQL output accompany this file.
+//
+// PREREQUISITES before this can run for real:
+//   1. An Azure subscription.
+//   2. An Application Insights resource (Microsoft.Insights/components).
+//      NOT currently present in infra/resources.bicep - the existing
+//      Log Analytics workspace there (`logAnalytics`) is wired only to the
+//      Container Apps managed environment for platform/console logs; it is
+//      not an Application Insights component and does not receive
+//      `requests`/`dependencies`/`exceptions` telemetry.
+//   3. QuotesApi's telemetry code already supports this without any code
+//      change: Extensions/TelemetryExtensions.cs calls UseAzureMonitor()
+//      whenever APPLICATIONINSIGHTS_CONNECTION_STRING (or config key
+//      ApplicationInsights:ConnectionString) is set. Only an Application
+//      Insights resource + connection string (wired as a Container App
+//      secret/env var, the same way Jwt__Key is handled today) are needed.
+//   4. Real traffic hitting the deployed app within the queried window.
+//
+// HOW TO RUN ONCE A SUBSCRIPTION EXISTS:
+//   Azure Portal -> Application Insights resource -> Logs, or:
+//     az monitor app-insights query \
+//       --app <app-insights-app-id> \
+//       --analytics-query "requests | where timestamp > ago(30m) | summarize count(), p50=percentile(duration, 50), p99=percentile(duration, 99) by name | order by p99 desc"
+//
+// QUERY (top endpoints by p99 latency over the last 30 minutes):
+requests
+| where timestamp > ago(30m)
+| summarize count(), p50=percentile(duration, 50), p99=percentile(duration, 99) by name
+| order by p99 desc

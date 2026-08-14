@@ -50,6 +50,22 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2024-03-01'
   }
 }
 
+// Workspace-based Application Insights component for QuotesApi request/
+// dependency/exception telemetry (the `requests` table queried by
+// app-insights-latency.kql). Backed by the same Log Analytics workspace
+// already used for Container Apps platform logs.
+resource appInsights 'Microsoft.Insights/components@2020-02-02-preview' = {
+  name: 'appi-${resourceToken}'
+  location: location
+  tags: tags
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalytics.id
+    IngestionMode: 'LogAnalytics'
+  }
+}
+
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = {
   name: 'acr${resourceToken}'
   location: location
@@ -122,6 +138,10 @@ resource quotesApi 'Microsoft.App/containerApps@2024-03-01' = {
           name: 'jwt-key'
           value: jwtKey
         }
+        {
+          name: 'appinsights-connection-string'
+          value: appInsights.properties.ConnectionString
+        }
       ]
     }
     template: {
@@ -143,6 +163,10 @@ resource quotesApi 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'ConnectionStrings__DefaultConnection'
               value: 'Data Source=quotes.db'
+            }
+            {
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+              secretRef: 'appinsights-connection-string'
             }
           ]
           resources: {
@@ -176,3 +200,7 @@ resource quotesApi 'Microsoft.App/containerApps@2024-03-01' = {
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerRegistry.properties.loginServer
 output AZURE_CONTAINER_APPS_ENVIRONMENT_ID string = containerAppsEnvironment.id
 output SERVICE_QUOTESAPI_ENDPOINT_URL string = 'https://${quotesApi.properties.configuration.ingress.fqdn}'
+// Connection string itself is intentionally not exposed as a plain output;
+// read it via the `appinsights-connection-string` Container App secret or
+// `az monitor app-insights component show` once deployed.
+output AZURE_APPLICATION_INSIGHTS_NAME string = appInsights.name
