@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ContainerImageName>quotes-api</ContainerImageName>
+    <ContainerImageTag>0.1.0</ContainerImageTag>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-alpine</ContainerBaseImage>
   </PropertyGroup>
 
   <ItemGroup>

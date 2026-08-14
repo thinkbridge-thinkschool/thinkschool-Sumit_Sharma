@@ -116,6 +116,8 @@ builder.Services.AddInfrastructure(
 builder.Services.AddTelemetry(
     builder.Configuration);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseTraceIdEnrichment();
@@ -133,6 +135,8 @@ using (var scope = app.Services.CreateScope())
 
     db.Database.Migrate();
 }
+
+app.MapHealthChecks("/health");
 
 app.MapAuthEndpoints();
 app.MapQuoteEndpoints();
