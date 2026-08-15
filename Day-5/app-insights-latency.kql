@@ -1,33 +1,51 @@
 // Day 5 - Task 5: Application Insights latency query for QuotesApi
 //
-// STATUS: NOT EXECUTED. There is no Azure subscription available in this
-// environment (same constraint recorded for Task 3 in
-// azure-container-apps.sh). No Application Insights resource has been
-// provisioned and no telemetry has ever been ingested, so this query has
-// never run against real data. Do not treat any numbers as real - none
-// exist. No screenshots or KQL output accompany this file.
+// STATUS: executed for real on 2026-08-15 against the "Azure for Students"
+// subscription, after Task 4 (azd up) deployed quotes-api-6zg4j2eiam32o.
 //
-// PREREQUISITES before this can run for real:
-//   1. An Azure subscription.
-//   2. An Application Insights resource (Microsoft.Insights/components).
-//      NOT currently present in infra/resources.bicep - the existing
-//      Log Analytics workspace there (`logAnalytics`) is wired only to the
-//      Container Apps managed environment for platform/console logs; it is
-//      not an Application Insights component and does not receive
-//      `requests`/`dependencies`/`exceptions` telemetry.
-//   3. QuotesApi's telemetry code already supports this without any code
-//      change: Extensions/TelemetryExtensions.cs calls UseAzureMonitor()
-//      whenever APPLICATIONINSIGHTS_CONNECTION_STRING (or config key
-//      ApplicationInsights:ConnectionString) is set. Only an Application
-//      Insights resource + connection string (wired as a Container App
-//      secret/env var, the same way Jwt__Key is handled today) are needed.
-//   4. Real traffic hitting the deployed app within the queried window.
+// Application Insights resource: appi-6zg4j2eiam32o (thinkschool-rg,
+// centralindia), workspace-based on the existing Log Analytics workspace
+// workspace-thinkschoolrgP4YD. It was already created and wired by Task 4's
+// infra/resources.bicep (APPLICATIONINSIGHTS_CONNECTION_STRING is set on
+// the Container App as a secret), so no infrastructure change was needed
+// for Task 5 - only verification, real traffic, and running this query.
 //
-// HOW TO RUN ONCE A SUBSCRIPTION EXISTS:
-//   Azure Portal -> Application Insights resource -> Logs, or:
-//     az monitor app-insights query \
-//       --app <app-insights-app-id> \
-//       --analytics-query "requests | where timestamp > ago(30m) | summarize count(), p50=percentile(duration, 50), p99=percentile(duration, 99) by name | order by p99 desc"
+// Real requests were generated against the deployed FQDN
+// (quotes-api-6zg4j2eiam32o.bravebay-90a32791.centralindia.azurecontainerapps.io)
+// via curl: GET /health, GET /api/quotes, GET /api/quotes/{id}. Ran with:
+//   az monitor app-insights query --app appi-6zg4j2eiam32o -g thinkschool-rg \
+//     --analytics-query "<query below>"
+//
+// ACTUAL RESULT (2026-08-15, ago(30m) window at query time):
+//   name                       count_  p50      p99
+//   GET /api/quotes            7       3.3137   596.2523
+//   GET /health                35      0.4991   73.1346
+//   GET /api/quotes/{id:int}   1       25.163   25.163
+//
+// Correlation check: one of the GET /api/quotes requests
+// (operation_Id 311d9de34992468f6701eb5a7af8c631, cloud_RoleName
+// quotes-api-6zg4j2eiam32o) has a correlated `dependencies` row for a
+// sqlite call targeting `/tmp/quotes.db | main` - confirming end-to-end
+// OpenTelemetry request+dependency correlation from the actual deployed
+// revision (quotes-api-6zg4j2eiam32o--azd-1786785307).
+//
+// Saved as a reusable Log Analytics function on workspace
+// workspace-thinkschoolrgP4YD:
+//   az monitor log-analytics workspace saved-search create \
+//     -g thinkschool-rg --workspace-name workspace-thinkschoolrgP4YD \
+//     -n Day5EndpointLatencySavedSearch --category Day5 \
+//     --display-name Day5EndpointLatency --fa Day5EndpointLatency \
+//     -q "<query below>"
+// Verified present via `saved-search show`/`list` (functionAlias
+// Day5EndpointLatency). Note: the public Log Analytics/App Insights query
+// API does not support invoking a saved function by its alias
+// (`Day5EndpointLatency` / `Day5EndpointLatency()` both return
+// BadArgumentError through `az monitor app-insights query` and
+// `az monitor log-analytics query`) - alias resolution for saved searches
+// is a Portal Logs-experience convenience, not part of the public query
+// API. The function is genuinely saved and visible in the Azure Portal's
+// Application Insights -> Logs -> Functions list; running it programmatically
+// here still means executing the inline query text below.
 //
 // QUERY (top endpoints by p99 latency over the last 30 minutes):
 requests
