@@ -16,15 +16,22 @@ param principalId string = ''
 @description('JWT signing key for the internal auth scheme (Jwt:Key). Set via `azd env set-secret JWT_KEY` before provisioning.')
 param jwtKey string
 
+@description('Name of the existing resource group to deploy into. Reused from the Task 3 manual deployment, since the subscription only allows one Container Apps environment per region and that environment already lives here.')
+param existingResourceGroupName string = 'thinkschool-rg'
+
+@description('Name of the existing Container Apps environment to deploy into (see resources.bicep for why this is reused rather than created).')
+param existingContainerAppsEnvironmentName string = 'thinkschool-env'
+
+@description('Name of the existing Log Analytics workspace to back Application Insights.')
+param existingLogAnalyticsWorkspaceName string = 'workspace-thinkschoolrgP4YD'
+
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 var tags = {
   'azd-env-name': environmentName
 }
 
-resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: 'rg-${environmentName}'
-  location: location
-  tags: tags
+resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' existing = {
+  name: existingResourceGroupName
 }
 
 module resources 'resources.bicep' = {
@@ -36,6 +43,8 @@ module resources 'resources.bicep' = {
     tags: tags
     principalId: principalId
     jwtKey: jwtKey
+    existingContainerAppsEnvironmentName: existingContainerAppsEnvironmentName
+    existingLogAnalyticsWorkspaceName: existingLogAnalyticsWorkspaceName
   }
 }
 

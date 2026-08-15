@@ -13,6 +13,12 @@ param principalId string = ''
 @description('JWT signing key for the internal auth scheme (Jwt:Key)')
 param jwtKey string
 
+@description('Name of the existing Container Apps environment to deploy into. The subscription allows only one Container Apps environment per region, and Task 3 already created one in this region, so Task 4 reuses it instead of provisioning a second one.')
+param existingContainerAppsEnvironmentName string
+
+@description('Name of the existing Log Analytics workspace backing the existing Container Apps environment, reused here for Application Insights.')
+param existingLogAnalyticsWorkspaceName string
+
 var acrPullRoleDefinitionId = subscriptionResourceId(
   'Microsoft.Authorization/roleDefinitions',
   '7f951dda-4ed3-4680-a7ca-43fe172d538d'
@@ -23,31 +29,12 @@ var acrPushRoleDefinitionId = subscriptionResourceId(
   '8311e382-0749-4cb8-b61a-304f252e45ec'
 )
 
-resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
-  name: 'log-${resourceToken}'
-  location: location
-  tags: tags
-  properties: {
-    retentionInDays: 30
-    sku: {
-      name: 'PerGB2018'
-    }
-  }
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: existingLogAnalyticsWorkspaceName
 }
 
-resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' = {
-  name: 'cae-${resourceToken}'
-  location: location
-  tags: tags
-  properties: {
-    appLogsConfiguration: {
-      destination: 'log-analytics'
-      logAnalyticsConfiguration: {
-        customerId: logAnalytics.properties.customerId
-        sharedKey: logAnalytics.listKeys().primarySharedKey
-      }
-    }
-  }
+resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
+  name: existingContainerAppsEnvironmentName
 }
 
 // Workspace-based Application Insights component for QuotesApi request/
@@ -162,7 +149,7 @@ resource quotesApi 'Microsoft.App/containerApps@2024-03-01' = {
             }
             {
               name: 'ConnectionStrings__DefaultConnection'
-              value: 'Data Source=quotes.db'
+              value: 'Data Source=/tmp/quotes.db'
             }
             {
               name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
