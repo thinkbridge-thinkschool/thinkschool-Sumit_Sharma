@@ -2,19 +2,33 @@
 # Day 5 - Task 3: Azure Container Apps Fundamentals
 #
 # This script is a REFERENCE ONLY. It does not run automatically and must
-# be executed manually, command-by-command, once an Azure subscription is
-# available.
+# be executed manually, command-by-command.
 #
-# CURRENT STATUS (recorded during preparation):
-#   - Azure CLI is installed locally (`az version` -> azure-cli 2.87.0).
-#   - `az account show` fails with "Please run 'az login' to setup account."
-#   - There is NO Azure subscription accessible from this machine right now.
-#   - Because of this, none of the resource-creation commands below have
-#     been run, and no Azure resources exist yet. Values such as
-#     subscription ID, ACR login server, and FQDN are NOT known and must be
-#     filled in from real `az` output when a subscription is available.
+# STATUS: executed for real against the "Azure for Students" subscription
+# on 2026-08-15. Actual resource names/values from that run are filled in
+# below. Re-running this end-to-end will fail on the ACR/resource-group
+# name collisions unless you change the names - it is left as a record of
+# what was done, not a script to blindly re-run.
 #
-# Replace <PLACEHOLDER> values before running anything for real.
+# Resources created:
+#   Resource group:            thinkschool-rg (centralindia)
+#   Container Registry:        thinkschoolquotesacr.azurecr.io
+#   Container Apps environment: thinkschool-env (static IP 4.213.208.142)
+#   Container app:              quotes-api
+#   FQDN:                       quotes-api.bravebay-90a32791.centralindia.azurecontainerapps.io
+#
+# Lesson learned during this run: the default connection string
+# ("Data Source=quotes.db") pointed at a relative path under /app, which is
+# owned by root in the mcr.microsoft.com/dotnet/aspnet:*-alpine image while
+# the process runs as the non-root "app" user (uid 1654). SQLite could not
+# create the file there ("SQLite Error 14: unable to open database file"),
+# so the container crash-looped. Fixed by overriding
+# ConnectionStrings__DefaultConnection to "Data Source=/tmp/quotes.db"
+# (world-writable tmpfs) as a container app env var - see step 5 below.
+#
+# Also note: registry auth used the container app's system-assigned
+# managed identity + an AcrPull role assignment (no ACR admin user, no
+# stored credentials), configured via `az containerapp registry set`.
 
 set -euo pipefail
 
@@ -22,32 +36,25 @@ set -euo pipefail
 # 1. PREREQUISITE / LOGIN
 # -----------------------------------------------------------------------
 
-# Authenticate the CLI against an Azure AD account.
 # az login
-
-# Confirm the login succeeded and see which subscription is active.
 # az account show
-
-# If the account has more than one subscription, list them and select one.
-# az account list --output table
-# az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
 
 # -----------------------------------------------------------------------
 # 2. RESOURCE GROUP CREATION
 # -----------------------------------------------------------------------
 
-# az group create \
-#   --name thinkschool-rg \
-#   --location centralindia
+az group create \
+  --name thinkschool-rg \
+  --location centralindia
 
 # -----------------------------------------------------------------------
 # 3. CONTAINER APPS ENVIRONMENT CREATION
 # -----------------------------------------------------------------------
 
-# az containerapp env create \
-#   --name thinkschool-env \
-#   --resource-group thinkschool-rg \
-#   --location centralindia
+az containerapp env create \
+  --name thinkschool-env \
+  --resource-group thinkschool-rg \
+  --location centralindia
 
 # -----------------------------------------------------------------------
 # 4. CONTAINER IMAGE: BUILD & PUSH (QuotesApi is already configured for
@@ -58,22 +65,18 @@ set -euo pipefail
 #    No Dockerfile is required; `dotnet publish` builds the image directly.)
 # -----------------------------------------------------------------------
 
-# Create an Azure Container Registry (ACR) to host the image.
-# az acr create \
-#   --name <ACR_NAME> \
-#   --resource-group thinkschool-rg \
-#   --sku Basic
+az acr create \
+  --name thinkschoolquotesacr \
+  --resource-group thinkschool-rg \
+  --sku Basic
 
-# Log the local Docker/SDK container tooling in to the ACR.
-# az acr login --name <ACR_NAME>
+az acr login --name thinkschoolquotesacr
 
-# Publish straight to the ACR using the .NET SDK containerization support
-# (adjust ContainerRegistry to the ACR login server, e.g. <ACR_NAME>.azurecr.io).
-# dotnet publish QuotesApi/QuotesApi.csproj \
-#   -c Release \
-#   -p:PublishProfile=DefaultContainer \
-#   -p:ContainerRegistry=<ACR_NAME>.azurecr.io \
-#   -p:ContainerImageTag=0.1.0
+dotnet publish QuotesApi/QuotesApi.csproj \
+  -c Release \
+  -p:PublishProfile=DefaultContainer \
+  -p:ContainerRegistry=thinkschoolquotesacr.azurecr.io \
+  -p:ContainerImageTag=0.1.0
 
 # -----------------------------------------------------------------------
 # 5. CONTAINER APP CREATION
@@ -81,46 +84,72 @@ set -euo pipefail
 #    appsettings.json + Auth/JwtAuthenticationOptionsFactory.cs):
 #      Jwt__Key       -> REQUIRED, min 256-bit secret, app fails fast at
 #                        startup ("JWT key is not configured.") without it.
-#                        Pass as a Container Apps secret, not a plain env var.
+#                        Passed as a Container Apps secret, not a plain env
+#                        var. Generate with `openssl rand -base64 32`.
 #      Jwt__Issuer / Jwt__Audience -> already set in appsettings.json,
 #                        override only if different per environment.
-#      ConnectionStrings__DefaultConnection -> defaults to
-#                        "Data Source=quotes.db" (SQLite file). This is
-#                        ephemeral container filesystem storage: data will
-#                        NOT survive a restart/new revision and will NOT be
+#      ConnectionStrings__DefaultConnection -> overridden to
+#                        "Data Source=/tmp/quotes.db" (see lesson learned
+#                        above - /app is not writable by the non-root
+#                        container user). This is still ephemeral
+#                        container filesystem storage: data will NOT
+#                        survive a restart/new revision and will NOT be
 #                        shared across replicas. Fine for a fundamentals
-#                        exercise; a real deployment would need Azure Files
-#                        mounted storage or a managed database instead.
-#    The container listens on port 8080 by default (set by the
-#    mcr.microsoft.com/dotnet/aspnet base image's ASPNETCORE_HTTP_PORTS),
-#    so --target-port 8080 matches with no code changes required.
+#                        exercise; a real deployment would need Azure
+#                        Files mounted storage or a managed database
+#                        instead.
+#    The container listens on port 8080 (ASPNETCORE_HTTP_PORTS=8080,
+#    baked into the aspnet base image), so --target-port 8080 matches
+#    with no code changes required.
 # -----------------------------------------------------------------------
 
-# az containerapp create \
+JWT_SECRET=$(openssl rand -base64 32)
+
+az containerapp create \
+  --name quotes-api \
+  --resource-group thinkschool-rg \
+  --environment thinkschool-env \
+  --image thinkschoolquotesacr.azurecr.io/quotes-api:0.1.0 \
+  --target-port 8080 \
+  --ingress external \
+  --registry-server thinkschoolquotesacr.azurecr.io \
+  --registry-identity system \
+  --secrets jwt-key="$JWT_SECRET" \
+  --env-vars Jwt__Key=secretref:jwt-key ConnectionStrings__DefaultConnection="Data Source=/tmp/quotes.db"
+
+# If `az containerapp create` reports an internal server error partway
+# through, it can still leave the app half-created without registry
+# credentials wired up (image falls back to the platform's
+# mcr.microsoft.com/k8se/quickstart placeholder). Recover with:
+#
+# az role assignment create \
+#   --assignee <containerapp-system-identity-principal-id> \
+#   --role AcrPull \
+#   --scope <acr-resource-id>
+#
+# az containerapp registry set \
 #   --name quotes-api \
 #   --resource-group thinkschool-rg \
-#   --environment thinkschool-env \
-#   --image <ACR_NAME>.azurecr.io/quotes-api:0.1.0 \
-#   --target-port 8080 \
-#   --ingress external \
-#   --registry-server <ACR_NAME>.azurecr.io \
-#   --secrets jwt-key=<REPLACE_WITH_REAL_SECRET> \
-#   --env-vars Jwt__Key=secretref:jwt-key
+#   --server thinkschoolquotesacr.azurecr.io \
+#   --identity system
+#
+# az containerapp update \
+#   --name quotes-api \
+#   --resource-group thinkschool-rg \
+#   --image thinkschoolquotesacr.azurecr.io/quotes-api:0.1.0
 
 # -----------------------------------------------------------------------
 # 6. VERIFICATION
 # -----------------------------------------------------------------------
 
-# Inspect the Container Apps environment.
-# az containerapp env show \
-#   --name thinkschool-env \
-#   --resource-group thinkschool-rg \
-#   --output json
+az containerapp env show \
+  --name thinkschool-env \
+  --resource-group thinkschool-rg \
+  --output json
 
-# Inspect the deployed container app and confirm the /health endpoint.
-# az containerapp show \
-#   --name quotes-api \
-#   --resource-group thinkschool-rg \
-#   --output json
+az containerapp show \
+  --name quotes-api \
+  --resource-group thinkschool-rg \
+  --output json
 
-# curl https://<QUOTES_API_FQDN>/health
+curl https://quotes-api.bravebay-90a32791.centralindia.azurecontainerapps.io/health
