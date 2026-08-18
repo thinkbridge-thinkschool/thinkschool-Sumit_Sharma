@@ -1,0 +1,208 @@
+{
+  "query": "SELECT Id, AuthorId, EventType, Status, CreatedAt FROM dbo.QuoteEvents WHERE CreatedAt >= '2025-06-01' AND CreatedAt < '2025-06-02'",
+  "rows_returned": 96,
+  "logical_reads_before": 261,
+  "logical_reads_after": 3,
+  "reduction_factor": 87.0,
+  "before": {
+    "index_state": [
+      "PK_QuoteEvents (CLUSTERED, Id)",
+      "IX_QuoteEvents_AuthorId (NONCLUSTERED, AuthorId)",
+      "IX_QuoteEvents_CreatedAt (NONCLUSTERED, key=CreatedAt, include=AuthorId,EventType)"
+    ],
+    "total_actual_logical_reads": 261,
+    "operators": [
+      {
+        "node_id": "0",
+        "physical_op": "Nested Loops",
+        "logical_op": "Inner Join",
+        "actual_rows": "96",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[IX_QuoteEvents_CreatedAt]"
+      },
+      {
+        "node_id": "2",
+        "physical_op": "Nested Loops",
+        "logical_op": "Inner Join",
+        "actual_rows": "96",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[IX_QuoteEvents_CreatedAt]"
+      },
+      {
+        "node_id": "3",
+        "physical_op": "Merge Interval",
+        "logical_op": "Merge Interval",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "4",
+        "physical_op": "Concatenation",
+        "logical_op": "Concatenation",
+        "actual_rows": "2",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "5",
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "6",
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "7",
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "8",
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "9",
+        "physical_op": "Index Seek",
+        "logical_op": "Index Seek",
+        "actual_rows": "96",
+        "actual_logical_reads": 3,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[IX_QuoteEvents_CreatedAt]"
+      },
+      {
+        "node_id": "11",
+        "physical_op": "Clustered Index Seek",
+        "logical_op": "Clustered Index Seek",
+        "actual_rows": "96",
+        "actual_logical_reads": 258,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[PK_QuoteEvents]"
+      }
+    ],
+    "has_key_lookup": true,
+    "key_lookup_evidence": "Nested Loops (NodeId 0) joins Index Seek on IX_QuoteEvents_CreatedAt (NodeId 9, 3 logical reads) to a Clustered Index Seek on PK_QuoteEvents (NodeId 11, 258 logical reads) whose SeekPredicates equate Id to the outer row -- the classic Key Lookup shape (SSMS renders this exact pattern as a Key Lookup icon)."
+  },
+  "after": {
+    "index_state_added": "IX_QuoteEvents_CreatedAt_Covering (NONCLUSTERED, key=CreatedAt, include=AuthorId,EventType,Status)",
+    "total_actual_logical_reads": 3,
+    "operators": [
+      {
+        "node_id": "0",
+        "physical_op": "Nested Loops",
+        "logical_op": "Inner Join",
+        "actual_rows": "96",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[IX_QuoteEvents_CreatedAt_Covering]"
+      },
+      {
+        "node_id": "1",
+        "physical_op": "Merge Interval",
+        "logical_op": "Merge Interval",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "2",
+        "physical_op": "Concatenation",
+        "logical_op": "Concatenation",
+        "actual_rows": "2",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "3",
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "4",
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "5",
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "6",
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_elapsed_ms": "0",
+        "object_table": null,
+        "object_index": null
+      },
+      {
+        "node_id": "7",
+        "physical_op": "Index Seek",
+        "logical_op": "Index Seek",
+        "actual_rows": "96",
+        "actual_logical_reads": 3,
+        "actual_elapsed_ms": "0",
+        "object_table": "[QuoteEvents]",
+        "object_index": "[IX_QuoteEvents_CreatedAt_Covering]"
+      }
+    ],
+    "has_key_lookup": false,
+    "key_lookup_evidence": "No Clustered Index Seek / Nested-Loops-to-base-table operator present anywhere in the plan. The only table access is a single Index Seek on IX_QuoteEvents_CreatedAt_Covering (3 logical reads); Id/AuthorId/EventType/Status/CreatedAt are all satisfied from that one index."
+  },
+  "note": "Full raw execution-plan XML for BEFORE/AFTER is in results/task2-before.json and results/task2-after.json"
+}

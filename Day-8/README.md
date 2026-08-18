@@ -151,3 +151,164 @@ writes" cost that justifies not indexing low-selectivity columns like
 - Final state of `day7quotesdb`: `dbo.QuoteEvents` with 100,000 rows, one
   clustered PK and two nonclustered indexes as designed. No Day-7 objects
   (`Quotes`, `QuotesTimeline`, etc.) were touched.
+
+## Task 2 — Covering indexes + included columns
+
+Real before/after benchmark against the same `dbo.QuoteEvents` table and
+the same live database, run after Task 1's indexes were already in
+place. Full SQL in `azure-sql/task2-covering-index.sql`; full captured
+evidence (raw plan XML + parsed operator summaries) in
+`azure-sql/results/task2-before.json`, `task2-after.json`,
+`task2-summary.json`, and the trimmed `azure-sql/task2-results.json`.
+
+### Problem / query
+
+Task 1's `IX_QuoteEvents_CreatedAt` (key `CreatedAt`, INCLUDE `AuthorId,
+EventType`) covers most of Task 1's Q3, but not a query that also needs
+`Status` — a column in neither non-clustered index. Filtering
+`AuthorId = 23` alone (2% selective) turned out **not** to reproduce a
+Key Lookup: at that selectivity, 2,000 individual lookups cost more than
+one Clustered Index Scan, so the optimizer just scans (verified
+empirically, not assumed). A **narrow, highly selective** predicate was
+needed instead — a single day of `CreatedAt` (~96 of 100,000 rows,
+~0.1%) — where per-row lookups are cheap enough that the optimizer
+prefers seek+lookup over a scan:
+
+```sql
+SELECT Id, AuthorId, EventType, Status, CreatedAt
+FROM dbo.QuoteEvents
+WHERE CreatedAt >= '2025-06-01' AND CreatedAt < '2025-06-02';
+```
+
+This exact query — same predicate, same columns, same 96 rows — was run
+twice: once against Task 1's index set (BEFORE), once after adding one
+new covering index (AFTER). Nothing else about the data or database
+changed between the two runs.
+
+### BEFORE — index state (Task 1's indexes, untouched)
+
+`PK_QuoteEvents` (clustered, `Id`), `IX_QuoteEvents_AuthorId`
+(nonclustered, `AuthorId`), `IX_QuoteEvents_CreatedAt` (nonclustered, key
+`CreatedAt`, INCLUDE `AuthorId, EventType`).
+
+**Actual plan:**
+
+```
+Nested Loops (Inner Join)
+ ├─ Index Seek on IX_QuoteEvents_CreatedAt        -> 3 logical reads, 96 rows
+ └─ Clustered Index Seek on PK_QuoteEvents         -> 258 logical reads, 96 rows
+    (SeekPredicates: Id = <outer row's Id> — this is the Key Lookup)
+```
+
+**BEFORE logical reads: 261** (3 + 258), 96 rows returned. Verified
+directly from the `SeekPredicates` XML: the Clustered Index Seek's seek
+key is `Id`, correlated to the outer Nested Loops input row — the exact
+mechanism SSMS's graphical plan shows as a "Key Lookup (Clustered)" icon
+(the raw Showplan XML has no separate "Key Lookup" operator name; it is
+always this Nested-Loops-to-Clustered-Index-Seek shape).
+
+### Covering index DDL
+
+```sql
+CREATE NONCLUSTERED INDEX IX_QuoteEvents_CreatedAt_Covering
+    ON dbo.QuoteEvents (CreatedAt)
+    INCLUDE (AuthorId, EventType, Status);
+```
+
+Created as a **new, separately-named** index rather than widening Task
+1's `IX_QuoteEvents_CreatedAt` in place, so Task 1's already-committed
+index description and numbers stay exactly reproducible throughout this
+exercise — Task 1's three indexes were not dropped, altered, or
+recreated at any point. Confirmed present with the right key/include
+split via `sys.indexes`/`sys.index_columns` after creation.
+
+### AFTER — same query, one new index added
+
+**Actual plan:**
+
+```
+Nested Loops (Inner Join)
+ └─ Index Seek on IX_QuoteEvents_CreatedAt_Covering -> 3 logical reads, 96 rows
+```
+
+(The Nested Loops/Merge Interval/Concatenation operators around it are
+SQL Server's dynamic-range-seek handling for the parameterized date
+literals — the same artifact seen in Task 1's Q3 — not a join to another
+table.) **There is no Clustered Index Seek anywhere in this plan.**
+
+**AFTER logical reads: 3**, 96 rows returned (same rows as BEFORE).
+
+### Before/after comparison
+
+| | BEFORE | AFTER |
+|---|---|---|
+| Plan shape | Index Seek → **Key Lookup** (Clustered Index Seek via Nested Loops) | Index Seek only, no lookup |
+| Logical reads | 261 | 3 |
+| Rows returned | 96 | 96 |
+| Index used | `IX_QuoteEvents_CreatedAt` (non-covering) | `IX_QuoteEvents_CreatedAt_Covering` (covering) |
+
+**261 → 3 logical reads — an 87x reduction — and the Key Lookup operator
+is completely gone from the actual plan**, not merely cheaper. This is
+confirmed directly from the actual (post-execution) plan XML, not an
+estimated plan.
+
+### Why INCLUDE columns eliminate the lookup
+
+A non-clustered index's leaf level stores its key column(s) plus the
+clustering key (here, `Id`) for every row. Any column requested by a
+query that is *not* in that key or INCLUDE list forces SQL Server back to
+the clustered index — once per matching row — to fetch it (a Key
+Lookup). `Status` was outside both existing non-clustered indexes, so
+every one of the 96 matching rows needed a separate clustered-index
+round trip. Adding `Status` as an INCLUDE column puts a copy of that
+value directly on the non-clustered index's leaf pages, so the engine
+never needs to visit the clustered index at all — the index becomes
+"covering" for this exact SELECT list. INCLUDE (rather than adding
+`Status` to the key) was the right choice because the query doesn't
+filter or sort on `Status` — it only needs the value returned, which is
+exactly what INCLUDE columns are for (no B-tree ordering cost).
+
+### What was learned
+
+- Whether a Key Lookup appears at all depends on predicate selectivity,
+  not just on whether an index is missing a column — the same "missing
+  column" query returned a full scan (no lookup) at 2% selectivity and a
+  genuine Key Lookup at 0.1% selectivity. This had to be verified
+  empirically; it isn't something the schema alone determines.
+- The raw Showplan XML never contains an operator literally named "Key
+  Lookup" — it's a Nested Loops joining a non-clustered index access to a
+  Clustered Index Seek keyed on the clustering column. Detecting it
+  programmatically means checking for that shape, not a label.
+- `ActualLogicalReads` on plan operators (from `SET STATISTICS XML ON`)
+  gave exact, real per-operator read counts without needing
+  `STATISTICS IO`'s text output, which this driver can't capture.
+
+### What could break this optimization
+
+- **Widening the SELECT list again.** Adding any column back that isn't
+  in the index's key or INCLUDE list (e.g. `Payload`) immediately
+  reintroduces a Key Lookup for that column.
+- **A less selective predicate.** As shown above, if the date window
+  were widened enough (approaching the ~2% mark from Task 1's Q2), the
+  optimizer could switch back to scanning the base table instead of
+  seeking this index at all — covering only helps once the optimizer
+  chooses to use the index.
+- **Two indexes on the same key column.** `IX_QuoteEvents_CreatedAt` and
+  `IX_QuoteEvents_CreatedAt_Covering` now both key on `CreatedAt`. That
+  was a deliberate choice here to keep Task 1 untouched, but in a real
+  system this is redundant and doubles the write-maintenance cost (per
+  Task 1's write-cost findings) for every insert/update touching
+  `CreatedAt` — a production fix would consolidate to one covering index
+  rather than keep both.
+- **Column data-type/width growth**, e.g. if `Status` grew from
+  `NVARCHAR(20)` to something much wider, would grow every leaf page of
+  the covering index, increasing its own logical reads and eventually
+  eroding the benefit versus a lookup-based plan.
+
+### Key Lookup outcome
+
+**The Key Lookup disappeared from the actual execution plan.** Confirmed
+directly: the AFTER plan (`azure-sql/results/task2-after.json`) contains
+no `Clustered Index Seek` operator and no Nested-Loops-to-base-table
+pattern anywhere — the entire query is answered by one `Index Seek` on
+`IX_QuoteEvents_CreatedAt_Covering`.
