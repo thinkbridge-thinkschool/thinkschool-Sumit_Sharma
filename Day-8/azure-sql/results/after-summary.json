@@ -1,0 +1,139 @@
+{
+  "Q1_point_lookup_by_id": {
+    "operators": [
+      {
+        "physical_op": "Clustered Index Seek",
+        "logical_op": "Clustered Index Seek",
+        "estimate_rows": "1",
+        "actual_rows": "1",
+        "actual_logical_reads": 3,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": "[QuoteEvents] [[PK_QuoteEvents]]"
+      }
+    ],
+    "total_actual_logical_reads": 3,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 0,
+    "top_level_cpu_ms": 0,
+    "row_count_returned": 1
+  },
+  "Q2_equality_filter_authorid": {
+    "operators": [
+      {
+        "physical_op": "Index Scan",
+        "logical_op": "Index Scan",
+        "estimate_rows": "2000",
+        "actual_rows": "2000",
+        "actual_logical_reads": 423,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 8,
+        "actual_cpu_ms": 8,
+        "object": "[QuoteEvents] [[IX_QuoteEvents_CreatedAt]]"
+      }
+    ],
+    "total_actual_logical_reads": 423,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 8,
+    "top_level_cpu_ms": 8,
+    "row_count_returned": 2000
+  },
+  "Q3_date_range_order_by": {
+    "operators": [
+      {
+        "physical_op": "Nested Loops",
+        "logical_op": "Inner Join",
+        "estimate_rows": "2880.91",
+        "actual_rows": "2880",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 1,
+        "actual_cpu_ms": 1,
+        "object": "[QuoteEvents] [[IX_QuoteEvents_CreatedAt]]"
+      },
+      {
+        "physical_op": "Merge Interval",
+        "logical_op": "Merge Interval",
+        "estimate_rows": "2",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Concatenation",
+        "logical_op": "Concatenation",
+        "estimate_rows": "2",
+        "actual_rows": "2",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "estimate_rows": "1",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "estimate_rows": "1",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Compute Scalar",
+        "logical_op": "Compute Scalar",
+        "estimate_rows": "1",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Constant Scan",
+        "logical_op": "Constant Scan",
+        "estimate_rows": "1",
+        "actual_rows": "1",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": null
+      },
+      {
+        "physical_op": "Index Seek",
+        "logical_op": "Index Seek",
+        "estimate_rows": "2880.91",
+        "actual_rows": "2880",
+        "actual_logical_reads": 15,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 0,
+        "actual_cpu_ms": 0,
+        "object": "[QuoteEvents] [[IX_QuoteEvents_CreatedAt]]"
+      }
+    ],
+    "total_actual_logical_reads": 15,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 1,
+    "top_level_cpu_ms": 1,
+    "row_count_returned": 2880
+  }
+}

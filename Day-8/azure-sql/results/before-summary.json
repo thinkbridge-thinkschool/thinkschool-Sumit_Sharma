@@ -1,0 +1,73 @@
+{
+  "Q1_point_lookup_by_id": {
+    "operators": [
+      {
+        "physical_op": "Table Scan",
+        "logical_op": "Table Scan",
+        "estimate_rows": "1.0029",
+        "actual_rows": "1",
+        "actual_logical_reads": 3571,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 21,
+        "actual_cpu_ms": 21,
+        "object": "[QuoteEvents] [Heap]"
+      }
+    ],
+    "total_actual_logical_reads": 3571,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 21,
+    "top_level_cpu_ms": 21,
+    "row_count_returned": 1
+  },
+  "Q2_equality_filter_authorid": {
+    "operators": [
+      {
+        "physical_op": "Table Scan",
+        "logical_op": "Table Scan",
+        "estimate_rows": "2083.79",
+        "actual_rows": "2000",
+        "actual_logical_reads": 3571,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 21,
+        "actual_cpu_ms": 21,
+        "object": "[QuoteEvents] [Heap]"
+      }
+    ],
+    "total_actual_logical_reads": 3571,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 21,
+    "top_level_cpu_ms": 21,
+    "row_count_returned": 2000
+  },
+  "Q3_date_range_order_by": {
+    "operators": [
+      {
+        "physical_op": "Sort",
+        "logical_op": "Sort",
+        "estimate_rows": "2358.81",
+        "actual_rows": "2880",
+        "actual_logical_reads": 0,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 24,
+        "actual_cpu_ms": 24,
+        "object": "[QuoteEvents] [Heap]"
+      },
+      {
+        "physical_op": "Table Scan",
+        "logical_op": "Table Scan",
+        "estimate_rows": "2358.81",
+        "actual_rows": "2880",
+        "actual_logical_reads": 3571,
+        "actual_physical_reads": 0,
+        "actual_elapsed_ms": 22,
+        "actual_cpu_ms": 22,
+        "object": "[QuoteEvents] [Heap]"
+      }
+    ],
+    "total_actual_logical_reads": 3571,
+    "total_actual_physical_reads": 0,
+    "top_level_elapsed_ms": 24,
+    "top_level_cpu_ms": 24,
+    "row_count_returned": 2880
+  }
+}

@@ -1,0 +1,1441 @@
+{
+  "WriteCost_NoIndex": [
+    {
+      "trial": 1,
+      "wall_clock_ms": 308.14,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Table Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "59",
+          "object": [
+            "[WriteCost_NoIndex]",
+            "Heap"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "20",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "17",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "3",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "wall_clock_ms": 260.14,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Table Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "59",
+          "object": [
+            "[WriteCost_NoIndex]",
+            "Heap"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "20",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "3",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "wall_clock_ms": 114.33,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Table Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "40",
+          "object": [
+            "[WriteCost_NoIndex]",
+            "Heap"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "8",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "8",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "2",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        }
+      ]
+    },
+    {
+      "trial": 4,
+      "wall_clock_ms": 125.81,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Table Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "60",
+          "object": [
+            "[WriteCost_NoIndex]",
+            "Heap"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "20",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "17",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "3",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        }
+      ]
+    },
+    {
+      "trial": 5,
+      "wall_clock_ms": 113.0,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Table Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "54",
+          "object": [
+            "[WriteCost_NoIndex]",
+            "Heap"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "19",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "14",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "13",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "3",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        }
+      ]
+    }
+  ],
+  "WriteCost_Indexed": [
+    {
+      "trial": 1,
+      "wall_clock_ms": 2168.52,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Sequence",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "2074",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "2057",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "54",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "50",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Clustered Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "35",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "8",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "8",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "8",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "7",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "1",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "16",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_CreatedAt]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "4",
+          "object": null
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "1",
+          "object": null
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "wall_clock_ms": 207.68,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Sequence",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "121",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "97",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "80",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "78",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Clustered Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "60",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "11",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "2",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "23",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_CreatedAt]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "3",
+          "object": null
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "0",
+          "object": null
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "wall_clock_ms": 235.76,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Sequence",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "154",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "116",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "82",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "79",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Clustered Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "61",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "11",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "2",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "36",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_CreatedAt]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "3",
+          "object": null
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "1",
+          "object": null
+        }
+      ]
+    },
+    {
+      "trial": 4,
+      "wall_clock_ms": 229.05,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Sequence",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "158",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "118",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "82",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "79",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Clustered Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "61",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "11",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "2",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "39",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_CreatedAt]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "4",
+          "object": null
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "1",
+          "object": null
+        }
+      ]
+    },
+    {
+      "trial": 5,
+      "wall_clock_ms": 253.0,
+      "row_count_after": 5000,
+      "plan_operators": [
+        {
+          "physical_op": "Sequence",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "167",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "129",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_AuthorId]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "93",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "89",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Clustered Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "68",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[PK_WriteCost_Indexed]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": null,
+          "actual_elapsed_ms": null,
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Compute Scalar",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "15",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Top",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "12",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Sequence Project",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "11",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Segment",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Nested Loops",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "10",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "4",
+          "actual_elapsed_ms": "0",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Row Count Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Filter",
+          "actual_rows": "1380",
+          "actual_elapsed_ms": "9",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Scan",
+          "actual_rows": "1532",
+          "actual_elapsed_ms": "2",
+          "object": [
+            "[sysschobjs]",
+            "[nc1]"
+          ]
+        },
+        {
+          "physical_op": "Index Insert",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "37",
+          "object": [
+            "[WriteCost_Indexed]",
+            "[IX_WriteCost_Indexed_CreatedAt]"
+          ]
+        },
+        {
+          "physical_op": "Sort",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "3",
+          "object": null
+        },
+        {
+          "physical_op": "Table Spool",
+          "actual_rows": "5000",
+          "actual_elapsed_ms": "0",
+          "object": null
+        }
+      ]
+    }
+  ]
+}
