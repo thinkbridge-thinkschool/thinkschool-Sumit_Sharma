@@ -271,3 +271,272 @@ network path is IPv6/NAT64-only, unlike when the server was first created):
 `AllowMyClientIPv6` (IPv6 firewall rule) and `AllowMyClientIPv4NAT64` (the
 IPv4 address the NAT64 gateway presents to Azure). No existing rules were
 removed.
+
+---
+
+# Day 9 — Task 2: Reproduce and Resolve a Deadlock
+
+All work for this task also lives in `Day-9/` (`azure-sql/deadlock-*.sql`,
+`azure-sql/deadlock_test.py`, `azure-sql/results/deadlock_*`). No files
+outside `Day-9/` were modified. Executed against the same Day-7 Azure SQL
+Database (`thinkschool-day7-sqlsrv.database.windows.net` / `day7quotesdb`),
+reusing the credential and network setup from Task 1 (Azure SQL password
+never re-generated, never committed — read from the local scratchpad file
+used in Task 1 and passed via the `DAY9_SQL_PASSWORD` environment
+variable). `sqlcmd`/`mssql-cli` are still not installed on this machine, so
+the two concurrent sessions were driven the same way as Task 1: a small
+Python harness (`azure-sql/deadlock_test.py`, `python-tds` driver) opening
+**two separate TDS connections on two OS threads**, synchronized with
+`threading.Event`s so each session provably holds its first lock before the
+other attempts its second update — a real, deterministic interleaving, not
+`WAITFOR DELAY` timing and not a simulated result.
+
+## Deadlock scenario
+
+Two tables, one row each:
+
+```sql
+CREATE TABLE dbo.Day9_Resource1 (id INT NOT NULL PRIMARY KEY, value INT NOT NULL);
+CREATE TABLE dbo.Day9_Resource2 (id INT NOT NULL PRIMARY KEY, value INT NOT NULL);
+-- seed: Resource1(1, 100), Resource2(1, 200)
+```
+(`azure-sql/deadlock-schema.sql`, `azure-sql/deadlock-seed.sql`; re-seeded
+before every run.)
+
+Classic two-resource circular wait:
+- **Session A** locks `Resource1`, then attempts `Resource2`.
+- **Session B** locks `Resource2`, then attempts `Resource1`.
+
+Both sessions were synchronized so that each one's *first* `UPDATE` had
+genuinely executed (i.e. the row lock was actually held) before either
+attempted its *second* `UPDATE` — guaranteeing a real circular wait rather
+than a lucky race.
+
+### Session A — broken (`azure-sql/deadlock-reproduce.sql`)
+
+```sql
+BEGIN TRANSACTION;
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1;   -- locks Resource1
+-- (wait here until Session B has locked Resource2)
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1;   -- blocks on Resource2, held by B
+COMMIT TRANSACTION;
+```
+
+### Session B — broken (`azure-sql/deadlock-reproduce.sql`)
+
+```sql
+BEGIN TRANSACTION;
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1;   -- locks Resource2
+-- (wait here until Session A has locked Resource1)
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1;   -- blocks on Resource1, held by A
+COMMIT TRANSACTION;
+```
+
+## Actual deadlock result (real execution, not simulated)
+
+Run via `DAY9_SQL_PASSWORD=*** python deadlock_test.py deadlock`. Timestamps
+are seconds since the run started; full raw log in
+`azure-sql/results/deadlock_result.json`.
+
+| t (s) | Session | Event |
+|---|---|---|
+| 1.734 | A | locked Resource1 |
+| 1.734 | B | locked Resource2 |
+| 1.734 | A | attempts `UPDATE Resource2` — blocks (held by B) |
+| 1.734 | B | attempts `UPDATE Resource1` — blocks (held by A) |
+| 1.957 | A | **error**: `Transaction (Process ID 94) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.` |
+| 2.007 | B | `COMMIT` — B's transaction completed normally |
+
+SQL Server error **1205**, raised on Session A's connection (SPID 94), ~0.22s
+after both sessions became mutually blocked — consistent with SQL Server's
+deadlock monitor waking on its detection interval and finding the cycle.
+Session B (SPID 89) was never interrupted and committed normally.
+
+This was run twice (once before the Extended Events capture session existed,
+once after) and both times SQL Server detected the deadlock and picked a
+victim — it is not a one-off race, it is the guaranteed outcome of this lock
+ordering under real concurrency.
+
+### Why the deadlock happened
+
+Session A held a lock on `Resource1` and wanted `Resource2`; Session B held
+a lock on `Resource2` and wanted `Resource1`. Neither could proceed without
+the other releasing its lock first, and neither would release its lock
+before committing — a circular wait (A → B → A) with no way out except for
+one transaction to be forcibly rolled back. SQL Server's lock monitor
+detects this cycle and kills one participant (the "deadlock victim") to
+break it, raising error 1205 on that connection while letting the other
+proceed.
+
+### Which session became the victim, and why
+
+**Session A (SPID 94) was the victim.** SQL Server's victim selection is
+primarily driven by `DEADLOCK_PRIORITY` (equal/default for both sessions
+here) and, as a tiebreaker, the estimated cost to roll back each
+transaction — the transaction that is cheaper to undo is chosen. Both
+transactions here had done a single one-row `UPDATE`, so the two were
+essentially tied on rollback cost; which specific session loses in that case
+comes down to low-level scheduling (e.g. which process the deadlock monitor
+happens to enumerate/evaluate first), not anything meaningfully different
+about A's or B's SQL. The deadlock graph below shows A's transaction
+(`xactid="13287"`) waiting in **S** mode for the key lock B holds in **X**
+mode, and vice versa for B (`xactid="13283"`) — a symmetric cycle, confirming
+victim choice wasn't driven by lock mode or resource asymmetry.
+
+## Deadlock graph evidence
+
+Azure SQL Database does **not** expose the on-prem `sqlserver.xml_deadlock_report`
+Extended Event, and this database has no pre-started `system_health`
+database-scoped session (`sys.dm_xe_database_sessions` returned nothing
+before this task). The Azure SQL-supported equivalent is
+**`sqlserver.database_xml_deadlock_report`**, discovered via:
+
+```sql
+SELECT p.name, o.name, o.description
+FROM sys.dm_xe_objects o
+JOIN sys.dm_xe_packages p ON o.package_guid = p.guid
+WHERE o.name LIKE '%deadlock%';
+```
+
+A database-scoped Extended Events session was created and started for this
+task (`deadlock_test.py create_xe_session()` / `xe-start` command):
+
+```sql
+CREATE EVENT SESSION day9_deadlock_capture ON DATABASE
+ADD EVENT sqlserver.database_xml_deadlock_report
+ADD TARGET package0.ring_buffer
+WITH (MAX_MEMORY=4MB, EVENT_RETENTION_MODE=ALLOW_SINGLE_EVENT_LOSS, MAX_DISPATCH_LATENCY=5SECONDS);
+
+ALTER EVENT SESSION day9_deadlock_capture ON DATABASE STATE = START;
+```
+
+...and read back after the deadlock ran (`deadlock_test.py graph` command):
+
+```sql
+SELECT CAST(xet.target_data AS NVARCHAR(MAX))
+FROM sys.dm_xe_database_session_targets xet
+JOIN sys.dm_xe_database_sessions xe ON xet.event_session_address = xe.address
+WHERE xe.name = 'day9_deadlock_capture' AND xet.target_name = 'ring_buffer';
+```
+
+Full raw ring-buffer XML: `azure-sql/results/deadlock_ring_buffer.xml`.
+Extracted `<deadlock>...</deadlock>` report (raw): `azure-sql/results/deadlock_graph.xml`.
+Trimmed for readability (native call-stack frames collapsed, everything else
+untouched): `azure-sql/results/deadlock_graph_trimmed.xml`. Key excerpt:
+
+```xml
+<deadlock>
+ <victim-list>
+  <victimProcess id="process2457f6d6478"/>
+ </victim-list>
+ <process-list>
+  <process id="process2457f6d6478" ... spid="94" ... xactid="13287"
+            lockMode="S" clientapp="pytds" loginname="day7admin" ...>
+   <inputbuf>
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1   </inputbuf>
+  </process>
+  <process id="process2456a146868" ... spid="89" ... xactid="13283"
+            lockMode="S" clientapp="pytds" loginname="day7admin" ...>
+   <inputbuf>
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1   </inputbuf>
+  </process>
+ </process-list>
+ <resource-list>
+  <xactlock ... objectname="...dbo.Day9_Resource2" ...>
+   <owner-list><owner id="process2456a146868" mode="X"/></owner-list>   <!-- B owns Resource2 -->
+   <waiter-list><waiter id="process2457f6d6478" mode="S"/></waiter-list> <!-- A waits on Resource2 -->
+  </xactlock>
+  <xactlock ... objectname="...dbo.Day9_Resource1" ...>
+   <owner-list><owner id="process2457f6d6478" mode="X"/></owner-list>   <!-- A owns Resource1 -->
+   <waiter-list><waiter id="process2456a146868" mode="S"/></waiter-list> <!-- B waits on Resource1 -->
+  </xactlock>
+ </resource-list>
+</deadlock>
+```
+
+`victimProcess id="process2457f6d6478"` is spid 94 — Session A — matching
+exactly the `Process ID 94` named in the error message the Python harness
+caught, and the two `xactlock` entries show the textbook cycle: B owns
+Resource2 exclusively while A waits on it, and A owns Resource1 exclusively
+while B waits on it.
+
+## Fixed version — consistent lock ordering
+
+Both sessions now acquire `Resource1` **before** `Resource2` — the same
+order for both.
+
+### Session A — fixed (`azure-sql/deadlock-fixed.sql`)
+
+```sql
+BEGIN TRANSACTION;
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1;   -- locks Resource1
+-- (wait here — same synchronization point as the broken version)
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1;   -- Resource2 is free, proceeds
+COMMIT TRANSACTION;
+```
+
+### Session B — fixed (`azure-sql/deadlock-fixed.sql`)
+
+```sql
+BEGIN TRANSACTION;
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1;   -- blocks until A releases Resource1
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1;   -- Resource2 now free
+COMMIT TRANSACTION;
+```
+
+### Actual result proving the fix works (real execution)
+
+Run via `DAY9_SQL_PASSWORD=*** python deadlock_test.py fixed`. Full raw log
+in `azure-sql/results/fixed_result.json`.
+
+| t (s) | Session | Event |
+|---|---|---|
+| 1.361 | A | locked Resource1 |
+| 1.361 | B | attempts `UPDATE Resource1` — **blocks** (held by A), no error |
+| 3.131 | A | locks Resource2 + `COMMIT` (releases Resource1) |
+| 3.131 | B | Resource1 lock now granted — unblocked |
+| 3.298 | B | locks Resource2 + `COMMIT` |
+
+Result: `{"a_result": "committed", "b_result": "committed",
+"both_committed_no_deadlock": true}`. Session B genuinely blocked for
+~1.77s waiting its turn for `Resource1` (real lock contention still exists —
+that's expected and correct), then proceeded and committed once Session A's
+transaction ended. **Neither session errored; no deadlock (error 1205)
+occurred.** The `day9_deadlock_capture` Extended Events session was checked
+again after this run and still contained exactly the one deadlock report
+from the broken run above — zero new deadlock events were recorded for the
+fixed version.
+
+### Why consistent lock ordering fixes it
+
+If every transaction acquires the shared resources in the same fixed order,
+a circular wait becomes impossible — the second transaction can only ever be
+waiting on the first (never the reverse), so at worst one session queues
+behind the other instead of both being mutually blocked.
+
+## Cleanup
+
+`Day9_Resource1`, `Day9_Resource2`, and the `day9_deadlock_capture` Extended
+Events session were all dropped after verification
+(`deadlock_test.py cleanup`), confirmed empty by querying
+`sys.tables`/`sys.database_event_sessions` for `Day9_%`/`day9%` afterwards.
+
+## Files
+
+```
+Day-9/
+  azure-sql/
+    deadlock-schema.sql          -- Day9_Resource1 / Day9_Resource2 table definitions
+    deadlock-seed.sql            -- deterministic seed data, re-run before each run
+    deadlock-reproduce.sql       -- reference Session A/B SQL for the broken (deadlocking) version
+    deadlock-fixed.sql           -- reference Session A/B SQL for the fixed (consistent lock ordering) version
+    deadlock_test.py             -- two-thread harness: runs broken/fixed versions, manages the XE capture session, fetches the deadlock graph
+    results/
+      deadlock_result.json       -- captured timestamps/outcome for the broken run
+      fixed_result.json          -- captured timestamps/outcome for the fixed run
+      deadlock_ring_buffer.xml   -- full raw Extended Events ring-buffer target data
+      deadlock_graph.xml         -- extracted <deadlock>...</deadlock> report (raw)
+      deadlock_graph_trimmed.xml -- same report with native call-stack frames collapsed for readability
+```
+
+**Day 9 Task 3 was NOT started.**

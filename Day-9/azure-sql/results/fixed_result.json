@@ -1,0 +1,35 @@
+{
+  "scenario": "fixed_consistent_lock_ordering",
+  "log": [
+    {
+      "t": 1.3609999999998763,
+      "session": "A",
+      "step": "locked Resource1"
+    },
+    {
+      "t": 1.3609999999998763,
+      "session": "B",
+      "step": "attempting Resource1 (will block on A)"
+    },
+    {
+      "t": 3.1309999999994034,
+      "session": "A",
+      "step": "locked Resource2 + COMMIT (releases Resource1)"
+    },
+    {
+      "t": 3.1309999999994034,
+      "session": "B",
+      "step": "locked Resource1 (unblocked after A committed)"
+    },
+    {
+      "t": 3.2979999999997744,
+      "session": "B",
+      "step": "locked Resource2 + COMMIT"
+    }
+  ],
+  "outcome": {
+    "a_result": "committed",
+    "b_result": "committed"
+  },
+  "both_committed_no_deadlock": true
+}

@@ -1,0 +1,44 @@
+{
+  "scenario": "deadlock_broken_lock_ordering",
+  "log": [
+    {
+      "t": 1.7340000000003783,
+      "session": "A",
+      "step": "locked Resource1"
+    },
+    {
+      "t": 1.7340000000003783,
+      "session": "B",
+      "step": "locked Resource2"
+    },
+    {
+      "t": 1.7340000000003783,
+      "session": "B",
+      "step": "attempting Resource1 (will block)"
+    },
+    {
+      "t": 1.7340000000003783,
+      "session": "A",
+      "step": "attempting Resource2 (will block)"
+    },
+    {
+      "t": 1.9570000000003347,
+      "session": "A",
+      "step": "ERROR: ('Transaction (Process ID 94) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.', None)"
+    },
+    {
+      "t": 2.006999999999607,
+      "session": "B",
+      "step": "COMMIT (B won, not the victim)"
+    }
+  ],
+  "outcome": {
+    "a_spid": 94,
+    "b_spid": 89,
+    "a_result": "error",
+    "a_error": "('Transaction (Process ID 94) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.', None)",
+    "b_result": "committed"
+  },
+  "deadlock_detected": true,
+  "victim_session": "A"
+}

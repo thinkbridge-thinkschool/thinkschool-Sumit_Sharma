@@ -1,0 +1,53 @@
+<deadlock>
+ <victim-list>
+  <victimProcess id="process2457f6d6478"/>
+ </victim-list>
+ <process-list>
+  <process id="process2457f6d6478" taskpriority="0" logused="380" waitresource="XACT: 5:7587:0 KEY: 5:72057594048741376 (8194443284a0)" waittime="132" ownerId="13287" transactionname="user_transaction" lasttranstarted="2026-08-19T05:22:11.183" XDES="0x24563a78480" lockMode="S" schedulerid="2" kpid="142776" status="suspended" spid="94" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2026-08-19T05:22:11.480" lastbatchcompleted="2026-08-19T05:22:11.417" lastattention="2026-08-19T05:22:11.097" clientapp="pytds" hostname="archlinux" hostpid="23693" loginname="day7admin" isolationlevel="read committed (2)" xactid="13287" currentdb="5" currentdbname="day7quotesdb" lockTimeout="4294967295" clientoption1="671088672" clientoption2="128056">
+   <executionStack>
+    <frame procname="unknown" queryhash="0x17af784c84a91da7" queryplanhash="0xd2b6191e153dae25" line="1" stmtstart="38" stmtend="174" sqlhandle="0x02000000dc26171677ad74e75b714fd25fc527b21d6b229f0000000000000000000000000000000000000000">
+unknown    </frame>
+    <frame procname="unknown" queryhash="0x17af784c84a91da7" queryplanhash="0xd2b6191e153dae25" line="1" stmtend="118" sqlhandle="0x020000002b5a5a10f93237057f381a65d1fcaa405b47bc300000000000000000000000000000000000000000">
+unknown    </frame>
+   </executionStack>
+   <stackFrames>...omitted (native call stack, not relevant)...</stackFrames>
+   <inputbuf>
+UPDATE dbo.Day9_Resource2 SET value = value + 1 WHERE id = 1   </inputbuf>
+  </process>
+  <process id="process2456a146868" taskpriority="0" logused="380" waitresource="XACT: 5:7588:0 KEY: 5:72057594048675840 (8194443284a0)" waittime="132" ownerId="13283" transactionname="user_transaction" lasttranstarted="2026-08-19T05:22:11.183" XDES="0x24575240480" lockMode="S" schedulerid="1" kpid="37568" status="suspended" spid="89" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2026-08-19T05:22:11.483" lastbatchcompleted="2026-08-19T05:22:11.417" lastattention="2026-08-19T05:22:11.097" clientapp="pytds" hostname="archlinux" hostpid="23693" loginname="day7admin" isolationlevel="read committed (2)" xactid="13283" currentdb="5" currentdbname="day7quotesdb" lockTimeout="4294967295" clientoption1="671088672" clientoption2="128056">
+   <executionStack>
+    <frame procname="unknown" queryhash="0x2d588cca9ca7542d" queryplanhash="0xc77fc3e076f55863" line="1" stmtstart="38" stmtend="174" sqlhandle="0x02000000e39df402b3ea784f802870b589d9decbe91f75e60000000000000000000000000000000000000000">
+unknown    </frame>
+    <frame procname="unknown" queryhash="0x2d588cca9ca7542d" queryplanhash="0xc77fc3e076f55863" line="1" stmtend="118" sqlhandle="0x02000000ce057d12a7c18df06ee881be8c669eca434b6ce10000000000000000000000000000000000000000">
+unknown    </frame>
+   </executionStack>
+   <stackFrames>...omitted (native call stack, not relevant)...</stackFrames>
+   <inputbuf>
+UPDATE dbo.Day9_Resource1 SET value = value + 1 WHERE id = 1   </inputbuf>
+  </process>
+ </process-list>
+ <resource-list>
+  <xactlock xdesIdLow="7587" xdesIdHigh="0" dbid="5" id="lock2456bc4dd00" mode="X">
+   <UnderlyingResource>
+    <keylock hobtid="72057594048741376" dbid="5" objectname="9b058fa6-5d60-4f10-9539-996688920b23.dbo.Day9_Resource2" indexname="PK__Day9_Res__3213E83F493395B0"/>
+   </UnderlyingResource>
+   <owner-list>
+    <owner id="process2456a146868" mode="X"/>
+   </owner-list>
+   <waiter-list>
+    <waiter id="process2457f6d6478" mode="S" requestType="wait"/>
+   </waiter-list>
+  </xactlock>
+  <xactlock xdesIdLow="7588" xdesIdHigh="0" dbid="5" id="lock2457503b080" mode="X">
+   <UnderlyingResource>
+    <keylock hobtid="72057594048675840" dbid="5" objectname="9b058fa6-5d60-4f10-9539-996688920b23.dbo.Day9_Resource1" indexname="PK__Day9_Res__3213E83FAB8DCCAB"/>
+   </UnderlyingResource>
+   <owner-list>
+    <owner id="process2457f6d6478" mode="X"/>
+   </owner-list>
+   <waiter-list>
+    <waiter id="process2456a146868" mode="S" requestType="wait"/>
+   </waiter-list>
+  </xactlock>
+ </resource-list>
+</deadlock>
