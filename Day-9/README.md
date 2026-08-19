@@ -539,4 +539,3 @@ Day-9/
       deadlock_graph_trimmed.xml -- same report with native call-stack frames collapsed for readability
 ```
 
-**Day 9 Task 3 was NOT started.**
