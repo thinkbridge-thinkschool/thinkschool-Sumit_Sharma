@@ -1,0 +1,192 @@
+{
+  "dirty_read_uncommitted": {
+    "scenario": "dirty_read",
+    "session_b_isolation": "READ UNCOMMITTED",
+    "log": [
+      {
+        "t": 2.0470000000000255,
+        "session": "A",
+        "step": "UPDATE balance=9999 (uncommitted)"
+      },
+      {
+        "t": 2.4590000000002874,
+        "session": "B",
+        "step": "SELECT balance -> 9999",
+        "value": 9999
+      },
+      {
+        "t": 2.824000000000069,
+        "session": "A",
+        "step": "ROLLBACK"
+      }
+    ],
+    "session_b_observed_balance": 9999,
+    "committed_balance_before_and_after": 1000,
+    "anomaly_observed": true
+  },
+  "dirty_read_committed": {
+    "scenario": "dirty_read",
+    "session_b_isolation": "READ COMMITTED",
+    "log": [
+      {
+        "t": 1.3070000000002437,
+        "session": "A",
+        "step": "UPDATE balance=9999 (uncommitted)"
+      },
+      {
+        "t": 1.6040000000002692,
+        "session": "B",
+        "step": "SELECT balance -> 1000",
+        "value": 1000
+      },
+      {
+        "t": 1.8220000000001164,
+        "session": "A",
+        "step": "ROLLBACK"
+      }
+    ],
+    "session_b_observed_balance": 1000,
+    "committed_balance_before_and_after": 1000,
+    "anomaly_observed": false
+  },
+  "non_repeatable_read_committed": {
+    "scenario": "non_repeatable_read",
+    "session_b_isolation": "READ COMMITTED",
+    "log": [
+      {
+        "t": 1.550000000000182,
+        "session": "B",
+        "step": "read #1 -> 1000",
+        "value": 1000
+      },
+      {
+        "t": 1.856999999999971,
+        "session": "A",
+        "step": "UPDATE balance=2000 + COMMIT"
+      },
+      {
+        "t": 4.8270000000002256,
+        "session": "B",
+        "step": "read #2 -> 2000",
+        "value": 2000
+      },
+      {
+        "t": 5.031000000000404,
+        "session": "B",
+        "step": "COMMIT"
+      }
+    ],
+    "a_timing": {
+      "update_attempt_start": 1.550000000000182,
+      "update_committed": 1.856999999999971
+    },
+    "session_b_read1": 1000,
+    "session_b_read2": 2000,
+    "anomaly_observed": true
+  },
+  "non_repeatable_read_repeatable": {
+    "scenario": "non_repeatable_read",
+    "session_b_isolation": "REPEATABLE READ",
+    "log": [
+      {
+        "t": 2.0399999999999636,
+        "session": "B",
+        "step": "read #1 -> 1000",
+        "value": 1000
+      },
+      {
+        "t": 5.319999999999709,
+        "session": "B",
+        "step": "read #2 -> 1000",
+        "value": 1000
+      },
+      {
+        "t": 5.549999999999727,
+        "session": "B",
+        "step": "COMMIT"
+      },
+      {
+        "t": 5.623999999999796,
+        "session": "A",
+        "step": "UPDATE balance=2000 + COMMIT"
+      }
+    ],
+    "a_timing": {
+      "update_attempt_start": 2.0409999999997126,
+      "update_committed": 5.623999999999796
+    },
+    "session_b_read1": 1000,
+    "session_b_read2": 1000,
+    "anomaly_observed": false
+  },
+  "phantom_read_repeatable": {
+    "scenario": "phantom_read",
+    "session_b_isolation": "REPEATABLE READ",
+    "log": [
+      {
+        "t": 2.025000000000091,
+        "session": "B",
+        "step": "read #1 count -> 2",
+        "value": 2
+      },
+      {
+        "t": 2.33199999999988,
+        "session": "A",
+        "step": "INSERT customer_id=42 + COMMIT"
+      },
+      {
+        "t": 5.302000000000135,
+        "session": "B",
+        "step": "read #2 count -> 3",
+        "value": 3
+      },
+      {
+        "t": 5.507000000000062,
+        "session": "B",
+        "step": "COMMIT"
+      }
+    ],
+    "a_timing": {
+      "insert_attempt_start": 2.025000000000091,
+      "insert_committed": 2.33199999999988
+    },
+    "session_b_read1_count": 2,
+    "session_b_read2_count": 3,
+    "anomaly_observed": true
+  },
+  "phantom_read_serializable": {
+    "scenario": "phantom_read",
+    "session_b_isolation": "SERIALIZABLE",
+    "log": [
+      {
+        "t": 1.4329999999999927,
+        "session": "B",
+        "step": "read #1 count -> 2",
+        "value": 2
+      },
+      {
+        "t": 4.795999999999822,
+        "session": "B",
+        "step": "read #2 count -> 2",
+        "value": 2
+      },
+      {
+        "t": 5.119999999999891,
+        "session": "B",
+        "step": "COMMIT"
+      },
+      {
+        "t": 5.206000000000131,
+        "session": "A",
+        "step": "INSERT customer_id=42 + COMMIT"
+      }
+    ],
+    "a_timing": {
+      "insert_attempt_start": 1.4339999999997417,
+      "insert_committed": 5.206000000000131
+    },
+    "session_b_read1_count": 2,
+    "session_b_read2_count": 2,
+    "anomaly_observed": false
+  }
+}
