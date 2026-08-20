@@ -1,0 +1,98 @@
+Day-10 Task 2 - EF Core Query Translation + Projections
+Run started (UTC offset local clock): 2026-08-20T11:02:12.3898101+05:30
+======================================================================
+
+Reusing existing Day10BenchmarkQuotes table (10000 rows already present, e.g. from Task 1).
+
+======================================================================
+SECTION 1: Whole-entity query
+----------------------------------------------------------------------
+LINQ:
+  context.BenchmarkQuotes.Where(q => q.Id <= 100)
+
+Generated SQL (ToQueryString()):
+SELECT "d"."Id", "d"."Author", "d"."Text"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE "d"."Id" <= 100
+
+Executing (EF Core command logging below)...
+info: 8/20/2026 11:02:14.290 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Author", "d"."Text"
+      FROM "Day10BenchmarkQuotes" AS "d"
+      WHERE "d"."Id" <= 100
+
+Row count returned: 100
+Sample row[0]: Id=1, Author="Day-10 Benchmark Author 1", Text.Length=106
+
+======================================================================
+SECTION 2: Projection query (.Select) - same filter, fewer columns
+----------------------------------------------------------------------
+LINQ:
+  context.BenchmarkQuotes
+      .Where(q => q.Id <= 100)
+      .Select(q => new { q.Id, q.Author })
+
+Generated SQL (ToQueryString()):
+SELECT "d"."Id", "d"."Author"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE "d"."Id" <= 100
+
+Executing (EF Core command logging below)...
+info: 8/20/2026 11:02:14.486 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Author"
+      FROM "Day10BenchmarkQuotes" AS "d"
+      WHERE "d"."Id" <= 100
+
+Row count returned: 100
+Sample row[0]: Id=1, Author="Day-10 Benchmark Author 1"
+
+======================================================================
+SECTION 3: Column comparison (same 100 rows, same predicate)
+----------------------------------------------------------------------
+Whole entity  SELECT columns: Id, Author, Text
+Projection    SELECT columns: Id, Author
+Column dropped by the projection: Text
+Row counts equal (both variants): True (100 vs 100)
+
+======================================================================
+SECTION 4: Non-translatable expression attempt
+----------------------------------------------------------------------
+LINQ:
+  context.BenchmarkQuotes.Where(q => NonTranslatableFilters.IsLongQuote(q.Text))
+  where: public static bool IsLongQuote(string text) => text.Length > 30;
+
+EF Core threw: System.InvalidOperationException
+Message: The LINQ expression 'DbSet<BenchmarkQuote>()
+    .Where(b => NonTranslatableFilters.IsLongQuote(b.Text))' could not be translated. Additional information: Translation of method 'QueryTranslationDemo.NonTranslatableFilters.IsLongQuote' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+
+Explanation: this EF Core version does NOT silently run the whole filter
+client-side. IsLongQuote() is a plain C# method with no known SQL translation,
+so EF Core's query translator refuses to build the query at all and throws
+InvalidOperationException at ToListAsync() time, before any rows are read.
+
+======================================================================
+SECTION 5: Fixed, SQL-translatable expression
+----------------------------------------------------------------------
+LINQ:
+  context.BenchmarkQuotes.Where(q => q.Text.Length > 30)
+
+Generated SQL (ToQueryString()):
+SELECT "d"."Id", "d"."Author", "d"."Text"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE length("d"."Text") > 30
+
+Executing (EF Core command logging below)...
+info: 8/20/2026 11:02:14.536 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Author", "d"."Text"
+      FROM "Day10BenchmarkQuotes" AS "d"
+      WHERE length("d"."Text") > 30
+
+Row count returned: 10000
+Confirms the length filter now runs inside SQLite (LENGTH("Text") > 30 in the SQL above)
+instead of failing translation or being evaluated row-by-row in .NET.
+
+======================================================================
+Run complete.

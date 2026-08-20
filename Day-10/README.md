@@ -319,6 +319,258 @@ and tracked timing consistently at or above `AsNoTracking()` timing.
 - No Python used anywhere in this task — all seeding, querying,
   timing (`Stopwatch`), and allocation measurement
   (`GC.GetAllocatedBytesForCurrentThread()`) are plain C#/.NET.
-- Day-10 Task 2 was **not** started.
 - `git status --short` confirms only `Day-10/` is new; no file under
   `Day-1/`–`Day-9/` was modified by this task.
+
+---
+
+## Task 2 — Query Translation + Projections
+
+This task demonstrates exactly what SQL EF Core generates for a
+whole-entity query versus a `.Select()` projection, and separately
+demonstrates the actual (not assumed) behavior of this EF Core version
+when a LINQ predicate calls a plain C# method that cannot be translated
+to SQL.
+
+New, self-contained C#/.NET code only. No Python was used. Day-1 through
+Day-9 were not touched, and Task 1's files/behavior were not modified.
+
+### What was built
+
+A second console project,
+[`QueryTranslationDemo/`](QueryTranslationDemo/), that **reuses Task 1's
+model and database** instead of creating new ones:
+
+- References `ChangeTrackerBenchmark.csproj` as a `ProjectReference` and
+  reuses its `BenchmarkDbContext` / `BenchmarkQuote` entity as-is (no
+  changes to either file).
+- Opens the same SQLite file, `ChangeTrackerBenchmark/day10-benchmark.db`.
+  If Task 1 has already been run, this reuses its 10,000-row seed
+  unchanged (confirmed in the actual run below: `10000 rows already
+  present`). If the table is empty, it seeds 200 rows on its own so the
+  exercise is self-contained — it never touches Task 1's row count or
+  file once rows already exist.
+- Enables EF Core SQL logging scoped to the `Database.Command` category
+  via `LogTo(..., new[] { DbLoggerCategory.Database.Command.Name },
+  LogLevel.Information)`, so the actual `Executed DbCommand` SQL is
+  printed for every query. `EnableSensitiveDataLogging()` was **not**
+  enabled — not needed here, and this project logs parameter placeholders
+  only, never parameter values.
+- Captures SQL with `.ToQueryString()` **and** separately executes each
+  query with `.ToListAsync()`, so both the generated SQL and proof the
+  query actually runs are captured independently.
+- Writes the full run to
+  [`results/query-translation-output.txt`](results/query-translation-output.txt)
+  (unedited console output), alongside — not replacing —
+  Task 1's `results/benchmark-output.txt`.
+
+### 1–2. Whole-entity query and its generated SQL
+
+```csharp
+var wholeEntityQuery = context.BenchmarkQuotes
+    .Where(q => q.Id <= 100);
+```
+
+Actual SQL captured from `wholeEntityQuery.ToQueryString()` (confirmed
+identical to the `Executed DbCommand` log at run time):
+
+```sql
+SELECT "d"."Id", "d"."Author", "d"."Text"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE "d"."Id" <= 100
+```
+
+`BenchmarkQuote` has exactly three mapped columns (`Id`, `Author`,
+`Text`), and EF Core's SELECT list here is exactly those three columns —
+every mapped property, because a plain `Where()` with no `Select()`
+returns whole `BenchmarkQuote` entities and EF Core must fetch every
+column needed to materialize one.
+
+Executed: **100 rows returned** (matches `Id <= 100` against the seeded
+table).
+
+### 3–4. Projection query and its generated SQL
+
+The task instructions' example projects `Id`, `Author`, and `Text` (all
+three mapped columns), which would not change the SELECT list at all. To
+actually demonstrate a reduced column set, this exercise projects only
+the two columns a caller who just needs "quote id + author" would
+plausibly need:
+
+```csharp
+var projectionQuery = context.BenchmarkQuotes
+    .Where(q => q.Id <= 100)
+    .Select(q => new { q.Id, q.Author });
+```
+
+Actual SQL captured from `projectionQuery.ToQueryString()` (confirmed
+identical to the `Executed DbCommand` log at run time):
+
+```sql
+SELECT "d"."Id", "d"."Author"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE "d"."Id" <= 100
+```
+
+Executed: **100 rows returned** — the same 100 rows (same `Id <= 100`
+filter, same underlying table), only reshaped to an anonymous type with
+two properties instead of a full `BenchmarkQuote`.
+
+### 5. Before/after column comparison
+
+| | SELECT columns | Row count (Id ≤ 100) |
+|---|---|---|
+| Whole entity | `Id`, `Author`, `Text` | 100 |
+| Projection | `Id`, `Author` | 100 |
+| **Column dropped** | **`Text`** | — |
+
+Both queries filter on the identical predicate (`q.Id <= 100`) against
+the identical table and return the identical 100 logical rows — only the
+shape of each returned row differs.
+
+### 6. Why the projection can reduce data transferred/materialized
+
+Loading the whole entity forces EF Core to select every column needed to
+build a valid `BenchmarkQuote` object, including `Text` — in this
+dataset, quote bodies are full sentences (over 100 characters each in
+the real seed), so `Text` is by far the largest column. The projection's
+`Select(q => new { q.Id, q.Author })` tells EF Core the query never
+needs `Text` at all, so the compiled SQL never asks SQLite for that
+column: less data crosses the SQLite driver boundary, and there is no
+`Text` string to allocate or materialize for any of the 100 rows. This
+is the same mechanism as Task 1's `AsNoTracking()` savings, but it acts
+on the SQL SELECT list itself rather than on Change Tracker bookkeeping —
+the two techniques are independent and compose (a projection is also
+never tracked, since anonymous types have no entity identity).
+
+### 7–10. Non-translatable expression, actual EF Core behavior, and the fix
+
+A method call to a plain C# helper inside a `Where()` predicate is a
+realistic mistake — it looks like ordinary C#, but EF Core has to be
+able to translate every part of the expression tree to SQL:
+
+```csharp
+public static class NonTranslatableFilters
+{
+    public static bool IsLongQuote(string text) => text.Length > 30;
+}
+...
+var badResults = await context.BenchmarkQuotes
+    .Where(q => NonTranslatableFilters.IsLongQuote(q.Text))
+    .ToListAsync();
+```
+
+**Actual observed behavior** (this is EF Core 10.0.11 on the SQLite
+provider — captured verbatim, not assumed): this throws immediately, at
+`ToListAsync()`, before any row is read. It does **not** silently fall
+back to pulling every row and filtering in .NET.
+
+```
+System.InvalidOperationException
+The LINQ expression 'DbSet<BenchmarkQuote>()
+    .Where(b => NonTranslatableFilters.IsLongQuote(b.Text))' could not be translated.
+Additional information: Translation of method
+'QueryTranslationDemo.NonTranslatableFilters.IsLongQuote' failed. If this
+method can be mapped to your custom function, see
+https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Either rewrite the query in a form that can be translated, or switch to
+client evaluation explicitly by inserting a call to 'AsEnumerable',
+'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See
+https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+```
+
+This confirms the instructions' expectation: modern EF Core does not
+quietly run an untranslatable predicate client-side — it refuses to
+build the query and throws, forcing the mistake to be caught immediately
+rather than discovered later as a silent full-table-scan-then-filter.
+
+**Fix** — replace the custom method with `string.Length`, which EF
+Core's SQLite provider translates to the SQL `length()` function:
+
+```csharp
+var fixedQuery = context.BenchmarkQuotes
+    .Where(q => q.Text.Length > 30);
+```
+
+Actual SQL captured from `fixedQuery.ToQueryString()` (confirmed
+identical to the `Executed DbCommand` log at run time):
+
+```sql
+SELECT "d"."Id", "d"."Author", "d"."Text"
+FROM "Day10BenchmarkQuotes" AS "d"
+WHERE length("d"."Text") > 30
+```
+
+Executed successfully: **10,000 rows returned** out of the 10,000-row
+Task 1 seed, because every seeded quote body in that dataset is a full
+sentence well over 30 characters — a real, unmodified result from the
+actual data, not a fabricated number. The filter now runs entirely
+inside SQLite via `length("Text") > 30`, with zero rows ever evaluated
+in .NET.
+
+### 11. Verification performed
+
+- `dotnet build Day-10/QueryTranslationDemo/QueryTranslationDemo.csproj` —
+  succeeded, 0 warnings, 0 errors.
+- `dotnet build Day-10/ChangeTrackerBenchmark/ChangeTrackerBenchmark.csproj` —
+  rebuilt clean afterward, 0 warnings, 0 errors, confirming Task 1 was
+  not broken by this work.
+- `dotnet run` against `QueryTranslationDemo` — succeeded; console output
+  and [`results/query-translation-output.txt`](results/query-translation-output.txt)
+  match exactly.
+- Confirmed the run reused Task 1's existing 10,000-row
+  `Day10BenchmarkQuotes` table (`Reusing existing Day10BenchmarkQuotes
+  table (10000 rows already present, e.g. from Task 1).`) rather than
+  reseeding or destroying it.
+- Confirmed whole-entity query returned exactly 100 rows for
+  `Id <= 100`.
+- Confirmed projection query returned exactly 100 rows for the same
+  predicate, each row containing only `Id` and `Author`.
+- Confirmed the non-translatable `IsLongQuote()` predicate threw
+  `System.InvalidOperationException` at `ToListAsync()` with the message
+  captured above, and did **not** return any rows.
+- Confirmed the corrected `q.Text.Length > 30` query succeeded and
+  returned 10,000 rows against the current dataset.
+- `git status --short` confirms only new files under `Day-10/`
+  (`QueryTranslationDemo/` and `results/query-translation-output.txt`);
+  no file under `Day-1/`–`Day-9/` was modified.
+- No Python used anywhere in this task.
+- Day 10 Task 3 was **not** started.
+- Nothing was committed or pushed.
+
+### 12. Conclusion
+
+Loading the whole entity causes EF Core to select every mapped column
+needed to materialize that entity (`Id`, `Author`, `Text` for
+`BenchmarkQuote`). A projection changes the SQL SELECT list so only the
+requested columns are returned (`Id`, `Author`), dropping `Text`
+entirely from the generated SQL while returning the exact same filtered
+rows. Separately, this EF Core version does not silently evaluate a
+non-translatable predicate on the client — it throws
+`InvalidOperationException` at query-execution time — and swapping the
+custom method for a translatable expression (`string.Length`) turns the
+same logical filter into a plain SQL `WHERE length(...) > 30` clause
+executed entirely by SQLite.
+
+### Files (Task 2)
+
+```
+Day-10/
+├── README.md                              (this file, Task 2 section added)
+├── QueryTranslationDemo/
+│   ├── QueryTranslationDemo.csproj         (ProjectReference to ChangeTrackerBenchmark)
+│   ├── Program.cs
+│   └── NonTranslatableFilters.cs
+└── results/
+    └── query-translation-output.txt        (full, unedited console output of the Task 2 run)
+```
+
+### How to run it
+
+```bash
+cd Day-10/QueryTranslationDemo
+dotnet run
+```
+
+Reuses `../ChangeTrackerBenchmark/day10-benchmark.db` if it already
+exists (e.g. after running Task 1), otherwise seeds 200 rows on its own.
