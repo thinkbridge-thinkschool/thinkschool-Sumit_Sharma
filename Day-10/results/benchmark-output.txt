@@ -1,0 +1,55 @@
+Day-10 Task 1 - EF Core Change Tracker + AsNoTracking benchmark
+Run started (UTC offset local clock): 2026-08-20T09:34:39.8484278+05:30
+======================================================================
+Day-10 benchmark table already has 10000 rows; skipping seed.
+
+SECTION A: Identity resolution
+----------------------------------------------------------------------
+[tracked] ChangeTracker entries before any query: 0
+[tracked] After query #1 (Where Id == 1): ChangeTracker entries = 1
+[tracked] After query #2 (same Where Id == 1, run again): ChangeTracker entries = 1
+[tracked] ReferenceEquals(trackedEntity1, trackedEntity2) = True
+[tracked] -> EF Core's identity resolution returned the SAME tracked instance for query #2
+           instead of materializing a new object, so entry count stayed at 1, not 2.
+
+[AsNoTracking] ChangeTracker entries before any query: 0
+[AsNoTracking] After query #1 (Where Id == 1): ChangeTracker entries = 0
+[AsNoTracking] After query #2 (same Where Id == 1, run again): ChangeTracker entries = 0
+[AsNoTracking] ReferenceEquals(noTrackingEntity1, noTrackingEntity2) = False
+[AsNoTracking] -> Each query materialized a brand-new object and the ChangeTracker
+                 never gained an entry, because AsNoTracking() skips the identity map entirely.
+
+SECTION B: Benchmark (tracked vs AsNoTracking, ~10,000 rows)
+----------------------------------------------------------------------
+Warmup iterations (excluded from averages): 1
+Measured iterations per variant: 5
+
+-- Variant A: tracked query --
+[tracked] warmup #1: 116.084 ms, 11,827,400 bytes allocated, rows=10000, ChangeTracker entries after (disposed context, informational only)=10000
+[tracked] measured #1: 150.334 ms, 11,703,928 bytes allocated, rows=10000, ChangeTracker entries after query=10000
+[tracked] measured #2: 173.313 ms, 11,703,928 bytes allocated, rows=10000, ChangeTracker entries after query=10000
+[tracked] measured #3: 152.017 ms, 11,707,872 bytes allocated, rows=10000, ChangeTracker entries after query=10000
+[tracked] measured #4: 90.820 ms, 11,654,808 bytes allocated, rows=10000, ChangeTracker entries after query=10000
+[tracked] measured #5: 61.634 ms, 11,383,928 bytes allocated, rows=10000, ChangeTracker entries after query=10000
+
+-- Variant B: AsNoTracking query --
+[AsNoTracking] warmup #1: 34.651 ms, 5,954,192 bytes allocated, rows=10000, ChangeTracker entries after (disposed context, informational only)=0
+[AsNoTracking] measured #1: 39.187 ms, 5,825,696 bytes allocated, rows=10000, ChangeTracker entries after query=0
+[AsNoTracking] measured #2: 32.309 ms, 5,820,848 bytes allocated, rows=10000, ChangeTracker entries after query=0
+[AsNoTracking] measured #3: 25.583 ms, 5,820,848 bytes allocated, rows=10000, ChangeTracker entries after query=0
+[AsNoTracking] measured #4: 34.559 ms, 5,820,848 bytes allocated, rows=10000, ChangeTracker entries after query=0
+[AsNoTracking] measured #5: 31.864 ms, 5,820,848 bytes allocated, rows=10000, ChangeTracker entries after query=0
+
+======================================================================
+SECTION C: Summary
+----------------------------------------------------------------------
+Tracked      -> avg time: 125.624 ms | avg allocated: 11,630,893 bytes | rows per run: 10000
+AsNoTracking -> avg time: 32.700 ms | avg allocated: 5,821,818 bytes | rows per run: 10000
+Row counts equal across variants: True
+Tracked run ChangeTracker entries after query (each fresh context): 10000, 10000, 10000, 10000, 10000
+AsNoTracking run ChangeTracker entries after query (each fresh context): 0, 0, 0, 0, 0
+
+Identity resolution (tracked)     ReferenceEquals == True
+Identity resolution (AsNoTracking) ReferenceEquals == False
+
+Tracked query was ~3.84x slower and allocated ~2.00x more per iteration than AsNoTracking.
