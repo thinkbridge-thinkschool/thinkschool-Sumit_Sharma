@@ -1,0 +1,62 @@
+Day-11 Task 1 — Actual EF Core SQL log captured from a single GET request
+to /api/day11/authors-with-quotes-slow (Development environment, options.LogTo
+in Program.cs, EnableSensitiveDataLogging so parameter values are visible).
+
+Full raw capture: sql-output-full.txt (1522 lines, 301 'Executed DbCommand' entries).
+This file is a representative trim: the first query, the first 3 per-author
+queries, and the last 2 per-author queries, exactly as logged.
+
+==================================================================
+Query 1 of 301 — one query for ALL authors
+==================================================================
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Name"
+      FROM "Authors" AS "a"
+
+==================================================================
+Queries 2-4 of 301 — first per-author quote lookups (N+1 begins)
+==================================================================
+      Executed DbCommand (4ms) [Parameters=[@author_Id='1'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+
+info: 08/21/2026 10:00:34.462 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@author_Id='2'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+
+info: 08/21/2026 10:00:34.463 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@author_Id='3'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+
+  ... (294 more queries of this exact shape omitted — one per remaining
+  author, @author_Id = 5, 6, 7, ... 299) ...
+
+==================================================================
+Queries 299-301 of 301 — last per-author quote lookups
+==================================================================
+info: 08/21/2026 10:00:34.638 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@author_Id='299'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.638 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@author_Id='300'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+
+==================================================================
+Summary
+==================================================================
+Total DbCommands executed for ONE HTTP request to
+GET /api/day11/authors-with-quotes-slow: 301
+  - 1  x SELECT ... FROM Authors
+  - 300 x SELECT ... FROM Quotes WHERE AuthorId = @author_Id  (one per author)
+
+Verified by: grep -c "Executed DbCommand" against the request-scoped
+portion of the server log (see sql-output-full.txt).

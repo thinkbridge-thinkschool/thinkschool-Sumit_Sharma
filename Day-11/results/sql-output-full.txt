@@ -1,0 +1,1522 @@
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/vashisht/thinkschool/day-1/Day-11/QuotesApi.Profiling
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5211/api/day11/authors-with-quotes-slow - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/day11/authors-with-quotes-slow'
+info: 08/21/2026 10:00:34.357 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Name"
+      FROM "Authors" AS "a"
+info: 08/21/2026 10:00:34.457 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (4ms) [Parameters=[@author_Id='1'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.462 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='2'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.463 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='3'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.463 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='4'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.464 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='5'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.465 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='6'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.465 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='7'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.466 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='8'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.467 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='9'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.467 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='10'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.468 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='11'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.469 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='12'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.469 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='13'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.470 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='14'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.470 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='15'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.471 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='16'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.471 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='17'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.472 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='18'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.473 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='19'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.474 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='20'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.475 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='21'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.476 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='22'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.476 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='23'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.477 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='24'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.478 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='25'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.479 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='26'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.479 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='27'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.480 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='28'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.481 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='29'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.481 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='30'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.482 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='31'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.482 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='32'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.483 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='33'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.483 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='34'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.484 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='35'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.484 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='36'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.485 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='37'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.485 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='38'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.486 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='39'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.486 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='40'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.486 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='41'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.487 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='42'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.487 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='43'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.488 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='44'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.488 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='45'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.489 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='46'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.489 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='47'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.490 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='48'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.490 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='49'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.491 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='50'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.491 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='51'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.492 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='52'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.492 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='53'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.493 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='54'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.494 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='55'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.495 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='56'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.496 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='57'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.496 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='58'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.497 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='59'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.497 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='60'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.498 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='61'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.498 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='62'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.499 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='63'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.499 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='64'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.500 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='65'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.501 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='66'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.501 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='67'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.502 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='68'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.502 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='69'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.503 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='70'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.503 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='71'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.504 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='72'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.504 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='73'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.505 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='74'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.505 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='75'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.505 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='76'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.506 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='77'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.506 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='78'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.507 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='79'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.508 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='80'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.508 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='81'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.509 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='82'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.509 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='83'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.510 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='84'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.511 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='85'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.512 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='86'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.512 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='87'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.513 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='88'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.513 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='89'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.514 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='90'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.514 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='91'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.515 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='92'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.515 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='93'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.516 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='94'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.516 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='95'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.517 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='96'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.518 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='97'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.518 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='98'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.518 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='99'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.519 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='100'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.519 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='101'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.520 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='102'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.520 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='103'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.521 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='104'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.521 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='105'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.522 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='106'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.522 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='107'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.523 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='108'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.523 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='109'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.524 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='110'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.524 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='111'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.525 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='112'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.525 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='113'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.526 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='114'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.526 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='115'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.527 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='116'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.528 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='117'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.528 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='118'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.529 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='119'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.529 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='120'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.530 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='121'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.530 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='122'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.531 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='123'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.531 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='124'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.532 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='125'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.532 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='126'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.533 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='127'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.534 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='128'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.534 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='129'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.535 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='130'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.535 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='131'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.536 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='132'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.536 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='133'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.537 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='134'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.537 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='135'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.538 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='136'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.538 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='137'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.539 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='138'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.540 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='139'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.540 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='140'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.541 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='141'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.542 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='142'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.542 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='143'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.543 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='144'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.544 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='145'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.544 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='146'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.545 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='147'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.546 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='148'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.547 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='149'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.548 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='150'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.549 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='151'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.549 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='152'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.550 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='153'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.551 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='154'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.551 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='155'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.552 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='156'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.552 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='157'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.553 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='158'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.553 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='159'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.554 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='160'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.554 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='161'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.555 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='162'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.555 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='163'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.556 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='164'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.556 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='165'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.557 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='166'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.557 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='167'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.558 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='168'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.558 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='169'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.559 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='170'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.559 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='171'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.560 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='172'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.560 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='173'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.561 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='174'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.561 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='175'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.562 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='176'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.562 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='177'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.563 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='178'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.563 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='179'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.564 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='180'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.564 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='181'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.565 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='182'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.565 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='183'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.566 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='184'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.567 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='185'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.567 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='186'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.568 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='187'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.569 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='188'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.570 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='189'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.570 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='190'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.571 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='191'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.571 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='192'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.572 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='193'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.572 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='194'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.573 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='195'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.573 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='196'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.574 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='197'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.574 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='198'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.575 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='199'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.575 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='200'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.576 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='201'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.576 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='202'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.577 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='203'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.577 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='204'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.578 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='205'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.579 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='206'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.580 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='207'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.581 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='208'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.582 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='209'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.582 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='210'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.583 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='211'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.584 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='212'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.584 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='213'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.585 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='214'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.586 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='215'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.587 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='216'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.587 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='217'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.588 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='218'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.588 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='219'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.589 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='220'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.589 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='221'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.590 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='222'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.591 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='223'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.591 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='224'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.592 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='225'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.593 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='226'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.593 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='227'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.594 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='228'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.595 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='229'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.596 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='230'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.597 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='231'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.598 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='232'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.599 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='233'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.599 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='234'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.600 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='235'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.601 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='236'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.602 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='237'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.602 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='238'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.603 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='239'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.604 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='240'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.605 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='241'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.605 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='242'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.605 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='243'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.606 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='244'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.606 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='245'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.607 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='246'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.608 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='247'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.608 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='248'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.609 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='249'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.609 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='250'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.610 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='251'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.611 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='252'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.611 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='253'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.612 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='254'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.612 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='255'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.613 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='256'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.613 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='257'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.614 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='258'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.614 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='259'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.615 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='260'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.615 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='261'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.616 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='262'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.616 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='263'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.617 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='264'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.617 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='265'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.618 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='266'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.619 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='267'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.619 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='268'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.620 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='269'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.621 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='270'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.622 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='271'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.622 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='272'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.623 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='273'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.623 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='274'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.624 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='275'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.625 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='276'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.625 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='277'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.626 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='278'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.627 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='279'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.627 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='280'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.628 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='281'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.628 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='282'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.629 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='283'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.629 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='284'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.630 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='285'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.630 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='286'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.631 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='287'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.631 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='288'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.632 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='289'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.633 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='290'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.633 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='291'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.634 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='292'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.634 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='293'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.635 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='294'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.635 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='295'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.636 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='296'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.637 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='297'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.637 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='298'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.638 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='299'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: 08/21/2026 10:00:34.638 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[@author_Id='300'], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @author_Id
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'List`1' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/day11/authors-with-quotes-slow'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5211/api/day11/authors-with-quotes-slow - 200 - application/json;+charset=utf-8 527.7726ms

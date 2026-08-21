@@ -1,0 +1,46 @@
+Day-11 Task 1 — Execution plan evidence
+Database: SQLite (Data Source=day11.db), via the sqlite3 CLI.
+This is SQLite's EXPLAIN QUERY PLAN output, not a SQL Server plan.
+
+== Row counts ==
+Authors: 300
+Quotes:  2850
+
+== Schema (as created by EF Core EnsureCreated) ==
+CREATE TABLE "Authors" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Authors" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL
+);
+CREATE TABLE "Quotes" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Quotes" PRIMARY KEY AUTOINCREMENT,
+    "AuthorId" INTEGER NOT NULL,
+    "Text" TEXT NOT NULL
+);
+
+== Indexes present on Quotes ==
+(none — the query below shows the sqlite_master lookup returning zero rows)
+[no output above => no index exists on Quotes, including on AuthorId]
+
+== EXPLAIN QUERY PLAN: the Authors query (runs once per request) ==
+SELECT "a"."Id", "a"."Name" FROM "Authors" AS "a";
+QUERY PLAN
+`--SCAN a
+
+== EXPLAIN QUERY PLAN: the per-author Quotes query (runs 300 times per request) ==
+SELECT "q"."Id", "q"."AuthorId", "q"."Text" FROM "Quotes" AS "q" WHERE "q"."AuthorId" = 150;
+QUERY PLAN
+`--SCAN q
+
+== Interpretation ==
+"SCAN q" means SQLite reads every row of the Quotes table (2850 rows) and
+filters AuthorId in memory, because there is no index it could SEARCH with
+instead. Since this query runs once per author (300 times per request),
+the request performs roughly 300 x 2850 = 855,000 row comparisons just for
+the quote lookups, instead of 300 indexed point lookups.
+
+For comparison, here is the plan SQLite would use if an index on
+Quotes.AuthorId existed (demonstrated on a scratch copy, NOT applied to
+day11.db — the baseline endpoint/index are left unfixed per Task 1):
+EXPLAIN QUERY PLAN SELECT "q"."Id", "q"."AuthorId", "q"."Text" FROM "Quotes" AS "q" WHERE "q"."AuthorId" = 150;
+QUERY PLAN
+`--SEARCH q USING INDEX IX_Quotes_AuthorId_SCRATCH (AuthorId=?)
