@@ -1,0 +1,27 @@
+Day-11 Task 2 — "before" execution plan (identical evidence to Task 1's
+results/execution-plan.txt, reproduced here under the Task 2 naming
+convention for direct before/after comparison; nothing was re-run — this
+is the same finding, same database state as Task 1).
+
+Database: SQLite (day11.db), inspected with the sqlite3 CLI's
+EXPLAIN QUERY PLAN. Not a SQL Server plan.
+
+== Indexes present on Quotes (before) ==
+(none — no index on AuthorId, or on anything besides the implicit rowid)
+
+== The per-author Quotes query (run 300 times per request, before the fix) ==
+SELECT "q"."Id", "q"."AuthorId", "q"."Text" FROM "Quotes" AS "q" WHERE "q"."AuthorId" = 150;
+
+QUERY PLAN
+`--SCAN q
+
+== Interpretation ==
+"SCAN q" means SQLite reads every row of the Quotes table (2,850 rows) and
+filters AuthorId in memory, because no index exists to SEARCH with
+instead. Run once per author (300 times per request in the Task 1 N+1
+handler), this is roughly 300 x 2,850 = 855,000 row comparisons for the
+quote lookups alone, on every single request.
+
+See results/execution-plan.txt (Task 1) for the full original capture,
+including the Authors table plan and the sqlite_master check that
+confirms zero indexes existed on Quotes.

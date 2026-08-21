@@ -1,0 +1,45 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Finished 200 requests
+
+
+Server Software:        Kestrel
+Server Hostname:        localhost
+Server Port:            5211
+
+Document Path:          /api/day11/authors-with-quotes-slow
+Document Length:        84850 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.450 seconds
+Complete requests:      200
+Failed requests:        0
+Total transferred:      16997800 bytes
+HTML transferred:       16970000 bytes
+Requests per second:    444.01 [#/sec] (mean)
+Time per request:       22.522 [ms] (mean)
+Time per request:       2.252 [ms] (mean, across all concurrent requests)
+Transfer rate:          36851.23 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.4      0       6
+Processing:    10   21   7.1     21      47
+Waiting:        9   19   6.6     18      45
+Total:         10   21   7.1     21      47
+
+Percentage of the requests served within a certain time (ms)
+  50%     21
+  66%     23
+  75%     25
+  80%     27
+  90%     33
+  95%     35
+  98%     40
+  99%     42
+ 100%     47 (longest request)

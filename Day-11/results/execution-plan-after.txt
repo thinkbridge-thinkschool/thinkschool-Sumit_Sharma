@@ -1,0 +1,49 @@
+Day-11 Task 2 — "after" execution plan.
+Database: SQLite (day11.db), inspected with the sqlite3 CLI's
+EXPLAIN QUERY PLAN. Not a SQL Server plan. Same day11.db file as Task 1
+(same 300 authors / 2,850 quotes), with one index added.
+
+== Schema on Quotes (after) ==
+CREATE TABLE "Quotes" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Quotes" PRIMARY KEY AUTOINCREMENT,
+    "AuthorId" INTEGER NOT NULL,
+    "Text" TEXT NOT NULL
+);
+CREATE INDEX IX_Quotes_AuthorId ON Quotes(AuthorId);
+
+Confirmed present via sqlite_master:
+  sqlite3 day11.db "SELECT name, sql FROM sqlite_master WHERE type='index' AND tbl_name='Quotes';"
+  => IX_Quotes_AuthorId|CREATE INDEX IX_Quotes_AuthorId ON Quotes(AuthorId)
+
+Index is also configured in code (Data/ProfilingDbContext.cs,
+OnModelCreating) via Fluent API:
+  modelBuilder.Entity<Quote>()
+      .HasIndex(q => q.AuthorId)
+      .HasDatabaseName("IX_Quotes_AuthorId");
+(EnsureCreated only applies model config to a brand-new database file, so
+the index was also applied directly to the existing day11.db via
+`sqlite3 day11.db "CREATE INDEX IX_Quotes_AuthorId ON Quotes(AuthorId);"`
+so the already-seeded data — identical to Task 1's — did not need to be
+regenerated.)
+
+== EXPLAIN QUERY PLAN: the quotes lookup (after) ==
+SELECT "q"."Id", "q"."AuthorId", "q"."Text" FROM "Quotes" AS "q" WHERE "q"."AuthorId" = 150;
+
+QUERY PLAN
+`--SEARCH q USING INDEX IX_Quotes_AuthorId (AuthorId=?)
+
+== Interpretation ==
+"SEARCH q USING INDEX IX_Quotes_AuthorId (AuthorId=?)" means SQLite now
+seeks directly to the matching rows via the B-tree index instead of
+scanning all 2,850 rows of Quotes. The full-table SCAN is gone.
+
+Note: after the N+1 fix in Program.cs (Optimization 1), this per-author
+WHERE query is no longer executed 300 times per request at all — the
+handler now issues exactly one unfiltered `SELECT ... FROM Quotes`
+(no WHERE clause, so no index needed for that query) and groups quotes by
+AuthorId in memory. The plan above demonstrates the index fix in
+isolation, i.e. what a per-author WHERE AuthorId = ? lookup does now,
+for direct comparison against Task 1's `SCAN q` finding
+(results/execution-plan.txt / execution-plan-before.txt). In the actual
+optimized endpoint, both fixes combine: no per-author query is issued at
+all, and if one were, it would now use the index instead of scanning.

@@ -1,0 +1,46 @@
+Day-11 Task 2 — Actual EF Core SQL log captured from a single GET request
+to /api/day11/authors-with-quotes-slow AFTER the N+1 fix (Development
+environment, options.LogTo in Program.cs, EnableSensitiveDataLogging).
+
+Raw log excerpt (request-scoped portion only; startup EnsureCreated
+existence-check queries before the request, and non-SQL request/response
+log lines, omitted for clarity — nothing was removed from the
+"Executed DbCommand" count):
+
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5211/api/day11/authors-with-quotes-slow - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/day11/authors-with-quotes-slow'
+info: 08/21/2026 11:50:14.297 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Name"
+      FROM "Authors" AS "a"
+info: 08/21/2026 11:50:14.329 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command)
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."Text"
+      FROM "Quotes" AS "q"
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/day11/authors-with-quotes-slow'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5211/api/day11/authors-with-quotes-slow - 200 - application/json;+charset=utf-8 253.6937ms
+
+==================================================================
+Summary
+==================================================================
+Total DbCommands executed for ONE HTTP request to
+GET /api/day11/authors-with-quotes-slow, AFTER the fix: 2
+  - 1 x SELECT ... FROM Authors        (unchanged from Task 1)
+  - 1 x SELECT ... FROM Quotes         (NEW: unfiltered, no WHERE clause —
+                                         replaces the 300 per-author
+                                         WHERE AuthorId = @author_Id queries)
+
+Verified by: grep -c "Executed DbCommand" against the request-scoped
+portion of the server log for this single request.
+
+BEFORE (Task 1): 301 commands (1 authors query + 300 per-author quote queries)
+AFTER  (Task 2): 2 commands   (1 authors query + 1 all-quotes query)
+
+The N+1 pattern is gone: the query count is now fixed at 2 regardless of
+how many authors exist, instead of scaling linearly as 1 + N.

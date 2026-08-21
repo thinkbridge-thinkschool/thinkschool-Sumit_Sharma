@@ -75,30 +75,35 @@ using (var scope = app.Services.CreateScope())
 
 app.MapHealthChecks("/health");
 
-// Deliberately slow Day-11 endpoint: 1 query for all authors, then N
-// additional queries (one per author) for that author's quotes. This is
-// the N+1 pattern described in the Day-11 Task 1 exercise.
+// Day-11 Task 2: the N+1 pattern from Task 1 (1 authors query + 300
+// per-author quote queries) is replaced with exactly 2 queries total — one
+// for all authors, one for all quotes — and the authors/quotes are matched
+// up in memory via a dictionary keyed by AuthorId. No per-author round
+// trip to the database remains, regardless of author count.
 app.MapGet("/api/day11/authors-with-quotes-slow", async (ProfilingDbContext db) =>
 {
     var authors = await db.Authors.AsNoTracking().ToListAsync();
 
-    var result = new List<object>(authors.Count);
+    var quotesByAuthorId = (await db.Quotes.AsNoTracking().ToListAsync())
+        .GroupBy(q => q.AuthorId)
+        .ToDictionary(g => g.Key, g => g.Select(q => q.Text).ToList());
 
-    foreach (var author in authors)
-    {
-        var quotes = await db.Quotes
-            .AsNoTracking()
-            .Where(q => q.AuthorId == author.Id)
-            .ToListAsync();
-
-        result.Add(new
+    var result = authors
+        .Select(author =>
         {
-            author.Id,
-            author.Name,
-            QuoteCount = quotes.Count,
-            Quotes = quotes.Select(q => q.Text)
-        });
-    }
+            var quotes = quotesByAuthorId.TryGetValue(author.Id, out var authorQuotes)
+                ? authorQuotes
+                : new List<string>();
+
+            return new
+            {
+                author.Id,
+                author.Name,
+                QuoteCount = quotes.Count,
+                Quotes = quotes
+            };
+        })
+        .ToList();
 
     return Results.Ok(result);
 });

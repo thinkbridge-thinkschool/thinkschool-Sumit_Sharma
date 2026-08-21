@@ -224,12 +224,18 @@ Day-11/
     Properties/launchSettings.json
     .gitignore                    # excludes the generated day11.db
   results/
-    load-test-run1.txt            # ab run 1 (raw)
-    load-test-run2.txt            # ab run 2 (raw)
-    load-test.txt                 # copy of run 2, reported baseline
-    sql-output-full.txt           # full raw EF Core SQL log for one request (301 commands)
-    sql-output.txt                # trimmed, annotated version of the above
-    execution-plan.txt            # sqlite3 EXPLAIN QUERY PLAN evidence
+    load-test-run1.txt            # Task 1: ab run 1 (raw)
+    load-test-run2.txt            # Task 1: ab run 2 (raw)
+    load-test.txt                 # Task 1: copy of run 2, reported baseline
+    sql-output-full.txt           # Task 1: full raw EF Core SQL log for one request (301 commands)
+    sql-output.txt                # Task 1: trimmed, annotated version of the above
+    execution-plan.txt            # Task 1: sqlite3 EXPLAIN QUERY PLAN evidence
+    execution-plan-before.txt     # Task 2: same "before" finding as execution-plan.txt, Task 2 naming
+    execution-plan-after.txt      # Task 2: EXPLAIN QUERY PLAN after the index was added
+    sql-output-after.txt          # Task 2: EF Core SQL log for one request after the fix (2 commands)
+    load-test-after-run1.txt      # Task 2: ab run 1 after the fix (raw)
+    load-test-after-run2.txt      # Task 2: ab run 2 after the fix (raw)
+    load-test-after.txt           # Task 2: copy of run 2, reported "after" result
 ```
 
 ## How to reproduce
@@ -242,3 +248,160 @@ curl http://localhost:5211/api/day11/authors-with-quotes-slow
 ab -n 200 -c 10 http://localhost:5211/api/day11/authors-with-quotes-slow
 sqlite3 day11.db "EXPLAIN QUERY PLAN SELECT * FROM Quotes WHERE AuthorId = 150;"
 ```
+
+## Task 2 — Drop p99 by 10×
+
+Same endpoint (`GET /api/day11/authors-with-quotes-slow`), same database
+(`day11.db`, same seeded 300 authors / 2,850 quotes — the file was not
+regenerated, only altered), same load test command as Task 1. Task 1's
+original evidence files (`load-test*.txt`, `sql-output*.txt`,
+`execution-plan.txt`) are unchanged.
+
+### Before (Task 1 baseline, unchanged)
+
+- p50 = 217 ms
+- p99 = 384 ms
+- Throughput ≈ 44.25 req/s
+- SQL commands per request: **301** (1 authors query + 300 per-author quote queries)
+- Execution plan for the per-author quote lookup: `SCAN q` (full table scan of `Quotes`, no index) — `results/execution-plan-before.txt`
+- Problems: (1) N+1 query pattern — one DB round trip per author instead of one for all quotes; (2) no index on `Quotes.AuthorId`, so every one of those 300 queries scans all 2,850 rows.
+
+### Changes
+
+1. **Removed the N+1.** `Program.cs`'s handler for
+   `/api/day11/authors-with-quotes-slow` no longer loops over authors
+   issuing one `db.Quotes.Where(q => q.AuthorId == author.Id)` query per
+   author. Instead it issues exactly one query for all authors and one
+   query for all quotes (`await db.Quotes.AsNoTracking().ToListAsync()`,
+   no `WHERE`), then groups the quotes by `AuthorId` into a
+   `Dictionary<int, List<string>>` in memory and matches them to each
+   author from that dictionary. This is the "projection that fetches
+   authors and their quotes efficiently, avoiding one query per author"
+   approach — `Include`/`AsSplitQuery` was not used because the existing
+   model (`Quote.AuthorId` as a plain `int`, no navigation property, kept
+   deliberately that way since Task 1) has no EF-configured relationship
+   for `Include` to walk; batching the two queries directly and joining
+   in memory works with that model as-is.
+2. **Added an index on `Quotes.AuthorId`.** `Data/ProfilingDbContext.cs`
+   now configures it via Fluent API in `OnModelCreating`:
+
+   ```csharp
+   modelBuilder.Entity<Quote>()
+       .HasIndex(q => q.AuthorId)
+       .HasDatabaseName("IX_Quotes_AuthorId");
+   ```
+
+   This project has no EF Core migrations (schema is created via
+   `db.Database.EnsureCreated()` in `Program.cs`), and `EnsureCreated()`
+   only applies model configuration to a database file that doesn't exist
+   yet — it does not alter an existing one. Since `day11.db` already
+   existed (seeded by Task 1) and reseeding would mean losing the exact
+   dataset Task 1 measured against, the index was applied directly to
+   the existing file with the SQLite CLI, the "appropriate SQLite schema
+   mechanism" for this standalone, migration-less project:
+
+   ```sql
+   CREATE INDEX IX_Quotes_AuthorId ON Quotes(AuthorId);
+   ```
+
+   Verified present via `sqlite_master`:
+
+   ```
+   sqlite3 day11.db "SELECT name, sql FROM sqlite_master WHERE type='index' AND tbl_name='Quotes';"
+   IX_Quotes_AuthorId|CREATE INDEX IX_Quotes_AuthorId ON Quotes(AuthorId)
+   ```
+
+3. **Why these fix the two problems:** the N+1 fix eliminates 299 of the
+   300 extra database round trips per request (301 → 2 total commands,
+   regardless of author count going forward). The index fix means that
+   *if* a per-author `WHERE AuthorId = ?` query is ever issued again
+   (e.g. by a future single-author endpoint), SQLite can seek directly to
+   the matching rows instead of scanning all of `Quotes`. Together they
+   address both problems identified in Task 1: too many round trips, and
+   each round trip being needlessly expensive.
+
+### After
+
+- p50 = **21 ms** (run 2, reported)
+- p99 = **42 ms** (run 2, reported)
+- Throughput ≈ **444.01 req/s** (run 2)
+- Failed requests: **0** (both runs)
+- SQL commands per request: **2** (1 authors query + 1 all-quotes query) — down from 301
+- Execution plan for a `WHERE AuthorId = ?` lookup: `SEARCH q USING INDEX IX_Quotes_AuthorId (AuthorId=?)` — `results/execution-plan-after.txt`
+
+The load test was run twice, exactly as in Task 1
+(`ab -n 200 -c 10 http://localhost:5211/api/day11/authors-with-quotes-slow`):
+
+| Metric | Run 1 (`load-test-after-run1.txt`) | Run 2 (`load-test-after-run2.txt`, reported) |
+|---|---|---|
+| Requests | 200 | 200 |
+| Concurrency | 10 | 10 |
+| Duration | 1.045 s | 0.450 s |
+| Throughput | 191.42 req/s | 444.01 req/s |
+| p50 | 41 ms | **21 ms** |
+| p99 | 108 ms | **42 ms** |
+| Failed requests | 0 | 0 |
+
+As in Task 1, run 1 is slower than run 2 (JIT warm-up / first-hit
+connection overhead right after `dotnet run`, not a benchmark artifact
+introduced here); run 2 is reported as the after result, matching the
+methodology used for the Task 1 baseline. Run 1 is kept as raw evidence,
+unedited.
+
+### Before vs After
+
+| Metric | Before | After | Improvement |
+|---|---|---|---|
+| p50 | 217 ms | 21 ms | ~10.3× faster |
+| p99 | 384 ms | 42 ms | ~9.14× faster (≈89.1% reduction) |
+| Throughput | 44.25 req/s | 444.01 req/s | ~10.0× higher |
+| SQL commands/request | 301 | 2 | 299 fewer round trips (150.5× fewer commands) |
+
+p99 improvement factor = 384 / 42 ≈ **9.14×**.
+Percentage improvement = (384 − 42) / 384 × 100 ≈ **89.06%**.
+
+### Plan comparison
+
+- **Before** (`results/execution-plan-before.txt`, same finding as Task 1's
+  `execution-plan.txt`): `SCAN q` — SQLite reads all 2,850 rows of
+  `Quotes` and filters `AuthorId` in memory, because no index exists.
+  This ran once per author, 300 times per request.
+- **After** (`results/execution-plan-after.txt`): `SEARCH q USING INDEX
+  IX_Quotes_AuthorId (AuthorId=?)` — SQLite seeks directly to the
+  matching rows via the new B-tree index; the full scan is gone. In the
+  optimized endpoint this per-author `WHERE` query is not issued at all
+  any more (Optimization 1 replaced it with a single unfiltered
+  `SELECT ... FROM Quotes`), so the two fixes are complementary: the
+  index fix shows what any future per-author lookup would cost now, and
+  the N+1 fix means the endpoint doesn't pay that cost 300 times over in
+  the first place.
+
+### Result
+
+**p99 dropped from 384 ms to 42 ms, a 9.14× improvement (≈89.1% reduction)
+— close to, but just under, the 10× target (384 / 10 = 38.4 ms).**
+
+What remains, based on the evidence collected:
+
+- The dominant cost in Task 1 (299 extra SQL round trips, each a full
+  table scan) is gone — SQL commands per request dropped from 301 to 2,
+  and the per-author-lookup plan is now an indexed `SEARCH`, not a
+  `SCAN`.
+- The ~42 ms p99 that remains is spent on things the N+1/index fixes
+  don't touch: serializing the full response (300 authors × their
+  quotes, ~85 KB of JSON per response, unchanged before/after), the
+  in-memory `GroupBy`/dictionary construction over 2,850 quote rows on
+  every request, and fixed per-request overhead (Kestrel request
+  pipeline, SQLite connection/command setup for the 2 remaining queries).
+  None of these scale with author count the way the N+1 pattern did, but
+  they are not zero-cost either.
+- Run-to-run variance (108 ms vs 42 ms p99 between the two after-runs)
+  suggests some of the remaining tail latency is JIT/warm-up and GC
+  noise rather than a stable floor — a longer-running or pre-warmed
+  process would likely show a tighter, possibly lower, p99, but that
+  was not measured here since the load test parameters were kept
+  identical to Task 1's, as instructed.
+- No further code changes were made to chase the remaining ~3.6 ms
+  needed to cross the 38.4 ms line, since doing so without new profiling
+  evidence would risk exactly the kind of unmeasured, unverified change
+  this exercise is about avoiding.
