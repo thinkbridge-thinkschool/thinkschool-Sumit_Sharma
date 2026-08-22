@@ -1,0 +1,5 @@
+Executed Dapper query [Parameters=[@AuthorId=1]]
+SELECT a.Id AS AuthorId, a.Name AS AuthorName, q.Id AS QuoteId, q.Text AS QuoteText
+FROM Quotes AS q
+INNER JOIN Authors AS a ON q.AuthorId = a.Id
+WHERE q.AuthorId = @AuthorId

@@ -1,0 +1,52 @@
+Day 12 - Task 2: EF Core vs Dapper read benchmark
+Run started (local clock): 2026-08-22T10:50:36.1008349+05:30
+======================================================================
+
+Seeded 30 authors and 4500 quotes.
+Target query: GetAuthorQuotesQuery { AuthorId = 1 } (150 quotes expected).
+
+======================================================================
+SQL CAPTURE
+----------------------------------------------------------------------
+info: 08/22/2026 10:50:39.476 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@query_AuthorId='1'], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id" AS "AuthorId", "a"."Name" AS "AuthorName", "q"."Id" AS "QuoteId", "q"."Text" AS "QuoteText"
+      FROM "Quotes" AS "q"
+      INNER JOIN "Authors" AS "a" ON "q"."AuthorId" = "a"."Id"
+      WHERE "q"."AuthorId" = @query_AuthorId
+
+Executed Dapper query [Parameters=[@AuthorId=1]]
+SELECT a.Id AS AuthorId, a.Name AS AuthorName, q.Id AS QuoteId, q.Text AS QuoteText
+FROM Quotes AS q
+INNER JOIN Authors AS a ON q.AuthorId = a.Id
+WHERE q.AuthorId = @AuthorId
+
+======================================================================
+RESULT PARITY CHECK
+----------------------------------------------------------------------
+EF Core rows: 150, Dapper rows: 150
+Row-for-row match between EF Core and Dapper results: True
+
+======================================================================
+BENCHMARK
+----------------------------------------------------------------------
+Warm-up iterations (untimed): 20
+Measured iterations: 300
+Timing method: System.Diagnostics.Stopwatch, one query per iteration, fresh DbContext/SqliteConnection per iteration for both implementations.
+
+EF Core:
+  Total elapsed:   576.256 ms
+  Average elapsed: 1.9209 ms/iteration
+  Rows returned per iteration: 150
+  Allocated (approx): 39,641,520 bytes total, 132138.4 bytes/iteration
+
+Dapper:
+  Total elapsed:   205.899 ms
+  Average elapsed: 0.6863 ms/iteration
+  Rows returned per iteration: 150
+  Allocated (approx): 11,000,496 bytes total, 36668.3 bytes/iteration
+
+----------------------------------------------------------------------
+EF Core average / Dapper average = 2.80x
+======================================================================
+Run complete.
