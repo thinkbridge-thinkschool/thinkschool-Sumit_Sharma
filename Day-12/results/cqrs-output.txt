@@ -1,0 +1,57 @@
+Day 12 - Task 1: Read Models + CQRS-lite
+Run started (local clock): 2026-08-22T10:16:48.1440050+05:30
+======================================================================
+
+Seeded 2 authors and 2 quotes.
+Command path below will target AuthorId=1 (Ada Lovelace).
+
+======================================================================
+COMMAND PATH
+----------------------------------------------------------------------
+AddQuoteCommand
+  -> AddQuoteHandler.HandleAsync validates AuthorId/Text
+  -> writes AuthorId/Text to the normalized Quote write model
+  -> SaveChanges()
+
+Attempting an invalid command (empty Text) to demonstrate validation:
+Rejected as expected: Quote text is required. (Parameter 'command')
+
+Executing a valid AddQuoteCommand:
+Command result (write model, NOT the read model): Quote.Id=3, Quote.AuthorId=1, Quote.Text="A ship in port is safe, but that's not what ships are built for."
+
+Verifying persistence by re-querying the normalized write model (Quotes table):
+Persisted row: Quote.Id=3, Quote.AuthorId=1, Quote.Text="A ship in port is safe, but that's not what ships are built for."
+
+======================================================================
+QUERY PATH
+----------------------------------------------------------------------
+GetAuthorQuotesQuery
+  -> GetAuthorQuotesHandler.HandleAsync joins Authors/Quotes
+  -> projects directly into AuthorQuoteReadModel (.Select-shaped Join)
+  -> returns the read model - never touches SaveChanges()
+
+Generated SQL (ToQueryString(), before execution):
+.param set @targetAuthorId 1
+
+SELECT "a"."Id" AS "AuthorId", "a"."Name" AS "AuthorName", "q"."Id" AS "QuoteId", "q"."Text" AS "QuoteText"
+FROM "Quotes" AS "q"
+INNER JOIN "Authors" AS "a" ON "q"."AuthorId" = "a"."Id"
+WHERE "q"."AuthorId" = @targetAuthorId
+
+Executing the query handler (EF Core SQL logging below shows the actual executed SQL):
+----------------------------------------------------------------------
+info: 08/22/2026 10:16:50.803 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@query_AuthorId='1'], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id" AS "AuthorId", "a"."Name" AS "AuthorName", "q"."Id" AS "QuoteId", "q"."Text" AS "QuoteText"
+      FROM "Quotes" AS "q"
+      INNER JOIN "Authors" AS "a" ON "q"."AuthorId" = "a"."Id"
+      WHERE "q"."AuthorId" = @query_AuthorId
+----------------------------------------------------------------------
+
+Read model rows returned: 2
+  AuthorQuoteReadModel: AuthorId=1, AuthorName="Ada Lovelace", QuoteId=1, QuoteText="That brain of mine is something more than merely mortal."
+  AuthorQuoteReadModel: AuthorId=1, AuthorName="Ada Lovelace", QuoteId=3, QuoteText="A ship in port is safe, but that's not what ships are built for."
+
+======================================================================
+Run complete. Command path wrote through the normalized write model;
+query path read through a denormalized projection. Neither path touched the other's model.
