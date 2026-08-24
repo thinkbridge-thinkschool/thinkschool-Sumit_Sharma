@@ -1,1 +1,28 @@
-<app-quotes></app-quotes>
+<nav class="app-tabs">
+  <div class="app-tabs-inner">
+    <button
+      type="button"
+      class="app-tab"
+      [class.active]="activeTab() === 'browse'"
+      (click)="setTab('browse')"
+    >
+      Browse
+    </button>
+    <button
+      type="button"
+      class="app-tab"
+      [class.active]="activeTab() === 'explorer'"
+      (click)="setTab('explorer')"
+    >
+      Explorer
+    </button>
+  </div>
+</nav>
+
+@if (activeTab() === 'browse') {
+  <app-quotes></app-quotes>
+} @else {
+  <main class="explorer-page">
+    <app-quotes-list></app-quotes-list>
+  </main>
+}
