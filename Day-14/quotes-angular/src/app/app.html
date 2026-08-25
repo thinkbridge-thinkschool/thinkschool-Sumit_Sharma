@@ -24,6 +24,14 @@
     >
       Create
     </button>
+    <button
+      type="button"
+      class="app-tab"
+      [class.active]="activeTab() === 'create-signal'"
+      (click)="setTab('create-signal')"
+    >
+      Create (Signal Forms)
+    </button>
   </div>
 </nav>
 
@@ -33,8 +41,12 @@
   <main class="explorer-page">
     <app-quotes-list></app-quotes-list>
   </main>
-} @else {
+} @else if (activeTab() === 'create') {
   <main class="explorer-page">
     <app-create-quote></app-create-quote>
+  </main>
+} @else {
+  <main class="explorer-page">
+    <app-create-quote-signal></app-create-quote-signal>
   </main>
 }
