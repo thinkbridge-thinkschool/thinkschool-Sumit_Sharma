@@ -1,0 +1,50 @@
+@if (selectedQuote(); as quote) {
+  <app-quote-detail [quote]="quote" (back)="backToList()" />
+} @else {
+  <section class="explorer">
+    <header class="explorer-header">
+      <h2 class="explorer-title">Quote explorer</h2>
+      <p class="explorer-subtitle">Select any quote to view its full detail.</p>
+    </header>
+
+    @if (loading()) {
+      <ul class="explorer-grid" aria-busy="true" aria-label="Loading quotes">
+        @for (row of skeletonRows; track row) {
+          <li class="explorer-card skeleton">
+            <span class="skeleton-line skeleton-line--long"></span>
+            <span class="skeleton-line skeleton-line--medium"></span>
+            <span class="skeleton-line skeleton-line--short"></span>
+          </li>
+        }
+      </ul>
+    }
+
+    @if (error()) {
+      <div class="error-card" role="alert">
+        <h3 class="error-title">Unable to load quotes</h3>
+        <p class="error-message">{{ error() }}</p>
+        <button type="button" class="retry-btn" (click)="retry()">Retry</button>
+      </div>
+    }
+
+    @if (!loading() && !error()) {
+      @if (isEmpty()) {
+        <div class="empty-state">
+          <h3 class="empty-title">No quotes found</h3>
+          <p class="empty-message">The API returned no quotes.</p>
+        </div>
+      } @else {
+        <ul class="explorer-grid">
+          @for (quote of quotes(); track quote.id) {
+            <li>
+              <button type="button" class="explorer-card" (click)="selectQuote(quote)">
+                <blockquote class="explorer-text">{{ quote.text }}</blockquote>
+                <p class="explorer-author">— {{ quote.author }}</p>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    }
+  </section>
+}
