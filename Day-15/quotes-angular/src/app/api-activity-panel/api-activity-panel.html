@@ -1,0 +1,73 @@
+<div class="activity-widget">
+  <button
+    type="button"
+    class="activity-toggle"
+    (click)="toggle()"
+    [attr.aria-expanded]="expanded()"
+    aria-controls="api-activity-panel"
+  >
+    <span class="conn-dot" [class]="'is-' + connectionStatus()" aria-hidden="true"></span>
+    <span class="activity-toggle-label">API Activity</span>
+    @if (entries().length > 0) {
+      <span class="activity-count">{{ entries().length }}</span>
+    }
+  </button>
+
+  @if (expanded()) {
+    <section id="api-activity-panel" class="activity-panel" aria-label="HTTP request inspector">
+      <header class="activity-panel-header">
+        <div class="activity-panel-title">
+          <span class="conn-dot" [class]="'is-' + connectionStatus()" aria-hidden="true"></span>
+          <span>Request Inspector</span>
+        </div>
+        <p class="activity-panel-subtitle">
+          @switch (connectionStatus()) {
+            @case ('online') {
+              API reachable
+            }
+            @case ('offline') {
+              API unreachable
+            }
+            @default {
+              Waiting for traffic…
+            }
+          }
+        </p>
+      </header>
+
+      <div class="activity-list">
+        @if (entries().length === 0) {
+          <p class="activity-empty">No requests yet. Browse or create a quote to see live traffic here.</p>
+        } @else {
+          @for (entry of entries(); track entry.id) {
+            <article class="activity-entry" [class]="'state-' + entry.state">
+              <div class="activity-entry-top">
+                <span class="method-badge" [class]="'method-' + entry.method.toLowerCase()">{{ entry.method }}</span>
+                <span class="entry-path">{{ entry.path }}</span>
+                <span class="entry-state" [class]="'state-' + entry.state">{{ stateLabel(entry.state) }}</span>
+              </div>
+
+              <div class="activity-entry-meta">
+                @if (entry.status !== undefined) {
+                  <span class="meta-chip">HTTP {{ entry.status }}</span>
+                }
+                @if (entry.retryAttempt) {
+                  <span class="meta-chip meta-chip--retry">Retry attempt {{ entry.retryAttempt }}</span>
+                }
+                @if (entry.authAttached !== undefined) {
+                  <span class="meta-chip" [class.meta-chip--auth]="entry.authAttached">
+                    {{ entry.authAttached ? 'Authorization attached' : 'No credentials' }}
+                  </span>
+                }
+              </div>
+
+              @if (entry.message) {
+                <p class="entry-message">{{ entry.message }}</p>
+              }
+            </article>
+          }
+        }
+      </div>
+    </section>
+  }
+</div>

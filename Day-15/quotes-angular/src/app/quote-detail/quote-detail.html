@@ -1,0 +1,13 @@
+<section class="detail">
+  <button type="button" class="back-btn" (click)="goBack()">&larr; Back to list</button>
+
+  <article class="detail-card">
+    <span class="detail-id">Quote #{{ quote().id }}</span>
+    <span class="quote-mark" aria-hidden="true">&#8220;</span>
+    <blockquote class="detail-text">{{ quote().text }}</blockquote>
+    <footer class="detail-footer">
+      <span class="avatar">{{ initials() }}</span>
+      <span class="detail-author">{{ quote().author }}</span>
+    </footer>
+  </article>
+</section>

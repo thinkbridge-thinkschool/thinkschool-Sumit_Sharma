@@ -1,0 +1,92 @@
+<section class="create-quote-page" aria-labelledby="create-quote-heading">
+  <header class="create-quote-header">
+    <h1 id="create-quote-heading">Create a quote</h1>
+    <p class="create-quote-subtitle">
+      Adds a new quote through <code>POST /api/quotes</code> on the Week-1 Quotes API.
+    </p>
+  </header>
+
+  @if (createdQuote(); as quote) {
+    <div class="success-banner" role="status">
+      <h2 class="banner-title">Quote created</h2>
+      <p class="banner-message">
+        Quote #{{ quote.id }} by {{ quote.author }} was saved successfully.
+      </p>
+    </div>
+  }
+
+  @if (submitError(); as error) {
+    <div class="error-banner" role="alert">
+      <h2 class="banner-title">Could not create the quote</h2>
+      <p class="banner-message">{{ error }}</p>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="create-quote-form">
+    <fieldset class="form-fieldset" [disabled]="submitting()">
+      <legend class="form-legend">Quote details</legend>
+
+      <div class="form-field">
+        <label class="field-label" for="quote-author">Author</label>
+        <input
+          id="quote-author"
+          class="field-input"
+          type="text"
+          formControlName="author"
+          #authorInput
+          autocomplete="off"
+          maxlength="200"
+          [attr.aria-invalid]="author.invalid && author.touched ? 'true' : 'false'"
+          [attr.aria-describedby]="
+            author.invalid && author.touched ? 'quote-author-error quote-author-hint' : 'quote-author-hint'
+          "
+        />
+        <p id="quote-author-hint" class="field-hint">Required. Up to 200 characters.</p>
+        @if (author.invalid && author.touched) {
+          <p id="quote-author-error" class="field-error" role="alert">
+            @if (author.hasError('required') || author.hasError('blank')) {
+              Author is required.
+            } @else if (author.hasError('maxlength')) {
+              Author must be 200 characters or fewer.
+            }
+          </p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="field-label" for="quote-text">Quote text</label>
+        <textarea
+          id="quote-text"
+          class="field-input field-textarea"
+          formControlName="text"
+          #textInput
+          rows="4"
+          maxlength="1000"
+          [attr.aria-invalid]="text.invalid && text.touched ? 'true' : 'false'"
+          [attr.aria-describedby]="
+            text.invalid && text.touched ? 'quote-text-error quote-text-hint' : 'quote-text-hint'
+          "
+        ></textarea>
+        <p id="quote-text-hint" class="field-hint">Required. Up to 1000 characters.</p>
+        @if (text.invalid && text.touched) {
+          <p id="quote-text-error" class="field-error" role="alert">
+            @if (text.hasError('required') || text.hasError('blank')) {
+              Quote text is required.
+            } @else if (text.hasError('maxlength')) {
+              Quote text must be 1000 characters or fewer.
+            }
+          </p>
+        }
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-btn" [disabled]="submitting()">
+        {{ submitting() ? 'Creating…' : 'Create quote' }}
+      </button>
+      <p class="status-live" aria-live="polite">
+        {{ submitting() ? 'Submitting your quote…' : '' }}
+      </p>
+    </div>
+  </form>
+</section>

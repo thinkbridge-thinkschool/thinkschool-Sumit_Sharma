@@ -1,0 +1,85 @@
+<section class="create-quote-page" aria-labelledby="create-quote-signal-heading">
+  <header class="create-quote-header">
+    <h1 id="create-quote-signal-heading">Create a quote (Signal Forms)</h1>
+    <p class="create-quote-subtitle">
+      Adds a new quote through <code>POST /api/quotes</code> on the Week-1 Quotes API, built with the
+      Signal Forms preview API.
+    </p>
+  </header>
+
+  @if (createdQuote(); as quote) {
+    <div class="success-banner" role="status">
+      <h2 class="banner-title">Quote created</h2>
+      <p class="banner-message">
+        Quote #{{ quote.id }} by {{ quote.author }} was saved successfully.
+      </p>
+    </div>
+  }
+
+  @if (submitError(); as error) {
+    <div class="error-banner" role="alert">
+      <h2 class="banner-title">Could not create the quote</h2>
+      <p class="banner-message">{{ error }}</p>
+    </div>
+  }
+
+  <form [formRoot]="quoteForm" class="create-quote-form">
+    <fieldset class="form-fieldset" [disabled]="quoteForm().submitting()">
+      <legend class="form-legend">Quote details</legend>
+
+      <div class="form-field">
+        <label class="field-label" for="signal-author">Author</label>
+        <input
+          id="signal-author"
+          class="field-input"
+          type="text"
+          [formField]="quoteForm.author"
+          autocomplete="off"
+          [attr.aria-invalid]="quoteForm.author().invalid() && quoteForm.author().touched() ? 'true' : 'false'"
+          [attr.aria-describedby]="
+            quoteForm.author().invalid() && quoteForm.author().touched()
+              ? 'signal-author-error signal-author-hint'
+              : 'signal-author-hint'
+          "
+        />
+        <p id="signal-author-hint" class="field-hint">Required. Up to 200 characters.</p>
+        @if (quoteForm.author().invalid() && quoteForm.author().touched()) {
+          <p id="signal-author-error" class="field-error" role="alert">
+            {{ quoteForm.author().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label class="field-label" for="signal-text">Quote text</label>
+        <textarea
+          id="signal-text"
+          class="field-input field-textarea"
+          [formField]="quoteForm.text"
+          rows="4"
+          [attr.aria-invalid]="quoteForm.text().invalid() && quoteForm.text().touched() ? 'true' : 'false'"
+          [attr.aria-describedby]="
+            quoteForm.text().invalid() && quoteForm.text().touched()
+              ? 'signal-text-error signal-text-hint'
+              : 'signal-text-hint'
+          "
+        ></textarea>
+        <p id="signal-text-hint" class="field-hint">Required. Up to 1000 characters.</p>
+        @if (quoteForm.text().invalid() && quoteForm.text().touched()) {
+          <p id="signal-text-error" class="field-error" role="alert">
+            {{ quoteForm.text().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-btn" [disabled]="quoteForm().submitting()">
+        {{ quoteForm().submitting() ? 'Creating…' : 'Create quote' }}
+      </button>
+      <p class="status-live" aria-live="polite">
+        {{ quoteForm().submitting() ? 'Submitting your quote…' : '' }}
+      </p>
+    </div>
+  </form>
+</section>
