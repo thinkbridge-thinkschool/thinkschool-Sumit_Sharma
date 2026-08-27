@@ -1,0 +1,91 @@
+.app-topbar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-topbar-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.brand-mark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.brand-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-text-tertiary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.nav-link {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-link:hover {
+  background: var(--color-accent-soft);
+}
+
+.nav-link.active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+/* Subtle, professional view transition: a fade-through (old view fades
+   out, then new view fades in) rather than the browser's default
+   simultaneous cross-dissolve. A straight cross-dissolve looked broken
+   here — list and detail are structurally unrelated layouts, so blending
+   both on screen at once (caught while inspecting a screenshot taken
+   mid-transition) produced illegible overlapping text. Fading
+   sequentially avoids that double-exposure moment and still reads as a
+   quick, professional transition end to end (~180ms total). */
+::view-transition-old(root) {
+  animation: 90ms ease-out both view-transition-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 110ms ease-in 90ms both view-transition-fade-in;
+}
+
+@keyframes view-transition-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes view-transition-fade-in {
+  from {
+    opacity: 0;
+  }
+}

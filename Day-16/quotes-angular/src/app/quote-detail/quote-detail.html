@@ -1,0 +1,50 @@
+<main class="detail-page">
+  <a class="back-btn" routerLink="/quotes">&larr; Back to list</a>
+
+  @if (loading()) {
+    <section class="detail">
+      <div class="detail-card skeleton" aria-busy="true" aria-label="Loading quote">
+        <span class="skeleton-line skeleton-line--short"></span>
+        <span class="skeleton-line skeleton-line--long"></span>
+        <span class="skeleton-line skeleton-line--long"></span>
+        <span class="skeleton-line skeleton-line--medium"></span>
+      </div>
+    </section>
+  }
+
+  @if (!loading() && notFound()) {
+    <section class="detail">
+      <div class="empty-state" role="alert">
+        <h2 class="empty-title">Quote not found</h2>
+        <p class="empty-message">
+          There's no quote with that ID. It may have been removed, or the link is invalid.
+        </p>
+        <a class="retry-btn" routerLink="/quotes">Back to all quotes</a>
+      </div>
+    </section>
+  }
+
+  @if (!loading() && error(); as message) {
+    <section class="detail">
+      <div class="empty-state" role="alert">
+        <h2 class="empty-title">Something went wrong</h2>
+        <p class="empty-message">{{ message }}</p>
+        <a class="retry-btn" routerLink="/quotes">Back to all quotes</a>
+      </div>
+    </section>
+  }
+
+  @if (!loading() && quote(); as quote) {
+    <section class="detail">
+      <article class="detail-card">
+        <span class="detail-id">Quote #{{ quote.id }}</span>
+        <span class="quote-mark" aria-hidden="true">&#8220;</span>
+        <blockquote class="detail-text">{{ quote.text }}</blockquote>
+        <footer class="detail-footer">
+          <span class="avatar">{{ initials() }}</span>
+          <span class="detail-author">{{ quote.author }}</span>
+        </footer>
+      </article>
+    </section>
+  }
+</main>
