@@ -1,9 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { QuotesApi } from '../services/quotes-api';
-import { Quote } from '../models/quote.model';
-import { AppError } from '../http/app-error.model';
+import { QuotesStore } from './quotes.store';
 
 @Component({
   selector: 'app-quotes',
@@ -12,33 +10,28 @@ import { AppError } from '../http/app-error.model';
   styleUrl: './quotes.css',
 })
 export class Quotes {
-  private readonly quotesApi = inject(QuotesApi);
+  private readonly store = inject(QuotesStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  readonly quotes = signal<Quote[]>([]);
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly authorFilter = signal('all');
+  // Purely presentational: this component reads the store's state and
+  // derived signals, and forwards user actions back to the store. It owns
+  // no feature state of its own.
+  readonly quotes = this.store.quotes;
+  readonly loading = this.store.loading;
+  readonly error = this.store.error;
+  readonly authorFilter = this.store.authorFilter;
+  readonly authors = this.store.authors;
+  readonly authorCount = this.store.authorCount;
+  readonly filteredQuotes = this.store.filteredQuotes;
+  readonly quoteCount = this.store.quoteCount;
+  readonly isEmpty = this.store.isEmpty;
+
   readonly lastEffectRun = signal<string | null>(null);
 
   private readonly queryParamMap = toSignal(this.route.queryParamMap, { requireSync: true });
 
   readonly authRequiredNotice = computed(() => this.queryParamMap().get('authRequired') === 'true');
-
-  readonly authors = computed(() => {
-    const unique = new Set(this.quotes().map((q) => q.author));
-    return ['all', ...Array.from(unique).sort()];
-  });
-
-  readonly filteredQuotes = computed(() => {
-    const filter = this.authorFilter();
-    return filter === 'all'
-      ? this.quotes()
-      : this.quotes().filter((q) => q.author === filter);
-  });
-
-  readonly quoteCount = computed(() => this.filteredQuotes().length);
 
   constructor() {
     effect(() => {
@@ -53,27 +46,15 @@ export class Quotes {
       this.lastEffectRun.set(label);
     });
 
-    this.load();
+    this.store.load();
   }
 
   load(): void {
-    this.loading.set(true);
-    this.error.set(null);
-
-    this.quotesApi.getQuotes(1, 50).subscribe({
-      next: (data) => {
-        this.quotes.set(data);
-        this.loading.set(false);
-      },
-      error: (err: AppError) => {
-        this.error.set(err.message);
-        this.loading.set(false);
-      },
-    });
+    this.store.load();
   }
 
   selectAuthor(author: string): void {
-    this.authorFilter.set(author);
+    this.store.selectAuthor(author);
   }
 
   dismissAuthNotice(): void {

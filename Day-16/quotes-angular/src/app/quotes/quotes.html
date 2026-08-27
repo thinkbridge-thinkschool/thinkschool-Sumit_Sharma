@@ -34,7 +34,7 @@
         </div>
         <span class="stat-divider"></span>
         <div class="stat">
-          <span class="stat-value">{{ authors().length - 1 }}</span>
+          <span class="stat-value">{{ authorCount() }}</span>
           <span class="stat-label">Authors</span>
         </div>
         <span class="stat-divider"></span>
@@ -81,7 +81,7 @@
     }
 
     @if (!loading() && !error()) {
-      @if (filteredQuotes().length === 0) {
+      @if (isEmpty()) {
         <section class="empty-state">
           <h2 class="empty-title">No quotes found</h2>
           <p class="empty-message">Try selecting another author.</p>
