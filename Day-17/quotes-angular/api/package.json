@@ -1,0 +1,14 @@
+{
+  "name": "quotes-api-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Web Apps Managed Functions: proxies /api/* to the real Week-1 QuotesApi Container App using this Function's Managed Identity - no client secret is ever stored here.",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.1",
+    "@azure/identity": "^4.5.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "quotes-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serves the built Angular app and proxies /api/* to the real Week-1 QuotesApi using this container's Managed Identity - no client secret stored anywhere.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.5.0",
+    "compression": "^1.8.1",
+    "express": "^4.21.2"
+  }
+}
