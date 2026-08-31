@@ -1,0 +1,318 @@
+Using launch settings from /home/vashisht/thinkschool/day-1/Day-18/QuotesApi/Properties/launchSettings.json...
+Building...
+[10:31:13 INF] [TraceId=] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+[10:31:13 DBG] [TraceId=] Creating DbCommand for 'ExecuteScalar'.
+[10:31:13 DBG] [TraceId=] Created DbCommand for 'ExecuteScalar' (5ms).
+[10:31:13 DBG] [TraceId=] Initialized DbCommand for 'ExecuteScalar' (12ms).
+[10:31:13 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+[10:31:13 INF] [TraceId=] Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+[10:31:13 DBG] [TraceId=] Creating DbCommand for 'ExecuteScalar'.
+[10:31:13 DBG] [TraceId=] Created DbCommand for 'ExecuteScalar' (0ms).
+[10:31:13 DBG] [TraceId=] Initialized DbCommand for 'ExecuteScalar' (0ms).
+[10:31:13 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-08-31 05:01:13.8870634+00:00');
+SELECT changes();
+[10:31:14 INF] [TraceId=] Executed DbCommand (137ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-08-31 05:01:13.8870634+00:00');
+SELECT changes();
+[10:31:14 DBG] [TraceId=] Creating DbCommand for 'ExecuteNonQuery'.
+[10:31:14 DBG] [TraceId=] Created DbCommand for 'ExecuteNonQuery' (0ms).
+[10:31:14 DBG] [TraceId=] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+[10:31:14 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+[10:31:14 INF] [TraceId=] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+[10:31:14 DBG] [TraceId=] Creating DbCommand for 'ExecuteScalar'.
+[10:31:14 DBG] [TraceId=] Created DbCommand for 'ExecuteScalar' (0ms).
+[10:31:14 DBG] [TraceId=] Initialized DbCommand for 'ExecuteScalar' (0ms).
+[10:31:14 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+[10:31:14 INF] [TraceId=] Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+[10:31:14 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:14 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:14 DBG] [TraceId=] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:14 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+[10:31:14 INF] [TraceId=] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+[10:31:14 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:14 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 7ms reading results.
+[10:31:14 INF] [TraceId=] No migrations were applied. The database is already up to date.
+[10:31:14 DBG] [TraceId=] Creating DbCommand for 'ExecuteScalar'.
+[10:31:14 DBG] [TraceId=] Created DbCommand for 'ExecuteScalar' (0ms).
+[10:31:14 DBG] [TraceId=] Initialized DbCommand for 'ExecuteScalar' (0ms).
+[10:31:14 DBG] [TraceId=] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+[10:31:14 INF] [TraceId=] Executed DbCommand (393ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+[10:31:14 INF] [TraceId=] QueuedHostedService started; draining the background task queue.
+[10:31:14 INF] [TraceId=] PeriodicStatsHostedService started; logging a quote digest every 30s.
+[10:31:15 INF] [TraceId=] Now listening on: http://localhost:5147
+[10:31:15 INF] [TraceId=] Starting Hangfire Server using job storage: 'In-Memory Storage'
+[10:31:15 INF] [TraceId=] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+[10:31:15 INF] [TraceId=] Application started. Press Ctrl+C to shut down.
+[10:31:15 INF] [TraceId=] Hosting environment: Development
+[10:31:15 INF] [TraceId=] Content root path: /home/vashisht/thinkschool/day-1/Day-18/QuotesApi
+[10:31:15 INF] [TraceId=] Server archlinux:14517:491d7253 successfully announced in 4.704 ms
+[10:31:15 INF] [TraceId=] Server archlinux:14517:491d7253 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+[10:31:15 INF] [TraceId=] Server archlinux:14517:491d7253 all the dispatchers started
+[10:31:15 INF] [TraceId=3fdfdd03c02ac900b88fd8f7a2c726ed] HTTP GET /health responded 200 in 19.7099 ms
+[10:31:23 INF] [TraceId=33a16375092aba664f2644ddddb9b35c] HTTP POST /api/quotes/import responded 202 in 186.8409 ms
+[10:31:24 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:24 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:24 INF] [TraceId=] Received HTTP response headers after 769.1276ms - 200
+[10:31:24 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 792.8371ms
+[10:31:24 INF] [TraceId=] End processing HTTP request after 855.0928ms - 200
+[10:31:25 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:25 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:25 DBG] [TraceId=9a4b85064cd9378c31e12ad17c472623] Initialized DbCommand for 'ExecuteReader' (14ms).
+[10:31:25 DBG] [TraceId=9a4b85064cd9378c31e12ad17c472623] Executing DbCommand [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Boolean), @p2='?' (Size = 55)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:25 INF] [TraceId=9a4b85064cd9378c31e12ad17c472623] Executed DbCommand (28ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Boolean), @p2='?' (Size = 55)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:25 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:25 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 57ms reading results.
+[10:31:25 INF] [TraceId=] Created quote 1 by Muhammad Ali
+[10:31:26 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:26 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:27 INF] [TraceId=] Received HTTP response headers after 359.8762ms - 200
+[10:31:27 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 360.2474ms
+[10:31:27 INF] [TraceId=] End processing HTTP request after 360.9051ms - 200
+[10:31:27 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:27 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:27 DBG] [TraceId=db49585eb7e42c0d3109ad225229c9fc] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:27 DBG] [TraceId=db49585eb7e42c0d3109ad225229c9fc] Executing DbCommand [Parameters=[@p0='?' (Size = 23), @p1='?' (DbType = Boolean), @p2='?' (Size = 191)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:27 INF] [TraceId=db49585eb7e42c0d3109ad225229c9fc] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 23), @p1='?' (DbType = Boolean), @p2='?' (Size = 191)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:27 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:27 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 66ms reading results.
+[10:31:27 INF] [TraceId=] Created quote 2 by Ali ibn Abi Talib (R.A)
+[10:31:29 INF] [TraceId=f48123d399dfdafdd9ea026600d77127] HTTP GET /api/jobs/e494a7d2-dff4-4734-8e08-ac6557fa1925 responded 200 in 9.1627 ms
+[10:31:32 INF] [TraceId=58c4d012d2562d00ac6a998aca2aca56] HTTP GET /api/jobs/e494a7d2-dff4-4734-8e08-ac6557fa1925 responded 200 in 1.3184 ms
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Creating DbCommand for 'ExecuteReader'.
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Executing DbCommand [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT "q"."Id", "q"."Author", "q"."IsDeleted", "q"."Text"
+FROM "Quotes" AS "q"
+ORDER BY "q"."Id"
+LIMIT @p1 OFFSET @p
+[10:31:32 INF] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Executed DbCommand (0ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT "q"."Id", "q"."Author", "q"."IsDeleted", "q"."Text"
+FROM "Quotes" AS "q"
+ORDER BY "q"."Id"
+LIMIT @p1 OFFSET @p
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:32 DBG] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 1ms reading results.
+[10:31:32 INF] [TraceId=5ee8a1ec68418bc2acffd973033d8c70] HTTP GET /api/quotes responded 200 in 409.9902 ms
+[10:31:43 INF] [TraceId=c8e4600d364805e19df07bc674093b0e] HTTP POST /api/quotes/import responded 202 in 4.1594 ms
+[10:31:43 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:43 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:43 INF] [TraceId=b81f4b67b671f5d4524aebaf9ca2aa0c] HTTP POST /api/quotes/import responded 202 in 5.1170 ms
+[10:31:43 INF] [TraceId=] Received HTTP response headers after 266.9119ms - 200
+[10:31:43 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 267.1604ms
+[10:31:43 INF] [TraceId=] End processing HTTP request after 267.4397ms - 200
+[10:31:43 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:43 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:43 DBG] [TraceId=9dd955b52f76baceea7f34dca9c1eb2d] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:43 DBG] [TraceId=9dd955b52f76baceea7f34dca9c1eb2d] Executing DbCommand [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Boolean), @p2='?' (Size = 99)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:43 INF] [TraceId=9dd955b52f76baceea7f34dca9c1eb2d] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Boolean), @p2='?' (Size = 99)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:44 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:44 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 146ms reading results.
+[10:31:44 INF] [TraceId=] Created quote 3 by Maya Angelou
+[10:31:45 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:45 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=e541e614639670e643f0998ca094cd46] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=e541e614639670e643f0998ca094cd46] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Quotes" AS "q"
+[10:31:45 INF] [TraceId=e541e614639670e643f0998ca094cd46] Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Quotes" AS "q"
+[10:31:45 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:45 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 0ms reading results.
+[10:31:45 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:45 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=17ef984d323a5481f10aeaf89fd84110] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=17ef984d323a5481f10aeaf89fd84110] Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Quotes" AS "q"
+WHERE NOT ("q"."IsDeleted")
+[10:31:45 INF] [TraceId=17ef984d323a5481f10aeaf89fd84110] Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Quotes" AS "q"
+WHERE NOT ("q"."IsDeleted")
+[10:31:45 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:45 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 0ms reading results.
+[10:31:45 INF] [TraceId=] [PeriodicStatsHostedService] 3 quote(s) stored, 3 active.
+[10:31:45 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:45 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:45 INF] [TraceId=03203421aa941191176f1a3640c45f37] HTTP GET /api/jobs/5a9f7be1-4f56-4c1f-b127-080be360b547 responded 200 in 0.2987 ms
+[10:31:45 INF] [TraceId=b99fc01caa6929ed9e7725b11cc38017] HTTP GET /api/jobs/cb05e380-680a-4a98-a9c1-705c72072991 responded 200 in 0.2748 ms
+[10:31:45 INF] [TraceId=] Received HTTP response headers after 358.0279ms - 200
+[10:31:45 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 358.2652ms
+[10:31:45 INF] [TraceId=] End processing HTTP request after 358.5047ms - 200
+[10:31:45 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:45 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=aaa1d0b2042f4618cd630b06267d114f] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:45 DBG] [TraceId=aaa1d0b2042f4618cd630b06267d114f] Executing DbCommand [Parameters=[@p0='?' (Size = 23), @p1='?' (DbType = Boolean), @p2='?' (Size = 208)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:45 INF] [TraceId=aaa1d0b2042f4618cd630b06267d114f] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 23), @p1='?' (DbType = Boolean), @p2='?' (Size = 208)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:45 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:45 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 41ms reading results.
+[10:31:45 INF] [TraceId=] Created quote 4 by Ali ibn Abi Talib (R.A)
+[10:31:47 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:47 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:47 INF] [TraceId=] Received HTTP response headers after 272.4968ms - 200
+[10:31:47 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 272.6794ms
+[10:31:47 INF] [TraceId=] End processing HTTP request after 272.9648ms - 200
+[10:31:47 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:47 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:47 DBG] [TraceId=ce5f9b814b9c61fb6d6a7825c8363369] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:47 DBG] [TraceId=ce5f9b814b9c61fb6d6a7825c8363369] Executing DbCommand [Parameters=[@p0='?' (Size = 10), @p1='?' (DbType = Boolean), @p2='?' (Size = 103)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:47 INF] [TraceId=ce5f9b814b9c61fb6d6a7825c8363369] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 10), @p1='?' (DbType = Boolean), @p2='?' (Size = 103)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:47 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:47 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 26ms reading results.
+[10:31:47 INF] [TraceId=] Created quote 5 by Dalai Lama
+[10:31:49 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:49 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:49 INF] [TraceId=] Received HTTP response headers after 259.1488ms - 200
+[10:31:49 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 259.3436ms
+[10:31:49 INF] [TraceId=] End processing HTTP request after 259.5235ms - 200
+[10:31:49 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:49 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:49 DBG] [TraceId=75b3e5b414e4e63728d6a0286e1e9717] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:49 DBG] [TraceId=75b3e5b414e4e63728d6a0286e1e9717] Executing DbCommand [Parameters=[@p0='?' (Size = 17), @p1='?' (DbType = Boolean), @p2='?' (Size = 28)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:49 INF] [TraceId=75b3e5b414e4e63728d6a0286e1e9717] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 17), @p1='?' (DbType = Boolean), @p2='?' (Size = 28)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:49 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:49 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 392ms reading results.
+[10:31:49 INF] [TraceId=] Created quote 6 by Winston Churchill
+[10:31:51 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:51 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:51 INF] [TraceId=] Received HTTP response headers after 335.2397ms - 200
+[10:31:51 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 335.52ms
+[10:31:51 INF] [TraceId=] End processing HTTP request after 335.7579ms - 200
+[10:31:51 DBG] [TraceId=] Creating DbCommand for 'ExecuteReader'.
+[10:31:51 DBG] [TraceId=] Created DbCommand for 'ExecuteReader' (0ms).
+[10:31:51 DBG] [TraceId=c9fa49c81f658ad946048a92f642fe8c] Initialized DbCommand for 'ExecuteReader' (0ms).
+[10:31:51 DBG] [TraceId=c9fa49c81f658ad946048a92f642fe8c] Executing DbCommand [Parameters=[@p0='?' (Size = 10), @p1='?' (DbType = Boolean), @p2='?' (Size = 39)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:51 INF] [TraceId=c9fa49c81f658ad946048a92f642fe8c] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 10), @p1='?' (DbType = Boolean), @p2='?' (Size = 39)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Quotes" ("Author", "IsDeleted", "Text")
+VALUES (@p0, @p1, @p2)
+RETURNING "Id";
+[10:31:51 DBG] [TraceId=] Closing data reader to 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db'.
+[10:31:51 DBG] [TraceId=] A data reader for 'main' on server '/home/vashisht/thinkschool/day-1/Day-18/QuotesApi/quotes.db' is being disposed after spending 106ms reading results.
+[10:31:51 INF] [TraceId=] Created quote 7 by Zig Ziglar
+[10:31:53 INF] [TraceId=] Start processing HTTP request GET https://dummyjson.com/quotes/random
+[10:31:53 INF] [TraceId=] Sending HTTP request GET https://dummyjson.com/quotes/random
+[10:31:53 INF] [TraceId=] Server archlinux:14517:491d7253 caught stopping signal...
+[10:31:53 INF] [TraceId=] Application is shutting down...
+[10:31:53 INF] [TraceId=] Server archlinux:14517:491d7253 All dispatchers stopped
+[10:31:53 INF] [TraceId=] Server archlinux:14517:491d7253 successfully reported itself as stopped in 0.9901 ms
+[10:31:53 INF] [TraceId=] Server archlinux:14517:491d7253 has been stopped in total 5.7314 ms
+[10:31:53 INF] [TraceId=] Graceful shutdown requested for PeriodicStatsHostedService.
+[10:31:53 INF] [TraceId=] PeriodicStatsHostedService stopped.
+[10:31:53 INF] [TraceId=] Graceful shutdown requested for QueuedHostedService. Letting any in-flight work item finish (queue currently holds 0 pending item(s)).
+[10:31:53 INF] [TraceId=] Execution attempt. Source: 'IExternalQuoteClient-external-quote-pipeline//Retry', Operation Key: 'null', Result: 'The operation was canceled.', Handled: 'False', Attempt: '0', Execution Time: 283.4576ms
+System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: Operation canceled.
+ ---> System.Net.Sockets.SocketException (125): Operation canceled
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Resilience.ResilienceHandler.<>c.<<SendAsync>b__3_0>d.MoveNext()
+[10:31:53 ERR] [TraceId=] Failed to fetch a random quote from the external quote service after all retries were exhausted.
+System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: Operation canceled.
+ ---> System.Net.Sockets.SocketException (125): Operation canceled
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Resilience.ResilienceHandler.<>c.<<SendAsync>b__3_0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Polly.Outcome`1.ThrowIfException()
+   at Microsoft.Extensions.Http.Resilience.ResilienceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at System.Net.Http.Json.HttpClientJsonExtensions.<FromJsonAsyncCore>g__Core|12_0[TValue,TJsonOptions](HttpClient client, Task`1 responseTask, Boolean usingResponseHeadersRead, CancellationTokenSource linkedCTS, Func`4 deserializeMethod, TJsonOptions jsonOptions, CancellationToken cancellationToken)
+   at QuotesApi.ExternalQuotes.ExternalQuoteClient.GetRandomQuoteAsync(CancellationToken cancellationToken) in /home/vashisht/thinkschool/day-1/Day-18/QuotesApi/ExternalQuotes/ExternalQuoteClient.cs:line 14
+[10:31:53 INF] [TraceId=] QueuedHostedService loop exited.
+[10:31:53 INF] [TraceId=] QueuedHostedService stopped.

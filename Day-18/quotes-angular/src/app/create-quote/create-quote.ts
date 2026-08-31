@@ -1,0 +1,89 @@
+import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { QuotesApi } from '../services/quotes-api';
+import { Quote } from '../models/quote.model';
+import { AppError } from '../http/app-error.model';
+
+function notBlank(control: FormControl<string>): ValidationErrors | null {
+  return control.value.trim().length === 0 ? { blank: true } : null;
+}
+
+interface CreateQuoteForm {
+  author: FormControl<string>;
+  text: FormControl<string>;
+}
+
+@Component({
+  selector: 'app-create-quote',
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './create-quote.html',
+  styleUrl: './create-quote.css',
+})
+export class CreateQuote {
+  private readonly quotesApi = inject(QuotesApi);
+  private readonly fb = inject(NonNullableFormBuilder);
+
+  private readonly authorInput = viewChild<ElementRef<HTMLInputElement>>('authorInput');
+  private readonly textInput = viewChild<ElementRef<HTMLTextAreaElement>>('textInput');
+
+  readonly form: FormGroup<CreateQuoteForm> = this.fb.group({
+    author: this.fb.control('', [Validators.required, notBlank, Validators.maxLength(200)]),
+    text: this.fb.control('', [Validators.required, notBlank, Validators.maxLength(1000)]),
+  });
+
+  readonly submitting = signal(false);
+  readonly submitError = signal<string | null>(null);
+  readonly createdQuote = signal<Quote | null>(null);
+
+  get author(): FormControl<string> {
+    return this.form.controls.author;
+  }
+
+  get text(): FormControl<string> {
+    return this.form.controls.text;
+  }
+
+  submit(): void {
+    if (this.submitting()) {
+      return;
+    }
+
+    this.submitError.set(null);
+    this.createdQuote.set(null);
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.focusFirstInvalidControl();
+      return;
+    }
+
+    this.submitting.set(true);
+
+    const { author, text } = this.form.getRawValue();
+
+    this.quotesApi.createQuote({ author, text }).subscribe({
+      next: (quote) => {
+        this.submitting.set(false);
+        this.createdQuote.set(quote);
+        this.form.reset({ author: '', text: '' });
+        this.authorInput()?.nativeElement.focus();
+      },
+      error: (err: AppError) => {
+        this.submitting.set(false);
+        this.submitError.set(err.message);
+      },
+    });
+  }
+
+  private focusFirstInvalidControl(): void {
+    if (this.author.invalid) {
+      this.authorInput()?.nativeElement.focus();
+      return;
+    }
+
+    if (this.text.invalid) {
+      this.textInput()?.nativeElement.focus();
+    }
+  }
+}
