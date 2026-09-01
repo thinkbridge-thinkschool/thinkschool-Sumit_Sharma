@@ -1,0 +1,106 @@
+<div class="page">
+  <main class="content">
+    <section class="hero">
+      <span class="status-indicator" [class.is-loading]="loading()" [class.is-error]="error()">
+        <span class="status-dot"></span>
+        <span class="status-text">
+          @if (loading()) {
+            Connecting…
+          } @else if (error()) {
+            Offline
+          } @else {
+            API connected
+          }
+        </span>
+      </span>
+      <h1 class="hero-title">Words worth remembering.</h1>
+      <p class="hero-subtitle">
+        Explore ideas and perspectives from some of history's most influential thinkers.
+      </p>
+    </section>
+
+    @if (!loading() && !error()) {
+      <section class="stats" aria-label="Collection statistics">
+        <div class="stat">
+          <span class="stat-value">{{ totalCount() }}</span>
+          <span class="stat-label">Quotes</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat">
+          <span class="stat-value">{{ authorCount() }}</span>
+          <span class="stat-label">Authors</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat">
+          <span class="stat-value">{{ quoteCount() }}</span>
+          <span class="stat-label">Showing</span>
+        </div>
+      </section>
+
+      <section class="filter-panel">
+        <label class="filter-label" for="author-select">Browse by author</label>
+        <div class="select-wrap">
+          <select
+            id="author-select"
+            [value]="authorFilter()"
+            (change)="selectAuthor($any($event.target).value)"
+          >
+            @for (author of authors(); track author) {
+              <option [value]="author">{{ author === 'all' ? 'All authors' : author }}</option>
+            }
+          </select>
+        </div>
+      </section>
+    }
+
+    @if (loading()) {
+      <section class="quote-grid" aria-busy="true" aria-label="Loading quotes">
+        @for (row of skeletonRows; track row) {
+          <div class="quote-card skeleton">
+            <span class="skeleton-line skeleton-line--long"></span>
+            <span class="skeleton-line skeleton-line--medium"></span>
+            <span class="skeleton-line skeleton-line--short"></span>
+          </div>
+        }
+      </section>
+    }
+
+    @if (error()) {
+      <section class="error-card" role="alert">
+        <h2 class="error-title">Something went wrong</h2>
+        <p class="error-message">{{ error() }}</p>
+        <button type="button" class="retry-btn" (click)="load()">Try again</button>
+      </section>
+    }
+
+    @if (!loading() && !error()) {
+      @if (isEmpty()) {
+        <section class="empty-state">
+          <h2 class="empty-title">No quotes found</h2>
+          <p class="empty-message">Try selecting another author.</p>
+        </section>
+      } @else {
+        <section class="quote-grid">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <a
+              class="quote-card"
+              [routerLink]="['/quotes', quote.id]"
+              [attr.aria-label]="'View quote #' + quote.id + ' by ' + quote.author"
+            >
+              <span class="quote-mark" aria-hidden="true">&#8220;</span>
+              <blockquote class="quote-text">{{ quote.text }}</blockquote>
+              <footer class="quote-footer">
+                <span class="avatar">{{ initials(quote.author) }}</span>
+                <span class="quote-author">{{ quote.author }}</span>
+              </footer>
+            </a>
+          }
+        </section>
+      }
+    }
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with Angular 21 · Signals · Zoneless · Router</p>
+  </footer>
+</div>

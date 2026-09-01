@@ -1,0 +1,69 @@
+<div class="jobs-widget">
+  <button
+    type="button"
+    class="jobs-toggle"
+    (click)="toggle()"
+    [attr.aria-expanded]="expanded()"
+    aria-controls="background-jobs-panel"
+  >
+    <span class="jobs-toggle-label">Background Jobs</span>
+    @if (jobs().length > 0) {
+      <span class="jobs-count" [class.jobs-count--active]="activeCount() > 0">{{ jobs().length }}</span>
+    }
+  </button>
+
+  @if (expanded()) {
+    <section id="background-jobs-panel" class="jobs-panel" aria-label="Background quote import jobs">
+      <header class="jobs-panel-header">
+        <div class="jobs-panel-title">Import quotes on a background queue</div>
+        <p class="jobs-panel-subtitle">
+          Enqueues a job on the API's <code>BackgroundService</code> queue and returns instantly —
+          each quote is imported from the external service one at a time, off the request thread.
+        </p>
+      </header>
+
+      <div class="jobs-controls">
+        @if (authSession.isAuthenticated()) {
+          <label class="jobs-count-label">
+            Quotes to import
+            <select class="jobs-count-select" [(ngModel)]="requestedCount">
+              @for (n of [1, 2, 3, 4, 5]; track n) {
+                <option [value]="n">{{ n }}</option>
+              }
+            </select>
+          </label>
+          <button type="button" class="jobs-enqueue-btn" (click)="enqueue()">Enqueue import job</button>
+        } @else {
+          <p class="jobs-auth-hint">Sign in to enqueue a background import job.</p>
+        }
+      </div>
+
+      @if (enqueueError()) {
+        <p class="jobs-error">{{ enqueueError() }}</p>
+      }
+
+      <div class="jobs-list">
+        @if (jobs().length === 0) {
+          <p class="jobs-empty">No jobs yet this session. Enqueue one to watch it drain.</p>
+        } @else {
+          @for (job of jobs(); track job.id) {
+            <article class="job-entry" [class]="'state-' + job.status.toLowerCase()">
+              <div class="job-entry-top">
+                <span class="job-id">Job {{ job.id.slice(0, 8) }}</span>
+                <span class="job-state" [class]="'state-' + job.status.toLowerCase()">{{
+                  stateLabel(job.status)
+                }}</span>
+              </div>
+              <div class="job-progress">
+                {{ job.importedCount }} / {{ job.requestedCount }} imported
+              </div>
+              @if (job.error) {
+                <p class="job-error-message">{{ job.error }}</p>
+              }
+            </article>
+          }
+        }
+      </div>
+    </section>
+  }
+</div>

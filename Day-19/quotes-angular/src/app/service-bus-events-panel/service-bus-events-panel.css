@@ -1,0 +1,325 @@
+.sb-widget {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sb-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sb-toggle:hover {
+  border-color: var(--color-border-strong);
+}
+
+.sb-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.sb-count--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.sb-panel {
+  width: min(760px, calc(100vw - 2rem));
+  max-height: 66vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.sb-panel-header {
+  padding: 1rem 1.1rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sb-panel-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.sb-panel-subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--color-text-tertiary);
+}
+
+.sb-panel-subtitle code,
+.sb-panel-title code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+
+.sb-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sb-form-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sb-input {
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  flex: 1;
+  min-width: 120px;
+}
+
+.sb-input--wide {
+  flex: 2;
+}
+
+.sb-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+}
+
+.sb-btn {
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sb-btn:hover {
+  background: var(--color-accent-strong);
+}
+
+.sb-btn--danger {
+  background: var(--color-danger);
+}
+
+.sb-btn--danger:hover {
+  background: #8f231d;
+}
+
+.sb-auth-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-text-tertiary);
+}
+
+.sb-error {
+  margin: 0;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.78rem;
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.sb-status {
+  margin: 0;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  background: var(--color-accent-soft);
+}
+
+.sb-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.sb-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--color-border);
+}
+
+.sb-column:last-child {
+  border-right: none;
+}
+
+.sb-column-title {
+  margin: 0;
+  padding: 0.6rem 0.7rem 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sb-column-hint {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  margin-top: 0.15rem;
+}
+
+.sb-column-list {
+  overflow-y: auto;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sb-empty {
+  margin: 0.4rem;
+  font-size: 0.74rem;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+.sb-entry {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.6rem;
+  background: var(--color-bg);
+}
+
+.sb-entry--danger {
+  border-color: rgba(179, 38, 30, 0.25);
+  background: var(--color-danger-soft);
+}
+
+.sb-entry-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.sb-entry-quote {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sb-entry-meta {
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+}
+
+.sb-chip {
+  flex-shrink: 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.4rem;
+}
+
+.sb-chip--retry {
+  color: #9a6b00;
+  border-color: rgba(154, 107, 0, 0.25);
+  background: #fff6e6;
+}
+
+.sb-chip--worker {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent-soft);
+  background: var(--color-accent-soft);
+}
+
+.sb-chip--danger {
+  color: var(--color-danger);
+  border-color: rgba(179, 38, 30, 0.25);
+  background: var(--color-danger-soft);
+}
+
+@media (max-width: 720px) {
+  .sb-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sb-column {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sb-panel {
+    max-height: 80vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .sb-widget {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    align-items: stretch;
+  }
+
+  .sb-panel {
+    width: 100%;
+  }
+}

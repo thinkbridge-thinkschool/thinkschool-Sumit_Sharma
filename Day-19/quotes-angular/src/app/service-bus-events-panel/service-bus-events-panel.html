@@ -1,0 +1,118 @@
+<div class="sb-widget">
+  <button
+    type="button"
+    class="sb-toggle"
+    (click)="toggle()"
+    [attr.aria-expanded]="expanded()"
+    aria-controls="service-bus-events-panel"
+  >
+    <span class="sb-toggle-label">Service Bus Events</span>
+    @if (deadLetters().length > 0) {
+      <span class="sb-count sb-count--danger">{{ deadLetters().length }}</span>
+    }
+  </button>
+
+  @if (expanded()) {
+    <section id="service-bus-events-panel" class="sb-panel" aria-label="Service Bus topic events">
+      <header class="sb-panel-header">
+        <div class="sb-panel-title">Topic <code>quotes.events</code> — two subscriptions</div>
+        <p class="sb-panel-subtitle">
+          Publishing fans out to <code>audit-log</code> (one worker) and
+          <code>digest-notifications</code> (three competing workers). Handlers dedupe on
+          message id, and a poison message ends up dead-lettered on both.
+        </p>
+      </header>
+
+      <div class="sb-controls">
+        @if (authSession.isAuthenticated()) {
+          <div class="sb-form-row">
+            <input class="sb-input" [(ngModel)]="author" placeholder="Author" aria-label="Author" />
+            <input class="sb-input sb-input--wide" [(ngModel)]="text" placeholder="Quote text" aria-label="Quote text" />
+          </div>
+          <div class="sb-form-row sb-form-row--actions">
+            <label class="sb-checkbox">
+              <input type="checkbox" [(ngModel)]="simulateCrash" />
+              Simulate a crash after processing (proves dedupe on redelivery)
+            </label>
+          </div>
+          <div class="sb-form-row sb-form-row--actions">
+            <button type="button" class="sb-btn" (click)="publish()">Publish event</button>
+            <button type="button" class="sb-btn sb-btn--danger" (click)="publishPoison()">
+              Publish poison message
+            </button>
+          </div>
+        } @else {
+          <p class="sb-auth-hint">Sign in to publish events onto the topic.</p>
+        }
+      </div>
+
+      @if (publishError()) {
+        <p class="sb-error">{{ publishError() }}</p>
+      }
+      @if (lastPublished()) {
+        <p class="sb-status">{{ lastPublished() }}</p>
+      }
+
+      <div class="sb-columns">
+        <section class="sb-column">
+          <h3 class="sb-column-title">Audit log <span class="sb-column-hint">(audit-log)</span></h3>
+          <div class="sb-column-list">
+            @if (auditLog().length === 0) {
+              <p class="sb-empty">No events yet.</p>
+            } @else {
+              @for (entry of auditLog(); track entry.id) {
+                <article class="sb-entry">
+                  <div class="sb-entry-top">
+                    <span class="sb-entry-quote">#{{ entry.quoteId }} — {{ entry.author }}</span>
+                    @if (entry.deliveryCount > 1) {
+                      <span class="sb-chip sb-chip--retry">delivery #{{ entry.deliveryCount }}</span>
+                    }
+                  </div>
+                  <div class="sb-entry-meta">{{ entry.text }}</div>
+                </article>
+              }
+            }
+          </div>
+        </section>
+
+        <section class="sb-column">
+          <h3 class="sb-column-title">Digest <span class="sb-column-hint">(digest-notifications, 3 workers)</span></h3>
+          <div class="sb-column-list">
+            @if (digest().length === 0) {
+              <p class="sb-empty">No events yet.</p>
+            } @else {
+              @for (entry of digest(); track entry.id) {
+                <article class="sb-entry">
+                  <div class="sb-entry-top">
+                    <span class="sb-entry-quote">#{{ entry.quoteId }} — {{ entry.author }}</span>
+                    <span class="sb-chip sb-chip--worker">{{ entry.workerId }}</span>
+                  </div>
+                  <div class="sb-entry-meta">{{ entry.text }}</div>
+                </article>
+              }
+            }
+          </div>
+        </section>
+
+        <section class="sb-column">
+          <h3 class="sb-column-title">Dead letters <span class="sb-column-hint">(poison messages)</span></h3>
+          <div class="sb-column-list">
+            @if (deadLetters().length === 0) {
+              <p class="sb-empty">No dead-lettered messages.</p>
+            } @else {
+              @for (entry of deadLetters(); track entry.id) {
+                <article class="sb-entry sb-entry--danger">
+                  <div class="sb-entry-top">
+                    <span class="sb-entry-quote">{{ entry.subscription }}</span>
+                    <span class="sb-chip sb-chip--danger">{{ entry.deadLetterReason }}</span>
+                  </div>
+                  <div class="sb-entry-meta">{{ entry.deadLetterErrorDescription }}</div>
+                </article>
+              }
+            }
+          </div>
+        </section>
+      </div>
+    </section>
+  }
+</div>

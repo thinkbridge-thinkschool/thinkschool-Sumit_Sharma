@@ -1,0 +1,28 @@
+<header class="app-topbar">
+  <div class="app-topbar-inner">
+    <a class="brand" routerLink="/quotes">
+      <span class="brand-mark">Quotes</span>
+      <span class="brand-tag">WEEK 1</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a class="nav-link" routerLink="/quotes" routerLinkActive="active">Quotes</a>
+      <a class="nav-link" routerLink="/create" routerLinkActive="active">New quote</a>
+    </nav>
+
+    <div class="session-area">
+      @if (authSession.isAuthenticated()) {
+        <span class="session-name">{{ authSession.displayName() }}</span>
+        <button type="button" class="session-btn" (click)="signOut()">Log out</button>
+      } @else {
+        <a class="session-btn" routerLink="/login">Sign in</a>
+      }
+    </div>
+  </div>
+</header>
+
+<router-outlet></router-outlet>
+
+<app-api-activity-panel></app-api-activity-panel>
+<app-background-jobs-panel></app-background-jobs-panel>
+<app-service-bus-events-panel></app-service-bus-events-panel>

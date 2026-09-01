@@ -1,0 +1,47 @@
+<section class="login-page" aria-labelledby="login-heading">
+  <a class="back-link" routerLink="/quotes">&larr; Back to list</a>
+
+  <div class="login-card">
+    <header class="login-header">
+      <h1 id="login-heading">Sign in</h1>
+      <p class="login-subtitle">
+        A local demo session for this device — no account or password required.
+      </p>
+    </header>
+
+    @if (error(); as message) {
+      <div class="error-banner" role="alert">
+        <p class="banner-message">{{ message }}</p>
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="login-form">
+      <fieldset class="form-fieldset" [disabled]="signingIn()">
+        <div class="form-field">
+          <label class="field-label" for="display-name">Display name</label>
+          <input
+            id="display-name"
+            class="field-input"
+            type="text"
+            formControlName="displayName"
+            #nameInput
+            autocomplete="off"
+            maxlength="80"
+            placeholder="e.g. Ada"
+            [attr.aria-invalid]="displayName.invalid && displayName.touched ? 'true' : 'false'"
+            [attr.aria-describedby]="displayName.invalid && displayName.touched ? 'display-name-error' : null"
+          />
+          @if (displayName.invalid && displayName.touched) {
+            <p id="display-name-error" class="field-error" role="alert">
+              Enter a display name to sign in.
+            </p>
+          }
+        </div>
+      </fieldset>
+
+      <button type="submit" class="submit-btn" [disabled]="signingIn()">
+        {{ signingIn() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+  </div>
+</section>

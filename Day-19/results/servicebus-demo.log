@@ -1,0 +1,34 @@
+[10:44:48 INF] [TraceId=] QueuedHostedService started; draining the background task queue.
+[10:44:48 INF] [TraceId=] PeriodicStatsHostedService started; logging a quote digest every 30s.
+[10:44:48 INF] [TraceId=] DeadLetterMonitorWorker started, polling both subscriptions' dead-letter subqueues.
+[10:44:49 INF] [TraceId=] audit-worker-1 started, consuming subscription 'audit-log'.
+[10:44:49 INF] [TraceId=] DigestConsumerPool started 3 competing worker(s) on subscription 'digest-notifications'.
+[10:44:49 INF] [TraceId=] Now listening on: http://localhost:5147
+[10:44:49 INF] [TraceId=] Starting Hangfire Server using job storage: 'In-Memory Storage'
+[10:44:49 INF] [TraceId=] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+[10:44:49 INF] [TraceId=] Application started. Press Ctrl+C to shut down.
+[10:44:49 INF] [TraceId=] Hosting environment: Development
+[10:44:49 INF] [TraceId=] Content root path: /home/vashisht/thinkschool/day-1/Day-19/QuotesApi
+[10:44:49 INF] [TraceId=] Server archlinux:18273:2d991dc4 successfully announced in 1.9808 ms
+[10:44:49 INF] [TraceId=] Server archlinux:18273:2d991dc4 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+[10:44:49 INF] [TraceId=] Server archlinux:18273:2d991dc4 all the dispatchers started
+[10:45:02 INF] [TraceId=faa294d621bc3772c12d563a1f114a76] Published QuoteCreated event 990c8133-e93b-49ba-9b65-52e3fa71c983 for quote 1 to topic 'quotes.events' (fans out to 'audit-log' and 'digest-notifications').
+[10:45:02 INF] [TraceId=] audit-worker-1: recorded QuoteCreated for quote 1 (message 990c8133-e93b-49ba-9b65-52e3fa71c983, delivery #1).
+[10:45:02 INF] [TraceId=] digest-worker-3: recorded QuoteCreated for quote 1 (message 990c8133-e93b-49ba-9b65-52e3fa71c983, delivery #1).
+[10:45:04 INF] [TraceId=544fa3500cd55609056ca34af022b806] Published QuoteCreated event ac5b7fba-60fa-4eb2-b978-e2da3728425f for quote 2 to topic 'quotes.events' (fans out to 'audit-log' and 'digest-notifications').
+[10:45:05 INF] [TraceId=] digest-worker-2: recorded QuoteCreated for quote 2 (message ac5b7fba-60fa-4eb2-b978-e2da3728425f, delivery #1).
+[10:45:05 INF] [TraceId=] audit-worker-1: recorded QuoteCreated for quote 2 (message ac5b7fba-60fa-4eb2-b978-e2da3728425f, delivery #1).
+[10:45:07 INF] [TraceId=461d8a33dee31b1327a5a772f9ad74f8] Published QuoteCreated event f7ffeef6-7a04-4e9b-baa4-69b345e30fd8 for quote 3 to topic 'quotes.events' (fans out to 'audit-log' and 'digest-notifications').
+[10:45:07 INF] [TraceId=] digest-worker-1: recorded QuoteCreated for quote 3 (message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8, delivery #1).
+[10:45:07 WRN] [TraceId=] digest-worker-1: simulating a crash after committing message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8 but before acknowledging it — expect a redelivery next, possibly to a different worker.
+[10:45:07 INF] [TraceId=] digest-worker-3: duplicate delivery #2 of message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8 — already recorded, skipping.
+[10:45:07 INF] [TraceId=] audit-worker-1: recorded QuoteCreated for quote 3 (message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8, delivery #1).
+[10:45:07 WRN] [TraceId=] audit-worker-1: simulating a crash after committing message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8 but before acknowledging it — expect a redelivery next.
+[10:45:07 INF] [TraceId=] audit-worker-1: duplicate delivery #2 of message f7ffeef6-7a04-4e9b-baa4-69b345e30fd8 — already recorded, skipping.
+[10:45:10 WRN] [TraceId=97c536f3712d7505c75abddc60a7ae4e] Published a deliberately malformed poison message c9c6f917-5773-4e55-95ce-b196821c31f6 to topic 'quotes.events'. Every subscription's handler will fail to deserialize it on every attempt.
+[10:45:10 WRN] [TraceId=] Dead-letter monitor: subscription 'digest-notifications' dead-lettered message c9c6f917-5773-4e55-95ce-b196821c31f6 after 4 delivery attempt(s) — reason: MaxDeliveryCountExceeded (Message could not be consumed after 3 delivery attempts.).
+[10:45:13 WRN] [TraceId=] Dead-letter monitor: subscription 'audit-log' dead-lettered message c9c6f917-5773-4e55-95ce-b196821c31f6 after 4 delivery attempt(s) — reason: MaxDeliveryCountExceeded (Message could not be consumed after 3 delivery attempts.).
